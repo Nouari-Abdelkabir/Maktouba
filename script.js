@@ -4456,3 +4456,46 @@ if (origDoubleAlt4) {
 }
 
 console.log('✅ نظام القراءات البديلة جاهز (يدعم الصيغة الجديدة)');
+
+// ==================== إخفاء القوائم عند اللمس أو النقر (جميع الأجهزة) ====================
+function hideMenusOnInteraction(e) {
+    const rightMenu = document.getElementById('rightMenu');
+    const leftMenu = document.getElementById('leftMenu');
+    const altBar = document.getElementById('altBottomBar');
+    
+    // تجاهل النقر على أزرار الفتح
+    if (e.target.closest('.left-bottom') || 
+        e.target.closest('.right-bottom') ||
+        e.target.closest('#openRightMenuBtn') || 
+        e.target.closest('#openLeftMenuBtn') ||
+        e.target.closest('.right-open') ||
+        e.target.closest('.left-open')) {
+        return;
+    }
+    
+    // تجاهل النقر داخل القوائم
+    if (rightMenu && rightMenu.contains(e.target)) return;
+    if (leftMenu && leftMenu.contains(e.target)) return;
+    if (altBar && altBar.contains(e.target)) return;
+    
+    // إخفاء القوائم
+    if (rightMenu && rightMenu.classList.contains('open')) {
+        rightMenu.classList.remove('open');
+    }
+    if (leftMenu && leftMenu.classList.contains('open')) {
+        leftMenu.classList.remove('open');
+    }
+    
+    // إخفاء شريط الأوجه
+    if (altBar && altBar.style.display !== 'none' && !altBar.classList.contains('hidden')) {
+        if (typeof closeAltBar === 'function') {
+            closeAltBar();
+        }
+    }
+}
+
+// ربط الحدثين
+document.addEventListener('touchstart', hideMenusOnInteraction, { passive: true });
+document.addEventListener('click', hideMenusOnInteraction);
+
+console.log('✅ تم تفعيل إخفاء القوائم (جميع الأجهزة)');

@@ -2037,7 +2037,7 @@ body.dark-mode .color-tooltip {
 .c10 { color: #00FFFF; } /*    مد البدل لورش  */
 .c11 { color: #ED7D31; } /*  ترقيق راء ورش   */
 .c12 { color: #FF0066; } /*  ميم الجمع   */
-.c13 { color: #CC00CC; } /*    مد اللين لورش  */
+.c13 { color: #CC00CC; } /*    مد اللين المهموز  */
 .c14 { color: #C00000; } /*   الياءات المتطرفة   */
 .c15 { color: #0070C0; } /*   الادغام والاظهار   */
 .c16 { color: #00B050; } /*   تحريك الساكن    */
@@ -3229,11 +3229,13 @@ body.dark-mode .features-link-mobile:hover {
 /* ===== قائمة البدائل ===== */
 #altBottomList {
     display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    max-height: 200px;
+    flex-direction: column;  /* ✅ عمودي بدلاً من wrap */
+    flex-wrap: nowrap;       /* ✅ منع الالتفاف الأفقي */
+    gap: 6px;
+    max-height: 300px;
     overflow-y: auto;
     padding: 2px 0;
+    width: 100%;             /* ✅ يأخذ العرض الكامل */
 }
 
 /* ===== عنصر البديل ===== */
@@ -3334,3 +3336,32 @@ body.dark-mode #altBottomBar .alt-item:hover {
         max-width: 200px !important;
     }
 }
+/* ===== ضمان العرض العمودي للأوجه على الهواتف ===== */
+@media (max-width: 768px) {
+    #altBottomList {
+        display: flex !important;
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        gap: 4px !important;
+        width: 100% !important;
+    }
+    
+    #altBottomBar .alt-item {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    #altBottomBar .alt-item .alt-text {
+        max-width: 70% !important;  /* ← النص يأخذ 70% من العرض */
+        word-break: break-word !important;
+    }
+    
+    #altBottomBar .alt-item .ref {
+        flex-shrink: 0 !important;  /* ← المرجع لا يتقلص */
+    }
+}
+
