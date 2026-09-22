@@ -70,8 +70,8 @@
 "68":{"sura":"10","page":"221","ayah":"109","alternatives":["ٱلۡحَٰكِمِ<span class='c5'>يٓـنۡۜ </span>الٓـ<span class='c4'>ر۪</span>","ٱلۡحَٰكِمِينَ الٓـ<span class='c4'>ر۪</span>"]},
 "69":{"sura":"11","page":"235","ayah":"123","alternatives":["تَعۡمَلُ<span class='c5'>وٓــنۡۜ </span>الٓـ<span class='c4'>ر۪</span>","تَعۡمَلُونَ الٓـ<span class='c4'>ر۪</span>"]},
 "70":{"sura":"12","page":"248","ayah":"111","alternatives":["يُؤۡمِنُ<span class='c5'>وٓــنۡۜ</span> الٓـمٓ<span class='c4'>ر۪</span>","يُؤۡمِنُونَ الٓـمٓ<span class='c4'>ر۪</span>"]},
-"71":{"sura":"13","page":"255","ayah":"43","alternatives":["ٱلۡكــِ<span class='c5'>تَـٰٓبۡۜ </span>الٓـ<span class='c4'>ر۪۫</span>","ٱلۡكِتَٰبِ الٓـ<span class='c4'>ر۪</span>"]},
-"72":{"sura":"14","page":"261","ayah":"52","alternatives":[" ٱلۡأَلۡبَ<span class='c5'>ـٰٓبۡۜ</span> الٓـ<span class='c4'>ر۪</span>"," ٱلۡأَلۡبَٰبِ الٓـ<span class='c4'>ر۪</span>"]},
+"71":{"sura":"13","page":"255","ayah":"43","alternatives":["ٱلۡكــِ<span class='c5'>تَٰٓبۡۜ </span>الٓـ<span class='c4'>ر۪۫</span>","ٱلۡكِتَٰبِ الٓـ<span class='c4'>ر۪</span>"]},
+"72":{"sura":"14","page":"261","ayah":"52","alternatives":[" ٱلۡأَلۡ<span class='c5'>بَٰٓبۡۜ</span> الٓـ<span class='c4'>ر۪</span>"," ٱلۡأَلۡبَٰبِ الٓـ<span class='c4'>ر۪</span>"]},
 "73":{"sura":"15","page":"267","ayah":"99","alternatives":["ٱلۡيَقِ<span class='c5'>يٓــنۡۜ</span>  أَتَىٰٓ","ٱلۡيَقِيــنُ أَتَىٰٓ"]},
 "74":{"sura":"16","page":"281","ayah":"128","alternatives":["مُّحۡسِنُ<span class='c5'>وٓــنۡۜ</span> سُبۡحَٰنَ","مُّحۡسِـنُونَ سُبۡحَٰنَ"]},
 "75":{"sura":"17","page":"293","ayah":"111","alternatives":["تَكۡبِي<span class='c5'>رَاۜ </span> ٱلۡحَمۡدُ","تَكۡبِي<span class='c5'>رًا</span> ٱلۡحَمۡدُ"]},
@@ -147,7 +147,7 @@
 "145":{"sura":"87","page":"592","ayah":"19","alternatives":["ووَمُـوسَ<span class='c5'>ىٰۜ </span>هَلۡ","وَمُـوسَىٰ هَلۡ"]},
 "146":{"sura":"88","page":"592","ayah":"26","alternatives":["حِسَابَهُ<span class='c5'>مۡۜ </span>وَٱلۡفَجۡرِ","حِسَابَهُ<span class='c5'>مۡ</span> وَٱلۡفَجۡرِ"]},
 "147":{"sura":"89","page":"594","ayah":"30","alternatives":["جَنَّتِ<span class='c5'>يۜ </span> لَآ أُقۡسِمُ","جَنَّتِي لَآ أُقۡسِمُ"]},
-"148":{"sura":"90","page":"594","ayah":"20","alternatives":["مُّؤۡصَدَ<span class='c5'>هۡۜ</span>  وَٱلشَّمۡسِ","مُّؤۡصَدَ<span class='c5'>ةٞ</span> وَٱلشَّمۡسِ"]},
+"148":{"sura":"90","page":"594","ayah":"20","alternatives":["مُّ<span class='c7'>و</span>صَدَ<span class='c5'>هۡۜ</span>  وَٱلشَّمۡسِ","مُّ<span class='c7'>و</span>صَدَ<span class='c5'>ةٞ</span> وَٱلشَّمۡسِ"]},
 "149":{"sura":"91","page":"595","ayah":"15","alternatives":["عُقۡبَٰ<span class='c5'>هَــاۜ </span> وَٱلَّيۡلِ ","عُقۡبَٰهَــا وَٱلَّيۡلِ"]},
 "150":{"sura":"92","page":"596","ayah":"21","alternatives":["يَرۡضَ<span class='c5'>ىٰۜ </span>وَٱلضُّحَىٰ ","يَرۡضَىٰ<span class='c4'> </span>وَٱلضُّحَىٰ"]},
 "151":{"sura":"93","page":"596","ayah":"11","alternatives":["فَحَدّ<span class='c9'>ِ</span><span class='c5'>ــۡثۜ </span>أَلَمۡ ","فَحَدِّثۡ أَلَـمۡ"]},
@@ -171,8 +171,6 @@
 "169":{"sura":"109","page":"603","ayah":"5","alternatives":["مَّــسَــ<span class='c5'>دۡۜ</span> قُـلۡ","مَّــسَــ<span class='c5'>دٖ </span>قُـلۡ"]},
 "170":{"sura":"112","page":"604","ayah":"4","alternatives":["أَحَــ<span class='c5'>دۡۜ  </span>قُـلۡ ","أَحَــ<span class='c5'>دٞ </span>قُـلۡ "]},
 "171":{"sura":"113","page":"604","ayah":"5","alternatives":["حَسَ<span class='c5'>دۡۜ</span> قُـلۡ ","حَسَدَ قُـلۡ "]}
-
-
 
 
 
