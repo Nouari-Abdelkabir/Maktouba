@@ -243,6 +243,31 @@
 "241-ـبۡ مَ":{"symbol":"ـبۡ مَ","meaning":"فك الإدغام ","class":"c15"},
 "242-بۡ مَ":{"symbol":"بۡ مَ","meaning":"فك الإدغام ","class":"c15"},
 "243-ﴢ":{"symbol":"ﴢ","meaning":"ليست ءاية في العد غير الكوفي","class":"c2"},
+"244-يـٓـَٔ":{"symbol":"يـٓـَٔ","meaning":"تحقيق الهمز","class":"c7"},
+"245-اؐٓ":{"symbol":"اؐٓ","meaning":"توسط البدل","class":"c10","mushaf":"warsh2"},
+"246-اؐٓ":{"symbol":"اؐٓ","meaning":"إشباع البدل","class":"c10","mushaf":"warsh3"},
+"247-اؐٓ":{"symbol":"اؐٓ","meaning":"إشباع البدل","class":"c10","mushaf":"warsh4"},
+"248-ءَٰٓ":{"symbol":"ءَٰٓ","meaning":"توسط البدل","class":"c10","mushaf":"warsh2"},
+"249-ءَٰٓ":{"symbol":"ءَٰٓ","meaning":"إشباع البدل","class":"c10","mushaf":"warsh3"},
+"250-ءَٰٓ":{"symbol":"ءَٰٓ","meaning":"إشباع البدل","class":"c10","mushaf":"warsh4"},
+"251-وۡٓ":{"symbol":"وۡٓ","meaning":"توسط اللين المهموز","class":"c13","mushaf":"warsh1"},
+"252-وۡٓ":{"symbol":"وۡٓ","meaning":"توسط اللين المهموز","class":"c13","mushaf":"warsh2"},
+"253-وۡٓ":{"symbol":"وۡٓ","meaning":"توسط أو إشباع اللين المهموز","class":"c13","mushaf":"warsh3"},
+"254-وۡٓ":{"symbol":"وۡٓ","meaning":"توسط أو إشباع اللين المهموز","class":"c13","mushaf":"warsh4"},
+"255-يۡٓ":{"symbol":"يۡٓ","meaning":"توسط اللين المهموز","class":"c13","mushaf":"warsh1"},
+"256-يۡٓ":{"symbol":"يۡٓ","meaning":"توسط اللين المهموز","class":"c13","mushaf":"warsh2"},
+"257-يۡٓ":{"symbol":"يۡٓ","meaning":"توسط أو إشباع اللين المهموز","class":"c13","mushaf":"warsh3"},
+"258-يۡٓ":{"symbol":"يۡٓ","meaning":"توسط أو إشباع اللين المهموز","class":"c13","mushaf":"warsh4"},
+"259-يُّ":{"symbol":"يُّ","meaning":"إبدال الهمز ياء مع الادغام","class":"c7"},
+"260-ءَ ا":{"symbol":"ءَ ا","meaning":"إبدال الثانية حرف مد مع القصر","class":"c25"},
+"261-ر۫":{"symbol":"ر۫","meaning":"تقليل","class":"c4"},
+"262-ء۫":{"symbol":"ء۫","meaning":"تقليل","class":"c4"},
+"263-يـۡٓ":{"symbol":"يـۡٓ","meaning":"توسط اللين المهموز","class":"c13","mushaf":"warsh1"},
+"264-يـۡٓ":{"symbol":"يـۡٓ","meaning":"توسط اللين المهموز","class":"c13","mushaf":"warsh2"},
+"265-يـۡٓ":{"symbol":"يـۡٓ","meaning":"توسط أو إشباع اللين المهموز","class":"c13","mushaf":"warsh3"},
+"266-يـۡٓ":{"symbol":"يـۡٓ","meaning":"توسط أو إشباع اللين المهموز","class":"c13","mushaf":"warsh4"},
+
+
 
 
 
