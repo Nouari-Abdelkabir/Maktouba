@@ -97,7 +97,7 @@ body {
 /* ========== القائمة الجانبية اليسرى ========== */
 .sidebar {
     width: 280px;
-    background: var(--bg-sidebar);
+     background: var(--bg-sidebar-light);
     display: flex;
     flex-direction: column;
     border-left: 1px solid var(--primary-gold);
@@ -3273,7 +3273,7 @@ body.dark-mode .features-link-mobile:hover {
     word-break: break-word;   /* ← يكسر الكلمات الطويلة */
     overflow-wrap: break-word;
     white-space: normal;      /* ← يسمح بالتفاف النص */
-    max-width: 400px;         /* ← حد أقصى للعرض */
+    max-width: 600px;         /* ← حد أقصى للعرض */
     display: inline-block;
 }
 
@@ -3356,7 +3356,7 @@ body.dark-mode #altBottomBar .alt-item:hover {
     }
     
     #altBottomBar .alt-item .alt-text {
-        max-width: 70% !important;  /* ← النص يأخذ 70% من العرض */
+        max-width: 100% !important;  /* ← النص يأخذ 70% من العرض */
         word-break: break-word !important;
     }
     
@@ -3365,3 +3365,55 @@ body.dark-mode #altBottomBar .alt-item:hover {
     }
 }
 
+/* ========================================
+   صورة في أسفل القائمة الجانبية
+   ======================================== */
+
+/* ===== للقائمة اليسرى (الحاسوب) ===== */
+.legend-image-section {
+    margin-top: 20px;
+    padding: 15px 10px;
+    border-top: 0px solid var(--primary-gold);
+    text-align: center;
+}
+
+.legend-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 0px solid var(--primary-gold);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.legend-image:hover {
+    transform: scale(1.02);
+}
+
+/* ===== للقائمة اليمنى (الهاتف) ===== */
+.legend-image-section-mobile {
+    margin-top: 20px;
+    padding: 12px 8px;
+    border-top: 0px solid var(--primary-gold);
+    text-align: center;
+}
+
+.legend-image-mobile {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 0px solid var(--primary-gold);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== الوضع الليلي ===== */
+body.dark-mode .legend-image-section,
+body.dark-mode .legend-image-section-mobile {
+    border-top-color: var(--dark-accent);
+}
+
+body.dark-mode .legend-image,
+body.dark-mode .legend-image-mobile {
+    border-color: var(--dark-accent);
+    box-shadow: 0 0px 0px rgba(122, 226, 207, 0.2);
+}
