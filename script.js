@@ -4671,3 +4671,149 @@ window.addEventListener('resize', function() {
 });
 
 console.log('✅ تم تفعيل التبديل التلقائي بين وضع الهاتف والحاسوب');
+
+
+// ==================== إصلاح النسخ في الهاتف (مع الحفاظ على الألوان) ====================
+(function fixCopyWithColors() {
+    
+    function isMobile() { return window.innerWidth <= 768; }
+    
+    // اختيار الحاوية الصحيحة حسب الجهاز
+    function pickContainer() {
+        const mobile = isMobile();
+        let selectors = [];
+        
+        if (currentMode === 'single') {
+            selectors = mobile
+                ? ['#mobileSinglePage .quran-text', '#singlePage .quran-text']
+                : ['#singlePage .quran-text', '#mobileSinglePage .quran-text'];
+        } else if (currentMode === 'double') {
+            selectors = ['#mobileSinglePage .quran-text', '#rightPage .quran-text', '#leftPage .quran-text'];
+        } else if (currentMode === 'compare') {
+            selectors = ['#comparePage1Mobile .quran-text', '#comparePage1 .quran-text'];
+        }
+        
+        for (let sel of selectors) {
+            const el = document.querySelector(sel);
+            if (el && el.textContent.trim().length > 0) return el;
+        }
+        return null;
+    }
+    
+    // ===== النسخ الغني (مع ألوان) =====
+    async function copyRich(html, plain) {
+        // الطريقة 1: ClipboardItem (الأفضل)
+        if (navigator.clipboard && typeof ClipboardItem !== 'undefined') {
+            try {
+                await navigator.clipboard.write([new ClipboardItem({
+                    'text/html': new Blob([html], { type: 'text/html' }),
+                    'text/plain': new Blob([plain], { type: 'text/plain' })
+                })]);
+                console.log('✅ نسخ عبر ClipboardItem');
+                return true;
+            } catch (e) {
+                console.log('⚠️ ClipboardItem فشل:', e.message);
+            }
+        }
+        
+        // الطريقة 2: contenteditable + execCommand (تحافظ على الألوان!)
+        try {
+            const div = document.createElement('div');
+            div.contentEditable = 'true';
+            div.innerHTML = html;
+            div.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0;';
+            document.body.appendChild(div);
+            
+            const range = document.createRange();
+            range.selectNodeContents(div);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            
+            const ok = document.execCommand('copy');
+            sel.removeAllRanges();
+            document.body.removeChild(div);
+            
+            if (ok) {
+                console.log('✅ نسخ عبر execCommand (مع الألوان)');
+                return true;
+            }
+        } catch (e) {
+            console.log('⚠️ execCommand فشل:', e.message);
+        }
+        
+        // الطريقة 3: نص عادي (الأخيرة)
+        try {
+            const ta = document.createElement('textarea');
+            ta.value = plain;
+            ta.setAttribute('readonly', '');
+            ta.style.cssText = 'position:fixed;left:-9999px;top:0;';
+            document.body.appendChild(ta);
+            ta.select();
+            ta.setSelectionRange(0, plain.length);
+            const ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            if (ok) {
+                console.log('✅ نسخ كنص عادي');
+                return true;
+            }
+        } catch (e) {
+            console.log('❌ فشلت كل الطرق:', e.message);
+        }
+        
+        return false;
+    }
+    
+    // استبدال الدالة الأصلية
+    window.copyPageWithColors = async function() {
+        const highlighted = document.querySelector('.ayah-wrapper.highlighted');
+        let html = '';
+        let text = '';
+        
+        if (highlighted) {
+            const clone = convertColorsToInlineStyles(highlighted);
+            const ayahText = clone.querySelector('.ayah-text')?.innerHTML || '';
+            const ayahNum  = clone.querySelector('.ayah-number')?.innerHTML || '';
+            text = `${ayahText.replace(/<[^>]*>/g,'')} (${ayahNum.replace(/<[^>]*>/g,'')})`;
+            html = `<div style="font-family:'NouariAbdelkabir','Amiri',serif;font-size:1.2rem;line-height:1.8;text-align:right;direction:rtl;">${clone.outerHTML}</div>`;
+        } else {
+            const container = pickContainer();
+            if (!container) { showToast('❌ لا توجد صفحة لنسخها', 1500); return; }
+            
+            const surahName = document.getElementById('surahNameDisplay')?.textContent || '';
+            const juzNumber = document.getElementById('juzDisplay')?.textContent || '';
+            const cloned = convertColorsToInlineStyles(container);
+            const contentHtml = cloned.innerHTML;
+            
+            text = `${surahName}\n${juzNumber}\n\n${contentHtml.replace(/<[^>]*>/g,'')}`;
+            html = `<div style="font-family:'NouariAbdelkabir','Amiri',serif;font-size:1.3rem;line-height:2.2;text-align:justify;direction:rtl;padding:20px;">
+                <div style="margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid #c9a86b;">
+                    ${surahName} — ${juzNumber}
+                </div>${contentHtml}</div>`;
+        }
+        
+        const ok = await copyRich(html, text);
+        if (ok) showToast('📋 تم النسخ مع الألوان', 1500);
+        else   showToast('❌ تعذّر النسخ', 1500);
+    };
+    
+    // ربط الزر في الهاتف
+    setTimeout(function() {
+        document.querySelectorAll('#mobileSearchBtn, #searchBtn').forEach(function(btn) {
+            if (!btn) return;
+            const newBtn = btn.cloneNode(true);
+            newBtn.innerHTML = '📋 نسخ';
+            newBtn.classList.add('copy-btn-mobile');
+            btn.parentNode.replaceChild(newBtn, btn);
+            
+            newBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.copyPageWithColors();
+            });
+        });
+        console.log('✅ زر النسخ (مع الألوان) جاهز');
+    }, 2500);
+    
+})();
+
