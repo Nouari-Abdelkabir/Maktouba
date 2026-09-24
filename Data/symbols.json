@@ -275,6 +275,18 @@
 "273-اِ":{"symbol":"اِ","meaning":"قرأ بالإخبار","class":"c7"},
 "274-ي۫":{"symbol":"ي۫","meaning":"تقليل","class":"c4"},
 "275-ه۫":{"symbol":"ه۫","meaning":"تقليل","class":"c4"},
+"276- ۚ":{"symbol":" ۚ","meaning":"جواز الوقف","class":"c6"},
+"277- ۛ":{"symbol":" ۛ","meaning":"وقف المعانقة  ","class":"c6"},
+"278- ۖ":{"symbol":" ۖ","meaning":"     الوصل أولى من جواز الوقف","class":"c6"},
+"279- ۗ":{"symbol":" ۗ","meaning":"الوقف أولى من جواز الوصل ","class":"c6"},
+"280- ۙ":{"symbol":" ۙ","meaning":"النهي عن الوقف","class":"c6"},
+"281- ۘ":{"symbol":" ۘ","meaning":"لزوم الوقف","class":"c6"},
+"282-جَاۜ ":{"symbol":"جَاۜ ","meaning":"سكتة واجبة","class":"c9","mushaf":"hafs"},
+"283-قَ":{"symbol":"قَ","meaning":"سكتة واجبة","class":"c9","mushaf":"hafs"},
+"284-نَاۜ ":{"symbol":"نَاۜ ","meaning":"سكتة واجبة","class":"c9","mushaf":"hafs"},
+"285-نۡۜ":{"symbol":"نۡۜ","meaning":"سكتة واجبة","class":"c9","mushaf":"hafs"},
+"286-لۡۜ":{"symbol":"لۡۜ","meaning":"سكتة واجبة","class":"c9","mushaf":"hafs"},
+"288-هۡۜ":{"symbol":"هۡۜ","meaning":"سكتة خفيفة","class":"c9"},
 
 
 
@@ -284,6 +296,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+"c6-۞":{"symbol":"۞","meaning":"بداية الأحزاب والأنصاف والأرباع","class":"c6"},
 "555-أَٰو۬":{"symbol":"أَٰو۬","meaning":"تسهيل  الثانية مع الفصل بالف","class":"c255"}
 
 
