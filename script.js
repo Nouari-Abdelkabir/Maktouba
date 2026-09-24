@@ -703,12 +703,61 @@ function addAyahClickEvents() {
         // إزالة الأحداث القديمة لتجنب التكرار
         ayah.removeEventListener('click', handleAyahClick);
         ayah.addEventListener('click', handleAyahClick);
+        
+        // ✅ السطر الجديد 1: إزالة الحدث القديم
+        ayah.removeEventListener('click', handlePositionClick);
+        // ✅ السطر الجديد 2: إضافة الحدث الجديد
+        ayah.addEventListener('click', handlePositionClick);
     }
+}
+
+// ✅ دالة جديدة: عرض البطاقة عند النقر على الآية
+function handlePositionClick(e) {
+    // ✅ إذا كان النقر على span.cX، لا نفعل شيئاً
+    const targetSpan = e.target.closest('span');
+    if (targetSpan && targetSpan.className.match(/\bc\d+\b/)) {
+        return;
+    }
+    
+    const sura = this.getAttribute('data-sura');
+    const ayah = this.getAttribute('data-ayah');
+    const positionKey = `${sura}:${ayah}`;
+    
+    // ✅ التحقق من وجود موضع مخصص
+    if (!positionsData || !positionsData['c6-۞']) {
+        return;
+    }
+    
+    const positionEntry = positionsData['c6-۞'];
+    
+    // ✅ التحقق من وجود الموضع لهذه الآية
+    if (!positionEntry[positionKey]) {
+        return;
+    }
+    
+    const positionInfo = positionEntry[positionKey];
+    
+    // ✅ التحقق من أن الموضع مرئي
+    if (positionInfo.visible === false) {
+        return;
+    }
+    
+    // ✅✅✅ التحقق: هل توجد علامة ۞ داخل هذه الآية؟
+    const hasSymbol = this.querySelector('span.c6') && 
+                      this.querySelector('span.c6').textContent.includes('۞');
+    
+    if (hasSymbol) {
+        // إذا وُجد الرمز، لا نعرض البطاقة عند النقر على الآية
+        return;
+    }
+    
+    // ✅ عرض البطاقة (فقط إذا لم يوجد الرمز)
+    e.stopPropagation();
+    showUnifiedTooltip(positionInfo.meaning, this);
 }
 
 // معالجة الضغط على الاية
 function handleAyahClick(e) {
-    e.stopPropagation();
     let ayahWrapper = this;
     
     // إذا كانت نفس الاية المحددة، نزيل التحديد
@@ -2169,8 +2218,22 @@ async function loadSymbols() {
         symbolsData = {};
     }
 }
+// ==================== تحميل مواضع الرموز ====================
+let positionsData = {};
 
-// ==================== 5. البحث عن الرمز مع مراعاة الكلاس ====================
+async function loadPositions() {
+    try {
+        const response = await fetch('Data/positions.json');
+        if (!response.ok) throw new Error('ملف positions.json غير موجود');
+        positionsData = await response.json();
+        console.log('✅ تم تحميل المواضع:', Object.keys(positionsData).length);
+    } catch (e) {
+        console.warn('⚠️ لا توجد مواضع مخصصة:', e.message);
+        positionsData = {};
+    }
+}
+
+// ==================== 5. البحث عن الرمز مع مراعاة الكلاس والمصحف ====================
 // ==================== 5. البحث عن الرمز مع مراعاة الكلاس والمصحف ====================
 function findSymbolInText(fullText, element, symbolsData) {
     // استخراج الكلاس من العنصر
@@ -2186,6 +2249,18 @@ function findSymbolInText(fullText, element, symbolsData) {
     if (!elementClass) return null;
     
     const rawText = element.textContent || element.innerText || '';
+    
+    // ✅ البحث عن ayah-wrapper الأب للحصول على data-sura و data-ayah
+    let ayahWrapper = element.closest('.ayah-wrapper');
+    const sura = ayahWrapper ? ayahWrapper.getAttribute('data-sura') : '';
+    const ayah = ayahWrapper ? ayahWrapper.getAttribute('data-ayah') : '';
+    const positionKey = `${sura}:${ayah}`;
+    
+    console.log('🔍 findSymbolInText:');
+    console.log('  elementClass:', elementClass);
+    console.log('  sura:', sura);
+    console.log('  ayah:', ayah);
+    console.log('  positionKey:', positionKey);
     
     // ترتيب الرموز حسب طول الرمز الأصلي (الأطول أولاً)
     const sortedKeys = Object.keys(symbolsData).sort((a, b) => {
@@ -2215,6 +2290,22 @@ function findSymbolInText(fullText, element, symbolsData) {
             
             if (!symbolFound) continue;
             
+            // ✅ التحقق من وجود مواضع مخصصة
+            if (positionsData[key] && positionKey) {
+                const positionEntry = positionsData[key];
+                if (positionEntry[positionKey]) {
+                    const positionInfo = positionEntry[positionKey];
+                    if (positionInfo.visible === false) continue;
+                    return {
+                        symbol: symbol,
+                        meaning: positionInfo.meaning || entry.meaning,
+                        class: entry.class,
+                        key: key,
+                        positionType: positionInfo.type
+                    };
+                }
+            }
+            
             if (entry.class === elementClass) {
                 return {
                     symbol: symbol,
@@ -2229,7 +2320,7 @@ function findSymbolInText(fullText, element, symbolsData) {
     // ✅ المرحلة 2: البحث عن رمز عام (بدون mushaf)
     for (let key of sortedKeys) {
         const entry = symbolsData[key];
-        if (entry.mushaf) continue; // تجاهل الرموز المخصصة لمصاحف أخرى
+        if (entry.mushaf) continue;
         
         const symbol = entry.symbol || key;
         const normalizedSymbol = symbol.replace(/\s+/g, ' ').trim();
@@ -2244,20 +2335,46 @@ function findSymbolInText(fullText, element, symbolsData) {
             if (textNoSpaces.indexOf(symbolNoSpaces) !== -1) symbolFound = true;
         }
         
-        if (!symbolFound) continue;
-        
-        if (entry.class) {
-            if (entry.class === elementClass) {
-                return {
-                    symbol: symbol,
-                    meaning: entry.meaning,
-                    class: entry.class,
-                    key: key
-                };
+        if (symbolFound) {
+            // ✅ التحقق من وجود مواضع مخصصة
+            if (positionsData[key] && positionKey) {
+                console.log('  ✅ positionsData[' + key + '] موجود');
+                console.log('  positionKey:', positionKey);
+                
+                const positionEntry = positionsData[key];
+                if (positionEntry[positionKey]) {
+                    console.log('  ✅ الموضع موجود!');
+                    const positionInfo = positionEntry[positionKey];
+                    
+                    if (positionInfo.visible === false) {
+                        console.log('  ⚠️ الموضع صامت');
+                        continue;
+                    }
+                    
+                    return {
+                        symbol: symbol,
+                        meaning: positionInfo.meaning || entry.meaning,
+                        class: entry.class,
+                        key: key,
+                        positionType: positionInfo.type
+                    };
+                }
             }
-            continue;
-        } else {
-            return { symbol: symbol, meaning: entry.meaning };
+            
+            // التحقق من الكلاس (السلوك الأصلي)
+            if (entry.class) {
+                if (entry.class === elementClass) {
+                    return {
+                        symbol: symbol,
+                        meaning: entry.meaning,
+                        class: entry.class,
+                        key: key
+                    };
+                }
+                continue;
+            } else {
+                return { symbol: symbol, meaning: entry.meaning };
+            }
         }
     }
     
@@ -2447,21 +2564,7 @@ function refreshColorClicks() {
     setTimeout(initColorClicks, 200);
 }
 // ==================== 9. إزالة البطاقة عند التمرير ====================
-document.addEventListener('scroll', function() {
-    if (activeTooltip) {
-        activeTooltip.style.opacity = '0';
-        setTimeout(() => {
-            if (activeTooltip) {
-                activeTooltip.remove();
-                activeTooltip = null;
-            }
-        }, 300);
-        if (tooltipTimeout) {
-            clearTimeout(tooltipTimeout);
-            tooltipTimeout = null;
-        }
-    }
-});
+
 
 // ==================== 10. إزالة البطاقة عند تغيير حجم النافذة ====================
 window.addEventListener('resize', function() {
@@ -2476,26 +2579,16 @@ window.addEventListener('resize', function() {
 });
 
 // ==================== 11. ✅ إزالة البطاقة عند النقر في أي مكان آخر ====================
-document.addEventListener('click', function(e) {
-    // إذا كان النقر ليس على عنصر يحمل كلاس c
-    if (!e.target.closest('[class*="c"]')) {
-        if (activeTooltip) {
-            activeTooltip.remove();
-            activeTooltip = null;
-        }
-        if (tooltipTimeout) {
-            clearTimeout(tooltipTimeout);
-            tooltipTimeout = null;
-        }
-    }
-});
+
+
 // ==================== 12. التهيئة ====================
 document.addEventListener('DOMContentLoaded', function() {
     loadSymbols().then(() => {
-        setTimeout(initColorClicks, 500);
+        loadPositions().then(() => {
+            setTimeout(initColorClicks, 500);
+        });
     });
 });
-
 console.log('✅ تم تحميل نظام البطاقات الموحدة');
 // ==================== تحريك الشرائط للهواتف ====================
 // ==================== إخفاء/إظهار الشرائط للهواتف (نسخة تعمل على اللمس) ====================
@@ -4499,3 +4592,82 @@ document.addEventListener('touchstart', hideMenusOnInteraction, { passive: true 
 document.addEventListener('click', hideMenusOnInteraction);
 
 console.log('✅ تم تفعيل إخفاء القوائم (جميع الأجهزة)');
+
+// ==================== إدارة موحّدة للبطاقة (لا تحذف هذا) ====================
+
+function isColorSpan(el) {
+    const span = el.closest('span');
+    return span && /(^|\s)c\d+(\s|$)/.test(span.className || '');
+}
+
+function hideUnifiedTooltip() {
+    if (tooltipTimeout) { clearTimeout(tooltipTimeout); tooltipTimeout = null; }
+    if (activeTooltip) { activeTooltip.remove(); activeTooltip = null; }
+}
+
+document.addEventListener('click', function(e) {
+    // نقر داخل البطاقة → لا شيء
+    if (e.target.closest('.unified-tooltip')) return;
+
+    // نقر على span.cX → نتركه لمعالجها
+    if (isColorSpan(e.target)) return;
+
+    // أي مكان آخر (بما فيه الآيات العادية) → إخفاء
+    hideUnifiedTooltip();
+}, true); 
+
+console.log('✅ نظام البطاقة الموحّد يعمل');
+
+
+// ==================== إعادة تهيئة وضع الهاتف عند تغيير حجم النافذة ====================
+
+let lastIsMobile = window.innerWidth <= 768;
+
+window.addEventListener('resize', function() {
+    const isMobileNow = window.innerWidth <= 768;
+
+    // لم يتغير الوضع → لا شيء
+    if (isMobileNow === lastIsMobile) return;
+
+    lastIsMobile = isMobileNow;
+
+    if (isMobileNow) {
+        // 🆕 انتقلنا إلى وضع الهاتف → أعد التهيئة
+        console.log('📱 تم التبديل إلى وضع الهاتف - إعادة التهيئة');
+        setTimeout(function() {
+            if (typeof initMobileVersion === 'function') {
+                initMobileVersion();
+            }
+            if (typeof bindSwipeGestures === 'function') {
+                bindSwipeGestures();
+            }
+            if (typeof bindCompareSwipeGestures === 'function') {
+                bindCompareSwipeGestures();
+            }
+            if (typeof updateMobileDisplay === 'function') {
+                updateMobileDisplay();
+            }
+            if (typeof resetTimer === 'function') {
+                resetTimer();
+            }
+        }, 200);
+    } else {
+        // 🖥️ عدنا إلى الحاسوب → أعد رسم الصفحة العادية
+        console.log('🖥️ تم التبديل إلى وضع الحاسوب - إعادة الرسم');
+        setTimeout(function() {
+            if (currentMode === 'single') {
+                displayPage(currentPage);
+            } else if (currentMode === 'double') {
+                displayDoublePage(currentPage);
+            }
+            if (typeof applyCenteredLayout === 'function' && currentMode === 'single') {
+                applyCenteredLayout();
+            }
+            if (typeof refreshAllTopBarsStable === 'function') {
+                refreshAllTopBarsStable();
+            }
+        }, 200);
+    }
+});
+
+console.log('✅ تم تفعيل التبديل التلقائي بين وضع الهاتف والحاسوب');
