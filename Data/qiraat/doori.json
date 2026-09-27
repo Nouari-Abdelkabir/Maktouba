@@ -1,5 +1,4 @@
 {
-
 "1":{"sura":"2","page":"6","ayah":"31","alternatives":["هَٰٓؤُلَ<span class='c25'>ا-</span> <span class='c25'>إِ</span>ن"]},
 "2":{"sura":"2","page":"22","ayah":"142","alternatives":["يَشَآ<span class='c25'>ءُ ا۪</span>لَىٰ"]},
 "3":{"sura":"2","page":"33","ayah":"213","alternatives":["يَشَآ<span class='c25'>ءُ ا۪</span>لَىٰ"]},
@@ -20,7 +19,7 @@
 "18":{"sura":"7","page":"175","ayah":"188","alternatives":["ٱلسُّوٓ<span class='c25'>ءُۚ ا۪</span>نۡ"]},
 "19":{"sura":"10","page":"211","ayah":"25","alternatives":["يَشَآ<span class='c25'>ءُ ا۪</span>لَىٰ"]},
 "20":{"sura":"10","page":"214","ayah":"49","alternatives":["جَ<span class='c25'>ا-</span> <span class='c25'>أَ</span>جَلُهُمۡ"]},
-"21":{"sura":"10","page":"214","ayah":"51","alternatives":["<span class='c7'>ءَا۬</span>لۡـَٔـٰنَ"]},
+"21":{"sura":"10","page":"214","ayah":"51","alternatives":["<span class='c7'>ءَا۬</span>لۡـَٰٔنَ"]},
 "22":{"sura":"10","page":"215","ayah":"59","alternatives":["<span class='c7'>ءَا۬</span>للَّهُ"]},
 "23":{"sura":"10","page":"218","ayah":"81","alternatives":["بِهِ<span class='c25'>ۦٓ</span> <span class='c25'>ءَا۬</span>لسِّحۡرُ"]},
 "24":{"sura":"10","page":"219","ayah":"91","alternatives":["<span class='c7'>ءَا۬</span>لۡـَٔـٰنَ"]},
@@ -83,7 +82,7 @@
 "81":{"sura":"5","page":"127","ayah":"120","alternatives":["قَدِ<span class='c5'>يٓرۡۜ  </span>ٱلۡحَـمۡدُ ","قَدِيرُۢ بِسۡمِ ٱللَّهِ"]},
 "82":{"sura":"6","page":"150","ayah":"165","alternatives":["رَّحِ<span class='c5'>يٓمۡۜ </span>الٓمٓـصٓ","رَّحِيمُۢ بِسۡمِ ٱللَّهِ"]},
 "83":{"sura":"7","page":"176","ayah":"206","alternatives":["يَسۡجُدُ<span class='c5'>وٓـنۡۜ </span>يَسۡـَٔلُونَكَ","يَسۡجُدُونَۤ بِسۡمِ ٱللَّهِ"]},
-"84":{"sura":"8","page":"186","ayah":"75","alternatives":["عـَلِ<span class='c5'>يٓمۡۜ</span> بــَرَآءَةٞ ","عَلِي<span class='c5'>مۡ</span> بــَرَآءَةٞ"]},
+"84":{"sura":"8","page":"186","ayah":"75","alternatives":["عـَلِ<span class='c5'>يٓمۡۜ</span> بــَرَآءَةٞ ","عَلِيمُۢ بــَرَآءَةٞ"]},
 "85":{"sura":"9","page":"207","ayah":"129","alternatives":["ٱلۡعَـظِــ<span class='c5'>يٓمۡۜ</span>  الٓـ<span class='c4'>ر۪</span>","ٱلۡعَظِيمِ بِسۡمِ ٱللَّهِ"]},
 "86":{"sura":"10","page":"221","ayah":"109","alternatives":["ٱلۡحَٰكِمِ<span class='c5'>يٓـنۡۜ </span>الٓـ<span class='c4'>ر۪</span>","ٱلۡحَٰكِمِينَ بِسۡمِ ٱللَّهِ"]},
 "87":{"sura":"11","page":"235","ayah":"123","alternatives":["تَعۡمَلُ<span class='c5'>وٓــنۡۜ </span>الٓـ<span class='c4'>ر۪</span>","تَعۡمَلُونَ بِسۡمِ ٱللَّهِ"]},
@@ -110,7 +109,7 @@
 "108":{"sura":"32","page":"417","ayah":"30","alternatives":["مُّنتَـظِرُ<span class='c5'>وٓــنۡۜ</span> يَٰٓأَيُّهَا  ","مُّنتَظِرُونَ بِسۡمِ ٱللَّهِ"]},
 "109":{"sura":"33","page":"427","ayah":"73","alternatives":["رَّحِـيـ<span class='c5'>مَاۜ  </span>ٱلۡحَمۡدُ لِلَّهِ","رَّحِيمَۢا<span class='c5'> </span>بِسۡمِ ٱللَّهِ"]},
 "110":{"sura":"34","page":"434","ayah":"54","alternatives":["مُّرِ<span class='c5'>يٓبۡۜ </span>ٱلۡحَمۡدُ ","مُّرِيبِۭ بِسۡمِ ٱللَّهِ"]},
-"111":{"sura":"35","page":"440","ayah":"45","alternatives":["بَـصــِي<span class='c5'>رَاۜ </span> ي<span class='c15'>سٓ</span> ","بَـصِيرَۢا  بِسۡمِ ٱللَّهِ"]},
+"111":{"sura":"35","page":"440","ayah":"45","alternatives":["بَـصــِي<span class='c5'>رَاۜ </span> يسٓ ","بَـصِيرَۢا  بِسۡمِ ٱللَّهِ"]},
 "112":{"sura":"36","page":"445","ayah":"83","alternatives":["تُرۡجَعُ<span class='c5'>وٓــنۡۜ </span>وَٱلصَّٰٓفَّٰتِ ","تُرۡجَعُونَ بِسۡمِ ٱللَّهِ"]},
 "113":{"sura":"37","page":"452","ayah":"182","alternatives":["ٱلۡعَٰلَمِ<span class='c5'>يٓــنۡۜ</span> صٓ ","ٱلۡعَٰلَمِينَ بِسۡمِ ٱللَّهِ"]},
 "114":{"sura":"38","page":"458","ayah":"88","alternatives":["حِ<span class='c5'>يٓــنۡۜ </span>تَنزِيلُ  ","حِينِۭ بِسۡمِ ٱللَّهِ"]},
@@ -144,7 +143,7 @@
 "142":{"sura":"66","page":"561","ayah":"12","alternatives":["ٱلۡقَٰنِتِ<span class='c5'>يٓــنۡۜ </span>تَبَٰرَكَ ","ٱلۡقَٰنِتِينَ بِسۡمِ ٱللَّهِ"]},
 "143":{"sura":"67","page":"564","ayah":"30","alternatives":["مَّعِ<span class='c5'>يٓنۡۜ</span>  ــنٓ ","مَّعِينِۭ بِسۡمِ ٱللَّهِ"]},
 "144":{"sura":"68","page":"566","ayah":"52","alternatives":["لِّلۡعَٰلَمِ<span class='c5'>يٓنۡۜ</span> ٱلۡحَآقَّةُ ","لِّلۡعَٰلَمِينَ بِسۡمِ ٱللَّهِ"]},
-"145":{"sura":"69","page":"568","ayah":"52","alternatives":["ٱلۡعَظِ<span class='c5'>يٓمۡۜ</span><span class='c6'> </span> سَ<span class='c7'>ا</span>لَ","ٱلۡعَظِيمِ بِسۡمِ ٱللَّهِ"]},
+"145":{"sura":"69","page":"568","ayah":"52","alternatives":["ٱلۡعَظِ<span class='c5'>يٓمۡۜ</span><span class='c6'> </span> سَأَلَ","ٱلۡعَظِيمِ بِسۡمِ ٱللَّهِ"]},
 "146":{"sura":"70","page":"570","ayah":"44","alternatives":["يُوعَدُ<span class='c5'>وٓنۡۜ </span> إِنَّآ","يُوعَدُونَ بِسۡمِ ٱللَّهِ"]},
 "147":{"sura":"71","page":"571","ayah":"28","alternatives":["تَبَا<span class='c5'>رَاۜ</span>  قُلۡ أُوحِيَ","تَبَارَۢا بِسۡمِ ٱللَّهِ"]},
 "148":{"sura":"72","page":"573","ayah":"28","alternatives":["عَدَ<span class='c5'>دَاۜ</span>  يَٰٓأَيُّهَا ","عَدَدَۢا بِسۡمِ ٱللَّهِ"]},
@@ -244,6 +243,7 @@
 "242":{"sura":"64","page":"557","ayah":"17","alternatives":["وَيَغۡفِرۡ لَكُمۡ"]},
 "243":{"sura":"66","page":"561","ayah":"8","alternatives":["وَٱغۡفِرۡ لَنَا"]},
 "244":{"sura":"71","page":"570","ayah":"4","alternatives":["يَغۡفِرۡ لَكُم"]}
+
 
 
 
