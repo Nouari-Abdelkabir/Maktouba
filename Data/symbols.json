@@ -287,7 +287,10 @@
 "285-نۡۜ":{"symbol":"نۡۜ","meaning":"سكتة واجبة","class":"c9","mushaf":"hafs"},
 "286-لۡۜ":{"symbol":"لۡۜ","meaning":"سكتة واجبة","class":"c9","mushaf":"hafs"},
 "288-هۡۜ":{"symbol":"هۡۜ","meaning":"سكتة خفيفة","class":"c9"},
-
+"289-د۬ۡ":{"symbol":"د۬ۡ","meaning":"إشمام الدال بالضم ","class":"c20","mushaf":"shubah"},
+"290-مًا":{"symbol":"مًا","meaning":"كسر التنوين (التقاء الساكنين)","class":"c16","mushaf":"shubah"},
+"291-ٱ":{"symbol":"ٱ","meaning":"كسر التنوين (التقاء الساكنين)","class":"c16","mushaf":"shubah"},
+"292-يَ":{"symbol":"يَ","meaning":"ابدال الهمزة ياء مفتوحة","class":"c7","mushaf":"shubah"},
 
 
 
