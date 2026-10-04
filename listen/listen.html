@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استمع للقراءات العشر</title>
+    <link rel="stylesheet" href="listen.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ============================
+         الشريط العلوي
+         ============================ -->
+    <header class="main-header">
+        <div class="header-container">
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">🏠 الرئيسية</a></li>
+                    <li><a href="#" id="openSelectorBtn">📖 اختر السورة</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================
+         الواجهة الرئيسية (شاشة العرض)
+         ============================ -->
+    <main class="listen-main">
+        <div class="listen-container">
+            <!-- الخلفية المتغيرة -->
+            <div class="background-slider" id="backgroundSlider"></div>
+
+            <!-- المحتوى -->
+            <div class="content-overlay">
+
+                <!-- شريط المعلومات (المصحف | القارئ | السورة) -->
+                <!-- شريط المعلومات (المصحف | القارئ) -->
+                <div class="info-bar">
+                    <span class="info-value" id="riwayaDisplay">شعبة</span>
+                    <span class="info-divider"></span>
+                    <span class="info-value" id="qariDisplay">محمود خليل الحصري</span>
+                </div>
+
+                <!-- عنوان السورة -->
+                <h2 class="surah-title" id="surahTitle">سُورَةُ الفَاتِحَةِ</h2>
+
+                <!-- الآية -->
+                <div class="ayah-box" id="ayahBox">
+                    <span class="ayah-text" id="ayahText">ﵳ بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ ﵲ</span>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ============================
+         شاشة الاختيار (Overlay)
+         ============================ -->
+    <div class="selector-overlay" id="selectorOverlay">
+        <div class="selector-box">
+            <button class="close-selector" id="closeSelector">✕</button>
+
+            <!-- اختيار السورة -->
+            <div class="selector-section">
+                <h3>📖 اختر السورة</h3>
+                <div class="surah-grid" id="surahGrid"></div>
+            </div>
+
+            <!-- الرواية + القارئ + زر البدء في صف واحد -->
+            <div class="controls-row">
+                <div class="control-group">
+                    <label class="control-label">📚 الرواية</label>
+                    <select id="overlayRiwayaSelect" class="overlay-select">
+                        <option value="">اختر الرواية</option>
+                    </select>
+                </div>
+
+                <button class="start-listening-btn" id="startListeningBtn" title="ابدأ الاستماع">
+                    ▶️
+                </button>
+
+                <div class="control-group">
+                    <label class="control-label">🎙️ القارئ</label>
+                    <select id="overlayQariSelect" class="overlay-select">
+                        <option value="">اختر القارئ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================
+         مشغل الصوت
+         ============================ -->
+    <div class="audio-player" id="audioPlayer" style="display: none;">
+        <!-- ✅ زر المزامنة -->
+        <button class="player-btn" id="syncModeBtn" title="وضع المزامنة">🎯</button>
+        <!-- ✅ زر الآية السابقة -->
+        <button class="player-btn" id="prevAyahBtn" title="الآية السابقة (سهم أعلى)">⏮️</button>
+        <!-- أزرار التشغيل -->
+        <button class="player-btn" id="playBtn">▶️</button>
+        <button class="player-btn" id="pauseBtn">⏸️</button>
+        <button class="player-btn" id="stopBtn">⏹️</button>
+        <!-- ✅ زر الآية التالية -->
+        <button class="player-btn" id="nextAyahBtn" title="الآية التالية (سهم أسفل)">⏭️</button>
+        
+        <div class="progress-container">
+            <span class="time" id="currentTime">00:00</span>
+            <input type="range" id="progressBar" value="0" step="1">
+            <span class="time" id="duration">00:00</span>
+        </div>
+        <button class="player-btn" id="volumeBtn">🔊</button>
+        <input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider">
+    </div>
+
+   
+
+    <script src="listen.js"></script>
+</body>
+</html>

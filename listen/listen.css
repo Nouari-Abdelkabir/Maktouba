@@ -1,0 +1,908 @@
+/* ============================================================
+   📁 الملف: listen.css
+   📝 الوصف: تنسيقات صفحة "استمع للقراءات العشر"
+   📦 الهيكل:
+       1. الخطوط والأساسيات
+       2. الحاسوب (Desktop)
+       3. الألوان المشتركة (c1-c26)
+       4. الهاتف (Mobile) - إبداعي
+   ============================================================ */
+
+
+/* ============================================================
+   🖥️ القسم 1: الخطوط والتنسيقات الأساسية
+   ============================================================ */
+
+@font-face {
+    font-family: 'NouariAbdelkabir';
+    src: url('../font/nouariabdelkabir.woff2') format('woff2'),
+         url('../font/nouariabdelkabir.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'NouariAbdelkabir', 'Amiri', serif;
+    background: #0d2818;
+    color: #FFFFFF;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ============================================================
+   🖥️ القسم 2: الحاسوب (Desktop) - لا تغيير
+   ============================================================ */
+
+/* ============ 2.1 الشريط العلوي ============ */
+.main-header {
+    background: rgba(6, 32, 43, 0.95);
+    padding: 2px 2px;
+    border-bottom: 2px solid #FDEB9E;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo h1 {
+    font-size: 1em;
+    color: #FDEB9E;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.main-nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 1em;
+    padding: 10px 10px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.main-nav ul li a:hover {
+    background: rgba(253, 235, 158, 0.15);
+}
+
+/* ============ 2.2 الواجهة الرئيسية ============ */
+.listen-main {
+    flex: 1;
+    padding: 10px;
+}
+
+.listen-container {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 180px);
+    min-height: 500px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ============ 2.3 الخلفية المتغيرة ============ */
+.background-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 2s ease-in-out;
+    z-index: 1;
+}
+
+/* ============ 2.4 المحتوى فوق الخلفية ============ */
+.content-overlay {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+}
+
+/* عنوان السورة */
+.surah-title {
+    font-size: 2.8em;
+    color: #FDEB9E;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    margin-bottom: 1.5em;
+    font-weight: 700;
+}
+
+/* صندوق الآية (الحاوية) */
+.ayah-box {
+    background: rgba(6, 32, 43, 0);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 0 solid #FDEB9E;
+    border-radius: 15px;
+    padding: 0 0;
+    max-width: 80%;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* نص الآية - خلفية بيضاء شفافة */
+.ayah-text {
+    background: rgb(255, 252, 240);
+    padding: 5px 5px;
+    border-radius: 18px;
+    display: block;
+    line-height: 2.2;
+    border: 2px solid rgba(201, 168, 107, 0.6);
+    color: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    font-size: 2.2em;
+    transition: opacity 0.15s ease;
+}
+
+/* ============ 2.5 شريط المعلومات (يمين/يسار) ============ */
+.info-bar {
+    position: absolute;
+    bottom: 40px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.info-value {
+    font-family: 'NouariAbdelkabir', 'Amiri', serif;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #FDEB9E;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+
+/* ============ 2.6 شاشة الاختيار (Overlay) ============ */
+.selector-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.selector-overlay.show {
+    display: flex;
+}
+
+.selector-box {
+    background: rgba(6, 32, 43, 0.98);
+    border: 2px solid #FDEB9E;
+    border-radius: 20px;
+    padding: 25px 30px;
+    max-width: 820px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+}
+
+.close-selector {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    background: none;
+    border: none;
+    color: #FDEB9E;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.close-selector:hover {
+    color: #FF6B6B;
+    transform: scale(1.2);
+}
+
+.selector-section {
+    margin-bottom: 20px;
+}
+
+.selector-section h3 {
+    color: #FDEB9E;
+    font-size: 1.1em;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #7AE2CF;
+    padding-bottom: 8px;
+    text-align: right;
+}
+
+/* ============ 2.7 شبكة السور ============ */
+.surah-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    gap: 6px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 5px;
+    direction: rtl;
+}
+
+.surah-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.surah-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.surah-grid::-webkit-scrollbar-thumb {
+    background: #7AE2CF;
+    border-radius: 10px;
+}
+
+.surah-btn {
+    background: rgba(10, 48, 64, 0.8);
+    color: #FFFFFF;
+    border: 1px solid #7AE2CF;
+    border-radius: 6px;
+    padding: 6px 4px;
+    font-family: 'NouariAbdelkabir', 'Amiri', serif;
+    font-size: 0.78em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.surah-btn:hover {
+    background: rgba(122, 226, 207, 0.25);
+    transform: translateY(-1px);
+}
+
+.surah-btn.active {
+    background: #FDEB9E;
+    color: #06202B;
+    font-weight: bold;
+    border-color: #FDEB9E;
+}
+
+/* ============ 2.8 صف التحكم (الرواية | البدء | القارئ) ============ */
+.controls-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: end;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #7AE2CF;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.control-label {
+    color: #FDEB9E;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-align: right;
+}
+
+.overlay-select {
+    width: 100%;
+    background: rgba(10, 48, 64, 0.8);
+    color: #FFFFFF;
+    border: 1px solid #7AE2CF;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: 'NouariAbdelkabir', 'Amiri', serif;
+    font-size: 0.9em;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s ease;
+    text-overflow: ellipsis;
+}
+
+.overlay-select:hover,
+.overlay-select:focus {
+    border-color: #FDEB9E;
+}
+
+.overlay-select option {
+    background: #06202B;
+    color: #FFFFFF;
+}
+
+.start-listening-btn {
+    width: 50px;
+    height: 50px;
+    background: #FDEB9E;
+    color: #06202B;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.3em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(253, 235, 158, 0.3);
+    flex-shrink: 0;
+    align-self: end;
+    margin-bottom: 1px;
+}
+
+.start-listening-btn:hover {
+    background: #E6D17B;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(253, 235, 158, 0.5);
+}
+
+.start-listening-btn:active {
+    transform: scale(0.95);
+}
+
+/* ============ 2.9 مشغل الصوت ============ */
+.audio-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(6, 32, 43, 0.98);
+    border-top: 2px solid #FDEB9E;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 500;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.player-btn {
+    background: #FDEB9E;
+    color: #06202B;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.player-btn:hover {
+    background: #E6D17B;
+    transform: scale(1.1);
+}
+
+.progress-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.progress-container input[type="range"] {
+    flex: 1;
+    accent-color: #FDEB9E;
+    cursor: pointer;
+}
+
+.time {
+    color: #FDEB9E;
+    font-size: 0.85em;
+    min-width: 45px;
+    text-align: center;
+}
+
+.volume-slider {
+    width: 80px;
+    accent-color: #FDEB9E;
+    cursor: pointer;
+}
+
+/* ============ 2.10 التذييل ============ */
+.main-footer {
+    background: rgba(6, 32, 43, 0.95);
+    padding: 15px;
+    text-align: center;
+    border-top: 2px solid #FDEB9E;
+    margin-top: auto;
+}
+
+.footer-container p {
+    color: #FDEB9E;
+    font-size: 0.9em;
+}
+
+
+/* ============================================================
+   🎨 القسم 3: ألوان التجويد والقراءات (c1 → c26)
+   ============================================================ */
+
+.c1  { color: #FF0000; }   /* الكلمات الفرشية */
+.c2  { color: #C65911; }   /* عد الآيات */
+.c3  { color: #FF00FF; }   /* الإدغام الكبير */
+.c4  { color: #FFC000; }   /* الإمالة */
+.c5  { color: #5B9BD5; }   /* البسملة */
+.c6  { color: #002060; }   /* علامات الوقف */
+.c7  { color: #00B0F0; }   /* الهمز */
+.c8  { color: #00FF00; }   /* تغليظ اللام */
+.c9  { color: #0000FF; }   /* النقل والسكت */
+.c10 { color: #00FFFF; }   /* مد البدل */
+.c11 { color: #ED7D31; }   /* ترقيق الراء */
+.c12 { color: #FF0066; }   /* ميم الجمع */
+.c13 { color: #CC00CC; }   /* مد اللين المهموز */
+.c14 { color: #C00000; }   /* الياءات المتطرفة */
+.c15 { color: #0070C0; }   /* الإدغام والإظهار */
+.c16 { color: #00B050; }   /* تحريك الساكن */
+.c17 { color: #7030A0; }   /* الانفرادات */
+.c18 { color: #548235; }   /* هاء الكناية */
+.c19 { color: #CC0099; }   /* الوقف على الهمز */
+.c20 { color: #92D050; }   /* الإشمام والاختلاس */
+.c21 { color: #970573; }   /* الوقف على أواخر الكلم */
+.c22 { color: #636261; }   /* العطف */
+.c23 { color: #893BC3; }   /* التكبير */
+.c24 { color: #A50021; }   /* الياءات الزوائد */
+.c25 { color: #0099FF; }   /* الهمز المزدوج */
+.c26 { color: #FFFF00; }   /* آخر */
+
+.ayah-number {
+    display: none;
+}
+
+
+/* ============================================================
+   📢 Toast للإشعارات
+   ============================================================ */
+.listen-toast {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: rgba(6, 32, 43, 0.95);
+    color: #FDEB9E;
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: 1px solid #FDEB9E;
+    font-family: 'NouariAbdelkabir', 'Amiri', serif;
+    font-size: 0.95em;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.listen-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 768px) {
+    .listen-toast {
+        bottom: 140px;
+        font-size: 0.85em;
+        padding: 10px 18px;
+    }
+}
+
+/* ✅ تمييز زر الوضع اليدوي */
+#syncModeBtn.manual-mode {
+    background: #7AE2CF !important;
+}
+
+/* ============================================================
+   📱 القسم 4: الهاتف (Mobile) - إبداعي ومحسّن
+   ============================================================ */
+
+/* ============ 4.1 للشاشات المتوسطة (تابلت) ============ */
+@media (max-width: 1024px) {
+    .surah-title {
+        font-size: 2.2em;
+    }
+    
+    .ayah-text {
+        font-size: 1.9em;
+    }
+    
+    .info-value {
+        font-size: 1.2em;
+    }
+}
+
+/* ============ 4.2 للهواتف (768px) ============ */
+@media (max-width: 768px) {
+    
+    /* ✅ 4.2.1 الخلفية تغطي كل الشاشة */
+    body {
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+    }
+    
+    /* ✅ 4.2.2 الشريط العلوي - مصغّر فقط */
+    .main-header {
+        padding: 6px 12px;
+    }
+    
+    .logo h1 {
+        font-size: 0.9em;
+    }
+    
+    .main-nav ul {
+        gap: 6px;
+    }
+    
+    .main-nav ul li a {
+        font-size: 0.85em;
+        padding: 8px 12px;
+    }
+    
+    /* ✅ 4.2.3 الواجهة الرئيسية */
+    .listen-main {
+        padding: 0;
+    }
+    
+    .listen-container {
+        height: calc(100vh - 70px);
+        min-height: auto;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    
+    /* ✅ 4.2.4 المحتوى */
+    .content-overlay {
+        padding: 20px 15px 90px;
+        justify-content: center;
+    }
+    
+    /* ✅ 4.2.5 عنوان السورة - مثل الحاسوب (بدون خلفية) */
+    .surah-title {
+        font-size: 1.7em;
+        margin-bottom: 30px;
+        padding: 0;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+    }
+    
+    /* ✅ 4.2.6 صندوق الآية */
+    .ayah-box {
+        max-width: 98%;
+        padding: 0;
+        box-shadow: none;
+    }
+    
+    .ayah-text {
+        background: rgba(255, 252, 240, 0.96);
+        padding: 18px 15px;
+        font-size: 1.5em;
+        line-height: 2;
+        border-radius: 15px;
+        border: 2px solid rgba(201, 168, 107, 0.7);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* ✅ 4.2.7 شريط المعلومات - مثل الحاسوب (بدون خلفية) */
+    .info-bar {
+        position: absolute;
+        bottom: 40px;
+        left: 15px;
+        right: 15px;
+        padding: 0;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    
+    .info-value {
+        font-size: 0.9em;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+    }
+    
+    /* ✅ 4.2.8 شاشة الاختيار */
+    .selector-overlay {
+        padding: 0;
+        align-items: flex-end;
+    }
+    
+    .selector-box {
+        max-width: 100%;
+        width: 100%;
+        max-height: 92vh;
+        border-radius: 25px 25px 0 0;
+        padding: 20px 15px;
+        animation: slideUp 0.3s ease-out;
+    }
+    
+    @keyframes slideUp {
+        from { transform: translateY(100%); }
+        to   { transform: translateY(0); }
+    }
+    
+    .close-selector {
+        top: 12px;
+        left: 15px;
+        width: 35px;
+        height: 35px;
+        background: rgba(253, 235, 158, 0.15);
+        border-radius: 50%;
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .selector-section h3 {
+        font-size: 1em;
+        padding-bottom: 6px;
+    }
+    
+    /* ✅ 4.2.9 شبكة السور */
+    .surah-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        max-height: 280px;
+        gap: 6px;
+    }
+    
+    .surah-btn {
+        font-size: 0.75em;
+        padding: 10px 4px;
+        border-radius: 8px;
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* ✅ 4.2.10 صف التحكم */
+    .controls-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        align-items: stretch;
+        position: relative;
+    }
+    
+    .control-group {
+        min-width: 0;
+    }
+    
+    .control-label {
+        font-size: 0.8em;
+    }
+    
+    .overlay-select {
+        padding: 12px 10px;
+        font-size: 0.85em;
+        border-radius: 10px;
+        min-height: 44px;
+    }
+    
+    .start-listening-btn {
+        grid-column: 1 / -1;
+        width: 100%;
+        height: 48px;
+        border-radius: 12px;
+        font-size: 1.2em;
+        order: 3;
+        margin-top: 5px;
+    }
+    
+    /* ✅ 4.2.11 مشغل الصوت */
+    .audio-player {
+        padding: 8px 12px;
+        gap: 6px;
+    }
+    
+    .player-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 0.95em;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .progress-container {
+        order: 3;
+        width: 100%;
+        gap: 8px;
+        margin-top: 4px;
+    }
+    
+    .time {
+        font-size: 0.7em;
+        min-width: 38px;
+    }
+    
+    .volume-slider {
+        display: none;
+    }
+    
+    #volumeBtn {
+        display: none;
+    }
+    
+    /* ✅ 4.2.12 إخفاء التذييل */
+    .main-footer {
+        display: none;
+    }
+}
+
+/* ============ 4.3 للهواتف الصغيرة (480px) ============ */
+@media (max-width: 480px) {
+    .logo h1 { font-size: 0.8em; }
+    
+    .main-nav ul li a {
+        font-size: 0.8em;
+        padding: 6px 10px;
+    }
+    
+    /* ✅ عنوان السورة - بدون خلفية */
+    .surah-title {
+        font-size: 1.4em;
+        margin-bottom: 30px;
+        padding: 0;
+        background: transparent;
+        border: none;
+    }
+    
+    .ayah-text {
+        font-size: 1.35em;
+        padding: 15px 12px;
+        line-height: 1.9;
+    }
+    
+    /* ✅ شريط المعلومات - بدون خلفية */
+    .info-bar {
+        bottom: 40px;
+        left: 10px;
+        right: 10px;
+        padding: 0;
+        background: transparent;
+        border: none;
+    }
+    
+    .info-value {
+        font-size: 0.9em;
+    }
+    
+    .surah-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+    
+    .surah-btn {
+        font-size: 0.7em;
+        padding: 8px 3px;
+        min-height: 38px;
+    }
+    
+    .player-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85em;
+    }
+    
+    .time {
+        font-size: 0.65em;
+        min-width: 34px;
+    }
+    
+    .selector-box {
+        padding: 18px 12px;
+    }
+    
+    .overlay-select {
+        padding: 10px 8px;
+        font-size: 0.8em;
+    }
+    
+    .start-listening-btn {
+        height: 44px;
+        font-size: 1.1em;
+    }
+}
+
+/* ============ 4.4 للهواتف الصغيرة جداً (360px) ============ */
+@media (max-width: 360px) {
+    .surah-title {
+        font-size: 1.2em;
+        padding: 0;
+        background: transparent;
+        border: none;
+    }
+    
+    .ayah-text {
+        font-size: 1.15em;
+        padding: 12px 10px;
+    }
+    
+    .info-value {
+        font-size: 0.9em;
+    }
+    
+    .surah-btn {
+        font-size: 0.65em;
+    }
+    
+    .player-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8em;
+    }
+}
+
+/* ============ 4.5 الوضع الأفقي (Landscape) ============ */
+@media (max-width: 900px) and (orientation: landscape) {
+    .listen-container {
+        height: 100vh;
+    }
+    
+    .content-overlay {
+        padding: 10px 20px 80px;
+    }
+    
+    .surah-title {
+        font-size: 1.4em;
+        margin-bottom: 30px;
+    }
+    
+    .ayah-text {
+        font-size: 1.3em;
+        padding: 12px 20px;
+        line-height: 1.8;
+    }
+    
+    .info-bar {
+        bottom: 40px;
+    }
+}
