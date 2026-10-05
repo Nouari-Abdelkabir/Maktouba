@@ -140,6 +140,8 @@ let currentPageInSurah = 1;
 let ayahTimings = [];
 let currentAyahIndex = -1;
 let currentAyahTexts = [];
+// ✅ قفل مؤقت لمنع تعارض updateProgress مع إعادة الحساب
+let _isRecalculating = false;
 // ============================================================
 // 🎯 وضع المزامنة
 // ============================================================
@@ -382,6 +384,7 @@ function bindEvents() {
     document.getElementById('nextAyahBtn')?.addEventListener('click', () => navigateAyah(1));
     // زر تبديل وضع المزامنة
     document.getElementById('syncModeBtn')?.addEventListener('click', toggleSyncMode);
+    document.getElementById('resetTimingsBtn')?.addEventListener('click', resetCurrentTimings);
 }
 
 // ============================================================
@@ -501,13 +504,10 @@ async function startListening() {
     const mushafData = await loadMushafData(selectedRiwaya);
     if (!mushafData) {
         if (ayahTextEl) ayahTextEl.innerHTML = '❌ فشل تحميل المصحف';
-        alert('تعذر تحميل بيانات المصحف');
         return;
     }
 
     selectedQariCode = reciter.code;
-    const audioUrl = buildAudioUrl(selectedQariCode, selectedSurah);
-
     closeSelector();
 
     const player = document.getElementById('audioPlayer');
@@ -515,21 +515,25 @@ async function startListening() {
 
     // ✅ بناء قائمة الآيات مع البسملة
     buildAyahsForSurah(selectedSurah);
-    
     currentAyahIndex = -1;
     ayahTimings = [];
 
-    // ✅ عرض أول آية فوراً (قبل بدء الصوت)
+    // ✅ عرض أول آية فوراً
     if (currentAyahTexts.length > 0) {
         currentAyahIndex = 0;
         displayAyah(0, currentAyahTexts[0]);
     }
 
     // ✅ تشغيل الصوت
+    const audioUrl = buildAudioUrl(selectedQariCode, selectedSurah);
     loadAndPlayAudio(audioUrl);
+
     updateSurahTitle(selectedSurah);
     updateInfoBar();
     saveSettings();
+    
+    // ✅ إشعار
+    showToast(`🎧 ${RIWAYAT_LIST.find(r => r.id === selectedRiwaya)?.name || ''} - ${surahNames[selectedSurah - 1]}`);
 }
 
 // ============================================================
@@ -698,31 +702,50 @@ function updateProgress() {
         currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
     }
     
-    // ✅ مزامنة الآيات (تعمل في الوضعين)
+    // ✅ لا تزامن أثناء إعادة الحساب
+    if (_isRecalculating) return;
+    
+    // ✅ مزامنة الآيات
     if (ayahTimings.length > 0) {
         const t = audioPlayer.currentTime;
-        for (let i = 0; i < ayahTimings.length; i++) {
+        
+        // ⭐ في الوضع اليدوي: ابدأ البحث من currentAyahIndex (لا ترجع للخلف)
+        const startFrom = (syncMode === 'manual') 
+            ? Math.max(0, currentAyahIndex) 
+            : 0;
+        
+        for (let i = startFrom; i < ayahTimings.length; i++) {
             if (t >= ayahTimings[i].start && t < ayahTimings[i].end) {
                 if (currentAyahIndex !== i) {
                     currentAyahIndex = i;
                     displayAyah(i, currentAyahTexts[i]);
                 }
-                break;
+                return;  // ⭐ return بدل break
             }
         }
     }
 }
-
 function updateDuration() {
     const durationEl = document.getElementById('duration');
     if (durationEl && audioPlayer) {
         durationEl.textContent = formatTime(audioPlayer.duration);
     }
-
-    // ✅ حساب توقيتات الآيات بحسب أوزان الأحرف
+    
     if (audioPlayer && audioPlayer.duration && currentAyahTexts.length > 0) {
-        ayahTimings = computeAyahTimings(currentAyahTexts, audioPlayer.duration);
-        console.log('✅ تم حساب توقيت', ayahTimings.length, 'آية');
+        
+        // ✅ 1. جرّب استرجاع التوقيتات المحفوظة أولاً
+        const savedTimings = loadSavedTimings();
+        
+        if (savedTimings) {
+            ayahTimings = savedTimings;
+            console.log('✅ استخدام توقيتات محفوظة سابقاً');
+        } else {
+            // ✅ 2. احسب توقيتات جديدة
+            ayahTimings = computeAyahTimings(currentAyahTexts, audioPlayer.duration);
+            console.log('✅ تم حساب توقيتات جديدة');
+        }
+        
+        currentAyahIndex = -1;
         
         // ✅ مزامنة فورية
         syncAyahWithCurrentTime();
@@ -766,15 +789,6 @@ function countRealChars(text) {
     clean = clean.replace(/[^\u0621-\u064A]/g, '');
     
     return Math.max(clean.length, 1);
-    // ✅ إضافة: المدود والغنن تُطيل الصوت قليلاً
-    const originalText = text.replace(/<[^>]*>/g, '');
-    const maddCount = (originalText.match(/[\u0653\u0654\u0655]/g) || []).length;
-    const ghunnahCount = (originalText.match(/[نّ مّ]/g) || []).length;
-    
-    // كل مد/غنة = +0.5 حرف تقديري
-    count += (maddCount * 0.5) + (ghunnahCount * 0.3);
-    
-    return Math.max(Math.round(count), 1);
 }
 
 // ============================================================
@@ -862,33 +876,45 @@ function displayAyah(ayahIndex, ayahText) {
 }
 
 // ============================================================
-// ⏮️⏭️ التنقل بين الآيات + إعادة حساب التوقيت
+// ⏮️⏭️ التنقل بين الآيات - يعمل فقط في الوضع اليدوي
 // ============================================================
 function navigateAyah(direction) {
-    if (!currentAyahTexts.length) return;
-    if (!audioPlayer) return;
+    if (!currentAyahTexts.length) {
+        showToast('⚠️ لم تبدأ الاستماع بعد');
+        return;
+    }
+    if (!audioPlayer) {
+        showToast('⚠️ لا يوجد صوت');
+        return;
+    }
 
+    // ✅ الوضع التلقائي: الأزرار معطلة
+    if (syncMode === 'auto') {
+        showToast('🎯 الأزرار معطلة في الوضع التلقائي. اضغط ✋ للتفعيل');
+        return;
+    }
+
+    // ✅ من هنا: الوضع اليدوي
     let newIndex = currentAyahIndex + direction;
     if (newIndex < 0) newIndex = 0;
     if (newIndex >= currentAyahTexts.length) newIndex = currentAyahTexts.length - 1;
 
+    if (newIndex === currentAyahIndex) {
+        showToast(direction > 0 ? '⚠️ آخر آية' : '⚠️ أول آية');
+        return;
+    }
+
     currentAyahIndex = newIndex;
 
-    // ✅ 1. عرض الآية الجديدة فوراً
+    // ✅ عرض الآية الجديدة
     displayAyah(newIndex, currentAyahTexts[newIndex]);
 
-    // ✅ 2. حسب وضع المزامنة
-    if (syncMode === 'manual') {
-        // 🎯 الوضع اليدوي: إعادة حساب التوقيت من هذه النقطة
-        recalculateTimingsFrom(newIndex);
-        showToast(`🎯 إعادة حساب التوقيت من الآية ${newIndex + 1}`);
-    } else {
-        // ▶️ الوضع التلقائي: القفز في الصوت
-        if (ayahTimings[newIndex] && audioPlayer) {
-            audioPlayer.currentTime = ayahTimings[newIndex].start;
-        }
-    }
+    // ✅ إعادة حساب التوقيت
+    recalculateTimingsFrom(newIndex);
+
+    showToast(`🎯 من الآية ${newIndex + 1}`);
 }
+
 
 function updatePlayPauseButtons() {
     const playBtn = document.getElementById('playBtn');
@@ -910,24 +936,25 @@ async function onAudioEnded() {
     selectedSurah = nextSurah;
     updateSurahTitle(nextSurah);
 
-    // ✅ 1. ابدأ الصوت فوراً (سريع)
+    // ✅ ابدأ الصوت فوراً
     const audioUrl = buildAudioUrl(selectedQariCode, nextSurah);
     
-    // ✅ 2. بناء الآيات (فوري لأن mushafAllAyahs محملة)
+    // ✅ بناء الآيات
     buildAyahsForSurah(nextSurah);
     currentAyahIndex = -1;
-    ayahTimings = [];
+    ayahTimings = []; // ← سلسلة جديدة، ستحسب عند updateDuration
     
-    // ✅ 3. عرض أول آية فوراً
+    // ✅ عرض أول آية
     if (currentAyahTexts.length > 0) {
         currentAyahIndex = 0;
         displayAyah(0, currentAyahTexts[0]);
     }
     
-    // ✅ 4. تشغيل الصوت
+    // ✅ تشغيل الصوت
     loadAndPlayAudio(audioUrl);
     
     console.log(`🎧 الانتقال إلى السورة ${nextSurah}`);
+    showToast(`📖 ${surahNames[nextSurah - 1]}`);
 }
 
 function onAudioError(e) {
@@ -1047,26 +1074,37 @@ function toggleSyncMode() {
     syncMode = syncMode === 'auto' ? 'manual' : 'auto';
     
     const btn = document.getElementById('syncModeBtn');
+    const prevBtn = document.getElementById('prevAyahBtn');
+    const nextBtn = document.getElementById('nextAyahBtn');
+    
     if (!btn) return;
     
     if (syncMode === 'auto') {
         btn.textContent = '🎯';
-        btn.title = 'وضع تلقائي: الأزرار تنقل الصوت + الآية';
+        btn.title = 'وضع تلقائي: الأزرار معطلة';
         btn.style.background = '#FDEB9E';
         btn.style.color = '#06202B';
-        showToast('🎯 وضع تلقائي - الأزرار تنقل الصوت مع الآية');
+        
+        // ⭐ عطّل أزرار التنقل بصرياً
+        if (prevBtn) prevBtn.style.opacity = '0.3';
+        if (nextBtn) nextBtn.style.opacity = '0.3';
+        
+        showToast('🎯 وضع تلقائي - الأزرار معطلة');
     } else {
         btn.textContent = '✋';
-        btn.title = 'وضع يدوي: الأزرار تنقل الآية فقط (الصوت مستمر)';
+        btn.title = 'وضع يدوي: الأزرار مفعلة';
         btn.style.background = '#7AE2CF';
         btn.style.color = '#06202B';
-        showToast('✋ وضع يدوي - الأزرار تنقل الآية فقط');
+        
+        // ⭐ فعّل أزرار التنقل
+        if (prevBtn) prevBtn.style.opacity = '1';
+        if (nextBtn) nextBtn.style.opacity = '1';
+        
+        showToast('✋ وضع يدوي - الأزرار مفعلة');
     }
     
-    // حفظ الإعداد
     localStorage.setItem('syncMode', syncMode);
 }
-
 // ============================================================
 // 📢 Toast صغير (إذا لم يكن موجوداً)
 // ============================================================
@@ -1087,53 +1125,67 @@ function showToast(message, duration = 2000) {
     }, duration);
 }
 
+
 // ============================================================
 // 🎯 إعادة حساب التوقيت من الآية الحالية
 // ============================================================
 function recalculateTimingsFrom(startAyahIndex) {
-    if (!audioPlayer || !audioPlayer.duration) return;
+    if (!audioPlayer || !audioPlayer.duration) {
+        console.warn('⚠️ لا يوجد صوت');
+        return;
+    }
     if (!currentAyahTexts.length) return;
+    if (startAyahIndex < 0 || startAyahIndex >= currentAyahTexts.length) return;
+    
+    // ✅ قفل updateProgress
+    _isRecalculating = true;
     
     const currentTime = audioPlayer.currentTime;
     const totalDuration = audioPlayer.duration;
-    
-    // الوقت المتبقي من الصوت
     const remainingDuration = totalDuration - currentTime;
-    
-    // عدد الآيات المتبقية (من الآية الحالية إلى النهاية)
     const remainingAyahs = currentAyahTexts.slice(startAyahIndex);
     const remainingCount = remainingAyahs.length;
     
-    if (remainingCount <= 0) return;
+    if (remainingCount <= 0) {
+        _isRecalculating = false;
+        return;
+    }
     
-    console.log('🎯 إعادة الحساب:');
-    console.log(`   الوقت الحالي: ${currentTime.toFixed(1)}s`);
-    console.log(`   المتبقي: ${remainingDuration.toFixed(1)}s`);
-    console.log(`   الآيات المتبقية: ${remainingCount}`);
+    console.log('🎯 إعادة حساب من الآية', startAyahIndex + 1, 'عند', currentTime.toFixed(2) + 's');
     
     // ✅ عدّ أحرف الآيات المتبقية
     const charCounts = remainingAyahs.map(text => countRealChars(text));
     const totalChars = charCounts.reduce((a, b) => a + b, 0);
     
-    // ✅ وقت ثابت لكل آية (محاكاة الوقوف)
     const avgDuration = remainingDuration / remainingCount;
     const baseTime = avgDuration * 0.3;
     const timeForChars = remainingDuration - (baseTime * remainingCount);
     
-    // ✅ بناء التوقيتات الجديدة من نقطة البداية
+    // ✅ بناء التوقيتات الجديدة
     const newTimings = [];
-    let t = currentTime;
     
-    // احتفظ بالتوقيتات القديمة للآيات السابقة
+    // ⭐ احتفظ بالآيات السابقة، مع تعديل الأخيرة منها لتنتهي عند currentTime
     for (let i = 0; i < startAyahIndex; i++) {
-        if (ayahTimings[i]) {
+        if (i === startAyahIndex - 1 && ayahTimings[i]) {
+            // ⭐ الآية السابقة مباشرة: end = currentTime
+            newTimings.push({
+                ...ayahTimings[i],
+                end: currentTime
+            });
+        } else if (ayahTimings[i]) {
             newTimings.push({...ayahTimings[i]});
         } else {
-            newTimings.push({ num: i, start: 0, end: 0 });
+            newTimings.push({ 
+                num: i, 
+                start: 0, 
+                end: 0,
+                startText: currentAyahTexts[i]
+            });
         }
     }
     
-    // أعد حساب التوقيتات المتبقية
+    // ⭐ التوقيتات الجديدة: الآية الحالية تبدأ من currentTime بالضبط
+    let t = currentTime;
     for (let i = startAyahIndex; i < currentAyahTexts.length; i++) {
         const localIdx = i - startAyahIndex;
         const weight = charCounts[localIdx] / totalChars;
@@ -1149,12 +1201,107 @@ function recalculateTimingsFrom(startAyahIndex) {
         t += ayahDuration;
     }
     
-    // ✅ استبدال التوقيتات القديمة
+    // ✅ استبدال التوقيتات
     ayahTimings = newTimings;
     
+    // ⭐ مهم: أعد تعيين المؤشر الحالي
+    currentAyahIndex = startAyahIndex;
+    
+    // ✅ حفظ
+    saveTimings();
+    
     // ✅ للتحقق
-    console.log('   ✅ تم إعادة الحساب:');
-    ayahTimings.slice(startAyahIndex, startAyahIndex + 3).forEach(tr => {
-        console.log(`      آية ${tr.num}: ${tr.start.toFixed(1)}s → ${tr.end.toFixed(1)}s`);
-    });
+    console.log('   ✅ الآية السابقة (idx ' + (startAyahIndex - 1) + '):');
+    if (newTimings[startAyahIndex - 1]) {
+        const prev = newTimings[startAyahIndex - 1];
+        console.log(`      start=${prev.start.toFixed(2)}s → end=${prev.end.toFixed(2)}s`);
+    }
+    console.log('   ✅ الآية الحالية (idx ' + startAyahIndex + '):');
+    if (newTimings[startAyahIndex]) {
+        const cur = newTimings[startAyahIndex];
+        console.log(`      start=${cur.start.toFixed(2)}s → end=${cur.end.toFixed(2)}s`);
+    }
+    
+    // ✅ إلغاء القفل بعد فترة قصيرة
+    setTimeout(() => {
+        _isRecalculating = false;
+        // ⭐ تأكيد أن الآية الحالية لا تزال صحيحة
+        currentAyahIndex = startAyahIndex;
+        console.log('🔓 تم فتح القفل. الآية الحالية:', currentAyahIndex + 1);
+    }, 500);
+}
+
+// ============================================================
+// 💾 حفظ التوقيتات في localStorage
+// ============================================================
+function saveTimings() {
+    if (!selectedSurah || !selectedRiwaya) return;
+    
+    const key = `timings_${selectedRiwaya}_${selectedSurah}`;
+    try {
+        localStorage.setItem(key, JSON.stringify(ayahTimings));
+        console.log('💾 تم حفظ التوقيتات');
+    } catch (e) {
+        console.warn('⚠️ فشل حفظ التوقيتات:', e);
+    }
+}
+
+// ============================================================
+// 📂 استرجاع التوقيتات المحفوظة
+// ============================================================
+function loadSavedTimings() {
+    if (!selectedSurah || !selectedRiwaya) return null;
+    
+    const key = `timings_${selectedRiwaya}_${selectedSurah}`;
+    try {
+        const saved = localStorage.getItem(key);
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            // تحقق من الطول
+            if (Array.isArray(parsed) && parsed.length === currentAyahTexts.length) {
+                console.log(`📂 تم استرجاع ${parsed.length} توقيت محفوظ`);
+                return parsed;
+            } else {
+                console.log('⚠️ التوقيتات المحفوظة لا تطابق الطول الحالي');
+                localStorage.removeItem(key);
+            }
+        }
+    } catch (e) {
+        console.warn('⚠️ فشل استرجاع التوقيتات:', e);
+    }
+    return null;
+}
+
+// ============================================================
+// 🗑️ حذف التوقيتات المحفوظة (للعودة للحساب التلقائي)
+// ============================================================
+function clearSavedTimings() {
+    if (!selectedSurah || !selectedRiwaya) return;
+    
+    const key = `timings_${selectedRiwaya}_${selectedSurah}`;
+    localStorage.removeItem(key);
+    console.log('🗑️ تم حذف التوقيتات المحفوظة');
+}
+
+// ============================================================
+// 🔄 إعادة تعيين التوقيتات (العودة للحساب التلقائي)
+// ============================================================
+function resetCurrentTimings() {
+    if (!audioPlayer || !audioPlayer.duration) {
+        showToast('⚠️ لا يوجد صوت يعمل');
+        return;
+    }
+    
+    // احذف التوقيتات المحفوظة
+    clearSavedTimings();
+    
+    // أعد الحساب من البداية
+    ayahTimings = computeAyahTimings(currentAyahTexts, audioPlayer.duration);
+    currentAyahIndex = -1;
+    
+    // مزامنة فورية
+    syncAyahWithCurrentTime();
+    
+    showToast('🔄 تم إعادة الحساب التلقائي');
+    console.log('🔄 تم إعادة حساب التوقيتات');
 }
