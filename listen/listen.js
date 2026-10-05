@@ -162,80 +162,58 @@ function initializePage() {
     bindEvents();
     loadSavedSettings();
 }
-
-// ============================================================
-// 7. الخلفيات
-// ============================================================
+ 
 // ============================================================
 // 🖼️ تحميل صور الخلفية - نسخة موحدة (حاسوب + هاتف)
 // ============================================================
 async function loadBackgroundImages() {
     const isMobile = window.innerWidth <= 768;
-    const MAX_IMAGES = 50; // الحد الأقصى للصور
+    const MAX_IMAGES = 50;
     
-    // ✅ تحديد المجلد حسب الجهاز
+    // ✅ مجلد الصور حسب الجهاز
     const folder = isMobile ? 'images_mobile' : 'images';
     
     console.log(`🖼️ تحميل صور من مجلد: ${folder}`);
     
-    // ✅ بناء قائمة الصور (bg1.jpg → bg50.jpg)
+    // ✅ بناء قائمة الصور
     const allImages = [];
     for (let i = 1; i <= MAX_IMAGES; i++) {
-        // جرّب صيغ مختلفة
         allImages.push(`${folder}/bg${i}.jpg`);
         allImages.push(`${folder}/bg${i}.jpeg`);
         allImages.push(`${folder}/bg${i}.png`);
         allImages.push(`${folder}/bg${i}.webp`);
+        allImages.push(`${folder}/bg${i}.gif`)
     }
     
-    // ✅ تحقق من وجود الصور (بالتوازي لسرعة)
+    // ✅ التحقق
     const validImages = await checkImages(allImages);
-    
     console.log(`✅ تم العثور على ${validImages.length} صورة`);
     
     if (validImages.length === 0) {
-        console.warn('⚠️ لم يتم العثور على أي صورة');
-        const slider = document.getElementById('backgroundSlider');
-        if (slider) {
-            slider.style.background = 'linear-gradient(135deg, #06202B 0%, #0d2818 50%, #1a4d2e 100%)';
-        }
-        return;
+        console.warn('⚠️ لم يتم العثور على أي صورة - استخدام الخلفية الافتراضية');
+        return;  // ✅ الخلفية الافتراضية من CSS ستبقى
     }
     
-    // ✅ ترتيب الصور حسب الرقم (bg1, bg2, bg3...)
+    // ✅ ترتيب حسب الرقم
     validImages.sort((a, b) => {
         const numA = parseInt(a.match(/bg(\d+)/)?.[1] || 0);
         const numB = parseInt(b.match(/bg(\d+)/)?.[1] || 0);
         return numA - numB;
     });
     
-    if (isMobile) {
-        // 📱 على الهاتف: نستخدم خلفية body
-        document.body.style.backgroundImage = `url('${validImages[0]}')`;
-        document.body.style.backgroundSize = 'cover';
-        document.body.style.backgroundPosition = 'center';
-        document.body.style.backgroundAttachment = 'fixed';
-        
-        // تبديل تلقائي
-        let mobileIndex = 0;
-        if (backgroundInterval) clearInterval(backgroundInterval);
-        backgroundInterval = setInterval(() => {
-            mobileIndex = (mobileIndex + 1) % validImages.length;
-            document.body.style.backgroundImage = `url('${validImages[mobileIndex]}')`;
-        }, 10000);
-        
-        console.log('📱 تم تفعيل خلفيات الهاتف');
-    } else {
-        // 🖥️ على الحاسوب: نستخدم backgroundSlider
-        backgroundImages = validImages;
-        currentBackgroundIndex = 0;
-        changeBackground();
-        
-        if (backgroundInterval) clearInterval(backgroundInterval);
-        backgroundInterval = setInterval(changeBackground, 10000);
-        
-        console.log('🖥️ تم تفعيل خلفيات الحاسوب');
-    }
+    // ✅ **نطبق الصور على body** (نفس الطريقة للحاسوب والهاتف)
+    document.body.style.backgroundImage = `url('${validImages[0]}')`;
+    
+    // ✅ تبديل تلقائي كل 10 ثوان
+    let currentIndex = 0;
+    if (backgroundInterval) clearInterval(backgroundInterval);
+    
+    backgroundInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % validImages.length;
+        document.body.style.backgroundImage = `url('${validImages[currentIndex]}')`;
+    }, 10000);
+    
+    console.log(`🖥️📱 تم تفعيل خلفيات ${isMobile ? 'الهاتف' : 'الحاسوب'} (${validImages.length} صورة)`);
 }
 
 // ============================================================
@@ -341,6 +319,9 @@ function populateQariSelects(riwayaId) {
 // 10. ربط الأحداث
 // ============================================================
 function bindEvents() {
+    // ============================================================
+    // 🎯 شاشة الاختيار
+    // ============================================================
     document.getElementById('openSelectorBtn')?.addEventListener('click', (e) => {
         e.preventDefault();
         openSelector();
@@ -352,6 +333,9 @@ function bindEvents() {
         if (e.target === overlay) closeSelector();
     });
 
+    // ============================================================
+    // 📚 الرواية والقارئ
+    // ============================================================
     document.getElementById('overlayRiwayaSelect')?.addEventListener('change', (e) => {
         selectedRiwaya = e.target.value;
         if (selectedRiwaya) {
@@ -371,20 +355,66 @@ function bindEvents() {
 
     document.getElementById('startListeningBtn')?.addEventListener('click', startListening);
 
-    // المشغل
+    // ============================================================
+    // 🎵 أزرار المشغل
+    // ============================================================
     document.getElementById('playBtn')?.addEventListener('click', playAudio);
     document.getElementById('pauseBtn')?.addEventListener('click', pauseAudio);
     document.getElementById('stopBtn')?.addEventListener('click', stopAudio);
     document.getElementById('progressBar')?.addEventListener('input', seekAudio);
-    document.getElementById('volumeSlider')?.addEventListener('input', changeVolume);
-    document.getElementById('volumeBtn')?.addEventListener('click', toggleMute);
 
-    // التنقل بين الآيات يدوياً
+    // ============================================================
+    // ⏮️⏭️ التنقل بين الآيات
+    // ============================================================
     document.getElementById('prevAyahBtn')?.addEventListener('click', () => navigateAyah(-1));
     document.getElementById('nextAyahBtn')?.addEventListener('click', () => navigateAyah(1));
-    // زر تبديل وضع المزامنة
+
+    // ============================================================
+    // 🎯 وضع المزامنة + إعادة الحساب
+    // ============================================================
     document.getElementById('syncModeBtn')?.addEventListener('click', toggleSyncMode);
     document.getElementById('resetTimingsBtn')?.addEventListener('click', resetCurrentTimings);
+
+    // ============================================================
+    // 🖥️ زر ملء الشاشة
+    // ============================================================
+    document.getElementById('fullscreenBtn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleFullscreen();
+    });
+
+    // ============================================================
+    // 🔊 التحكم في الصوت
+    // ============================================================
+    const volumeBtn = document.getElementById('volumeBtn');
+    const volumeControl = document.querySelector('.volume-control');
+    const volumeSlider = document.getElementById('volumeSlider');
+
+    // ✅ تغيير مستوى الصوت (مهم!)
+    volumeSlider?.addEventListener('input', changeVolume);
+
+    // ✅ فتح/إغلاق المنزلق العمودي عند النقر على الزر
+    if (volumeBtn && volumeControl) {
+        volumeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            volumeControl.classList.toggle('active');
+        });
+
+        // إغلاق عند النقر خارج المنطقة
+        document.addEventListener('click', (e) => {
+            if (!volumeControl.contains(e.target)) {
+                volumeControl.classList.remove('active');
+            }
+        });
+    }
+
+    // ✅ إغلاق المنزلق تلقائياً بعد تغيير الصوت
+    volumeSlider?.addEventListener('change', () => {
+        clearTimeout(window._volumeCloseTimer);
+        window._volumeCloseTimer = setTimeout(() => {
+            volumeControl?.classList.remove('active');
+        }, 800);
+    });
 }
 
 // ============================================================
@@ -669,7 +699,9 @@ function seekAudio(e) {
 }
 
 function changeVolume(e) {
-    if (audioPlayer) audioPlayer.volume = e.target.value / 100;
+    if (audioPlayer) {
+        audioPlayer.volume = e.target.value / 100;
+    }
     updateVolumeIcon(e.target.value);
 }
 
@@ -684,9 +716,14 @@ function toggleMute() {
 function updateVolumeIcon(volume) {
     const btn = document.getElementById('volumeBtn');
     if (!btn) return;
-    if (volume == 0 || (audioPlayer && audioPlayer.muted)) btn.textContent = '🔇';
-    else if (volume < 50) btn.textContent = '🔉';
-    else btn.textContent = '🔊';
+    
+    if (volume == 0 || (audioPlayer && audioPlayer.muted)) {
+        btn.textContent = '🔇';
+    } else if (volume < 50) {
+        btn.textContent = '🔉';
+    } else {
+        btn.textContent = '🔊';
+    }
 }
 
 function updateProgress() {
@@ -1305,3 +1342,157 @@ function resetCurrentTimings() {
     showToast('🔄 تم إعادة الحساب التلقائي');
     console.log('🔄 تم إعادة حساب التوقيتات');
 }
+
+// ============================================================
+// 🖥️ وضع الشاشة الكاملة (Fullscreen Mode)
+// ============================================================
+let isFullscreenMode = false;
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        // 🎬 تفعيل ملء الشاشة
+        enterFullscreen();
+    } else {
+        // 🚪 الخروج من ملء الشاشة
+        exitFullscreen();
+    }
+}
+
+function enterFullscreen() {
+    const el = document.documentElement;
+    
+    // محاولة استخدام Fullscreen API
+    if (el.requestFullscreen) {
+        el.requestFullscreen().catch(err => {
+            console.warn('⚠️ Fullscreen API غير متاح:', err);
+            // fallback: نستخدم الوضع اليدوي
+            enableFullscreenFallback();
+        });
+    } else if (el.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen();
+    } else if (el.msRequestFullscreen) {
+        el.msRequestFullscreen();
+    } else {
+        // fallback: إخفاء الأزرار فقط
+        enableFullscreenFallback();
+    }
+    
+    // ✅ إضافة كلاس لإخفاء الأزرار
+    document.body.classList.add('fullscreen-mode');
+    isFullscreenMode = true;
+    
+    console.log('🎬 تم تفعيل وضع الشاشة الكاملة');
+    showToast('🎬 وضع الشاشة الكاملة');
+    
+    // 💾 حفظ الحالة
+    localStorage.setItem('fullscreenMode', 'true');
+}
+
+function exitFullscreen() {
+    // الخروج من Fullscreen API
+    if (document.fullscreenElement) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen().catch(err => console.warn(err));
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
+    
+    // ✅ إزالة الكلاس
+    document.body.classList.remove('fullscreen-mode');
+    document.body.classList.remove('ui-visible');
+    isFullscreenMode = false;
+    
+    console.log('🚪 تم الخروج من وضع الشاشة الكاملة');
+    showToast('🚪 وضع عادي');
+    
+    // 💾 حفظ الحالة
+    localStorage.setItem('fullscreenMode', 'false');
+}
+
+// ✅ fallback: عند عدم توفر Fullscreen API
+function enableFullscreenFallback() {
+    document.body.classList.add('fullscreen-mode');
+    isFullscreenMode = true;
+    showToast('🎬 وضع مصغّر');
+}
+
+// ============================================================
+// ⌨️ اختصار Esc للخروج
+// ============================================================
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        // إغلاق النافذة المنبثقة أولاً إن كانت مفتوحة
+        const overlay = document.getElementById('selectorOverlay');
+        if (overlay && overlay.classList.contains('show')) {
+            closeSelector();
+            return;
+        }
+        
+        // إن كنا في وضع الشاشة الكاملة، اخرج
+        if (isFullscreenMode) {
+            exitFullscreen();
+        }
+    }
+});
+
+// ============================================================
+// 📱 في الهاتف: الضغط على الشاشة يظهر/يخفي الأزرار
+// ============================================================
+document.addEventListener('click', (e) => {
+    // ✅ في الوضع الكامل فقط، وعند النقر خارج الأزرار
+    if (!isFullscreenMode) return;
+    if (window.innerWidth > 768) return;  // للهاتف فقط
+    
+    // تجاهل النقر على الأزرار أو الروابط
+    if (e.target.closest('button') || 
+        e.target.closest('a') || 
+        e.target.closest('.audio-player') ||
+        e.target.closest('.main-header') ||
+        e.target.closest('.selector-overlay')) {
+        return;
+    }
+    
+    // ✅ تبديل إظهار الأزرار
+    document.body.classList.toggle('ui-visible');
+});
+
+// ✅ إخفاء الأزرار تلقائياً بعد 3 ثوان من إظهارها
+document.addEventListener('click', () => {
+    if (!isFullscreenMode) return;
+    if (window.innerWidth > 768) return;
+    
+    if (document.body.classList.contains('ui-visible')) {
+        clearTimeout(window._uiHideTimer);
+        window._uiHideTimer = setTimeout(() => {
+            document.body.classList.remove('ui-visible');
+        }, 3000);
+    }
+});
+
+// ============================================================
+// 🔍 تغيير حالة Fullscreen عند الخروج بـ Esc من المتصفح
+// ============================================================
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement && isFullscreenMode) {
+        // خرج المستخدم من Fullscreen API → حدّث الحالة
+        document.body.classList.remove('fullscreen-mode');
+        document.body.classList.remove('ui-visible');
+        isFullscreenMode = false;
+        localStorage.setItem('fullscreenMode', 'false');
+        console.log('🚪 تم الخروج من Fullscreen API');
+    }
+});
+
+// ============================================================
+// 💾 استرجاع حالة الشاشة الكاملة عند التحميل
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('fullscreenMode');
+    if (saved === 'true') {
+        // لا نفعّل Fullscreen API تلقائياً (يتطلب تفاعل المستخدم)
+        // لكن نفعّل الوضع اليدوي
+        document.body.classList.add('fullscreen-mode');
+        isFullscreenMode = true;
+    }
+});

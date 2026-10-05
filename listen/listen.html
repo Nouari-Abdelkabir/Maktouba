@@ -18,6 +18,7 @@
                 <ul>
                     <li><a href="../index.html">🏠 الرئيسية</a></li>
                     <li><a href="#" id="openSelectorBtn">📖 اختر السورة</a></li>
+                    <li><a href="#" id="fullscreenBtn" title="ملء الشاشة">⛶</a></li>
                 </ul>
             </nav>
         </div>
@@ -94,25 +95,29 @@
          مشغل الصوت
          ============================ -->
     <div class="audio-player" id="audioPlayer" style="display: none;">
-        <!-- ✅ زر المزامنة -->
+        <!-- أزرار التنقل والتشغيل -->
         <button class="player-btn" id="syncModeBtn" title="وضع المزامنة">🎯</button>
-         <!--<button class="player-btn" id="resetTimingsBtn" title="إعادة حساب التوقيتات">🔄</button> -->
-        <!-- ✅ زر الآية السابقة -->
-        <button class="player-btn" id="prevAyahBtn" title="الآية السابقة (سهم أعلى)">⏮️</button>
-        <!-- أزرار التشغيل -->
+        <button class="player-btn" id="prevAyahBtn" title="السابق">⏮️</button>
         <button class="player-btn" id="playBtn">▶️</button>
         <button class="player-btn" id="pauseBtn">⏸️</button>
-        <button class="player-btn" id="stopBtn">⏹️</button>
-        <!-- ✅ زر الآية التالية -->
-        <button class="player-btn" id="nextAyahBtn" title="الآية التالية (سهم أسفل)">⏭️</button>
+        <button class="player-btn" id="nextAyahBtn" title="التالي">⏭️</button>
+        <button class="player-btn" id="resetTimingsBtn" title="إعادة">🔄</button>
         
+        <!-- شريط التقدم -->
         <div class="progress-container">
             <span class="time" id="currentTime">00:00</span>
             <input type="range" id="progressBar" value="0" step="1">
             <span class="time" id="duration">00:00</span>
         </div>
-        <button class="player-btn" id="volumeBtn">🔊</button>
-        <input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider">
+        
+        <!-- ✅ زر الصوت + المنزلق العمودي -->
+        <div class="volume-control">
+            <button class="player-btn" id="volumeBtn" title="الصوت">🔊</button>
+            <div class="volume-slider-container">
+                <input type="range" id="volumeSlider" min="0" max="100" value="70" 
+                    class="volume-slider-vertical" orient="vertical">
+            </div>
+        </div>
     </div>
 
    
