@@ -36,6 +36,8 @@ body {
     background-color: #06202B;
     background-image: url('images/bg1.jpg');
     background-size: cover;
+    background-position: center top;
+    background-position: center 30%;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -176,7 +178,7 @@ body {
     font-family: 'NouariAbdelkabir', 'Amiri', serif;
     font-size: 1.4em;
     font-weight: 700;
-    color: #FDEB9E;
+    color: #ecb605;
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
     white-space: nowrap;
     letter-spacing: 0.5px;
@@ -391,9 +393,7 @@ body {
     align-items: center;
     gap: 8px;
     z-index: 500;
-    background: rgba(6, 32, 43, 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    
     border-top: 1px solid rgba(253, 235, 158, 0.3);
     box-sizing: border-box;
     overflow: visible;
@@ -692,7 +692,7 @@ body.fullscreen-mode .content-overlay {
         left: 15px;
         right: 15px;
     }
-    .info-value { font-size: 0.9em; }
+    .info-value { font-size: 1em; }
     
     /* ✅ شاشة الاختيار */
     .selector-overlay {
@@ -906,7 +906,7 @@ body.fullscreen-mode .content-overlay {
     .ayah-text { font-size: 1.9em; padding: 5px 5px; line-height: 1.9; }
     
     .info-bar { bottom: 40px; left: 10px; right: 10px; }
-    .info-value { font-size: 0.9em; }
+    .info-value { font-size: 1em; }
     
     .surah-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
     .surah-btn { font-size: 0.7em; padding: 8px 3px; min-height: 38px; }
@@ -938,7 +938,7 @@ body.fullscreen-mode .content-overlay {
 @media (max-width: 360px) {
     .surah-title { font-size: 3em; }
     .ayah-text { font-size: 1.5em; padding: 5px 5px; }
-    .info-value { font-size: 0.9em; }
+    .info-value { font-size: 01em; }
     .surah-btn { font-size: 0.65em; }
     
     /* ✅ مشغل الصوت */
@@ -965,4 +965,11 @@ body.fullscreen-mode .content-overlay {
     .surah-title { font-size: 3em; margin-bottom: 30px; }
     .ayah-text { font-size: 1.5em; padding: 5px 5px; line-height: 1.8; }
     .info-bar { bottom: 40px; }
+}
+
+.surah-ayah-number {
+    font-size: 0.8em;
+    font-weight: 700;
+    color: #ffe603;                        /* ← لون الرقم الحالي (تركوازي) */
+    transition: all 0.3s ease;
 }

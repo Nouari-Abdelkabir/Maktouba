@@ -7,63 +7,77 @@
 // 1. ربط المصاحف بالقراء (نفس Reader.js)
 // ============================================================
 const reciterMapping = {
-    "mushaf_hafs":        { name: "مشاري راشد العفاسي- رواية حفص",                                          code: "afs",                                                              available: true },
-    "mushaf_shubah":      { name: "محمد إسماعيل دبان - رواية شعبة",                              code: "deban/Rewayat-Sho-bah-A-n-Asim",                                   available: true },
-    "mushaf_doori_kisai": { name: "محمد عبدالحكيم سعيد عبدالله - رواية الدوري عن الكسائي",        code: "abdullah/Rewayat-AlDorai-A-n-Al-Kisa-ai",                          available: true },
-    "mushaf_qalun1":      { name: "محمود خليل الحصري - رواية قالون",                             code: "husr/Rewayat-Qalon-A-n-Nafi",                                      available: true },
-    "mushaf_qalun2":      { name: "صابر عبد الحكم - رواية قالون (قصر+الصلة)",                     code: "The-ten-readings/Rewayat-Qalon-A-n-Nafi-Qaser-Jame/Sabdulhakam",   available: true },
-    "mushaf_qalun3":      { name: "سيتم إضافة القارئ المناسب قريباً",                            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
-    "mushaf_qalun4":      { name: "سيتم إضافة القارئ المناسب قريباً",                            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
-    "mushaf_warsh1":      { name: "القارئ ياسين الجزائري - رواية ورش (قصر البدل)",               code: "qari",                                                             available: true },
-    "mushaf_warsh2":      { name: "محمود خليل الحصري - رواية ورش (توسط البدل)",                  code: "husr/Rewayat-Warsh-A-n-Nafi",                                      available: true },
-    "mushaf_warsh3":      { name: "سيتم إضافة القارئ المناسب قريباً",                            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
-    "mushaf_warsh4":      { name: "سيتم إضافة القارئ المناسب قريباً",                            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
-    "mushaf_asbahani":    { name: "القارئ محمد عبدالكريم - رواية ورش (طريق الأصبهاني)",          code: "m_krm/Rewayat-Warsh-A-n-Nafi-Men-Tariq-Abi-Baker-Alasbahani",      available: true },
-    "mushaf_bazzi":       { name: "محمد إسماعيل دبان - رواية البزي",                             code: "deban/Rewayat-Albizi-A-n-Ibn-Katheer",                             available: true },
-    "mushaf_qunbul":      { name: "محمد إسماعيل دبان - رواية قنبل",                              code: "deban/Rewayat-Qunbol-A-n-Ibn-Katheer",                             available: true },
-    "mushaf_doori1":      { name: "محمد إسماعيل دبان - رواية الدوري (توسط المنفصل)",             code: "deban/Rewayat-Aldori-A-n-Abi-Amr",                                 available: true },
-    "mushaf_doori":       { name: "صابر عبد الحكم - رواية الدوري (توسط المنفصل)",                code: "The-ten-readings/Rewayat-Aldori-A-n-Abi-Amr-madd/Sabdulhakam",     available: true },
-    "mushaf_soosi":       { name: "القارئ عبد الرشيد صوفي - رواية السوسي",                       code: "soufi/Rewayat-Assosi-A-n-Abi-Amr",                                 available: true },
-    "mushaf_hisham":      { name: "أحمد ديبان - رواية هشام عن ابن عامر",                         code: "deban/Rewayat-Hesham-A-n-Abi-A-mer",                               available: true },
-    "mushaf_ibnDhakwan":  { name: "مفتاح السلطني - رواية ابن ذكوان عن ابن عامر",                 code: "muftah_sultany/Rewayat_Ibn-Thakwan-A-n-Ibn-Amer",                  available: true },
-    "mushaf_khalaf1":      { name: "القارئ عبد الرشيد صوفي - رواية خلف عن حمزة",                  code: "soufi/Rewayat-Khalaf-A-n-Hamzah",                                  available: true },
-    "mushaf_khallad2":     { name: "مفتاح سُلطاني - رواية خلاد عن حمزة",                          code: "khalladsaltani",                                                   available: true },
-    "mushaf_abuHarith":   { name: "عبد الرشيد صوفي - رواية أبي الحارث عن الكسائي",               code: "abdul-rashid-soufi/abi-al-harith-an-al-kisai",                     available: true },
-    "mushaf_ibnWardan":   { name: "علي عبد الكريم عبد الحكم - رواية ابن وردان عن أبي جعفر",      code: "bvc65457689565732453567786745635466786878987565y2018_gmail_002_201806", available: true },
-    "mushaf_ibnJammaz":   { name: "مفتاح السلطني - رواية ابن جماز",                              code: "555_20vvvvvv",                                                     available: true },
-    "mushaf_ruways":      { name: "سيتم إضافة القارئ المناسب قريباً",                            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
-    "mushaf_ruh":         { name: "عبد الله بن محمد الحميد - رواية روح عن يعقوب الحضرمي",        code: "rawhhameed",                                                       available: true },
-    "mushaf_ishaq":       { name: "مفتاح محمد السلطني - رواية إسحاق عن خلف",                     code: "ishaq_an_khalaf",                                                  available: true },
-    "mushaf_ishaq":       { name: "مفتاح محمد السلطني - رواية إدريس عن خلف",                     code: "ishaq_an_khalaf",                                                  available: true }
+   
+ 
+    "mushaf_doori_kisai": { name: "القارئ: محمد عبدالحكيم سعيد عبدالله",        code: "abdullah/Rewayat-AlDorai-A-n-Al-Kisa-ai",                          available: true },
+    "mushaf_qalun1":      { name: "القارئ: محمود خليل الحصري",                  code: "husr/Rewayat-Qalon-A-n-Nafi",                                      available: true },
+    "mushaf_qalun2":      { name: "القارئ: صابر عبد الحكم",                     code: "The-ten-readings/Rewayat-Qalon-A-n-Nafi-Qaser-Jame/Sabdulhakam",   available: true },
+    "mushaf_qalun3":      { name: "سيتم إضافة القارئ المناسب قريباً",            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
+    "mushaf_qalun4":      { name: "سيتم إضافة القارئ المناسب قريباً",            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
+    "mushaf_warsh1":      { name: "القارئ: ياسين الجزائري",                      code: "qari",                                                             available: true },
+    "mushaf_warsh2":      { name: "القارئ: محمود خليل الحصري",                  code: "husr/Rewayat-Warsh-A-n-Nafi",                                      available: true },
+    "mushaf_warsh3":      { name: "سيتم إضافة القارئ المناسب قريباً",            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
+    "mushaf_warsh4":      { name: "سيتم إضافة القارئ المناسب قريباً",            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
+    "mushaf_asbahani":    { name: "القارئ: محمد عبدالكريم",                     code: "m_krm/Rewayat-Warsh-A-n-Nafi-Men-Tariq-Abi-Baker-Alasbahani",      available: true },
+    "mushaf_bazzi":       { name: "القارئ: أحمد ديبان",                          code: "deban/Rewayat-Albizi-A-n-Ibn-Katheer",                             available: true },
+    "mushaf_qunbul":      { name: "القارئ: أحمد ديبان",                          code: "deban/Rewayat-Qunbol-A-n-Ibn-Katheer",                             available: true },
+    "mushaf_doori1":      { name: "القارئ: أحمد ديبان",                           code: "deban/Rewayat-Aldori-A-n-Abi-Amr",                                 available: true },
+    "mushaf_doori":       { name: "القارئ: صابر عبد الحكم",                      code: "The-ten-readings/Rewayat-Aldori-A-n-Abi-Amr-madd/Sabdulhakam",     available: true },
+    "mushaf_soosi":       { name: "القارئ: عبد الرشيد صوفي",                      code: "soufi/Rewayat-Assosi-A-n-Abi-Amr",                                 available: true },
+    "mushaf_hisham":      { name: "القارئ: أحمد ديبان",                           code: "deban/Rewayat-Hesham-A-n-Abi-A-mer",                               available: true },
+    "mushaf_ibnDhakwan":  { name: "القارئ: مفتاح محمد سُلطاني",                    code: "muftah_sultany/Rewayat_Ibn-Thakwan-A-n-Ibn-Amer",                  available: true },
+    "mushaf_hafs":        { name: "القارئ: مشاري راشد العفاسي",                 code: "afs",                                                              available: true },
+    "mushaf_hafs_2":      { name: "القارئ: محمد الفقيه",                        code: "mohammed-alfaqih/hafs-an-asim",                                     available: true },
+    "mushaf_shubah":      { name: "القارئ: أحمد ديبان",                          code: "deban/Rewayat-Sho-bah-A-n-Asim",                                   available: true },
+    "mushaf_khalaf1":      { name: "القارئ: عبد الرشيد صوفي",                     code: "soufi/Rewayat-Khalaf-A-n-Hamzah",                                  available: true },
+    "mushaf_khallad2":     { name: "القارئ: مفتاح محمد سُلطاني",                   code: "khalladsaltani",                                                   available: true },
+    "mushaf_abuHarith":   { name: "القارئ: عبد الرشيد صوفي",                      code: "abdul-rashid-soufi/abi-al-harith-an-al-kisai",                     available: true },
+    "mushaf_ibnWardan":   { name: "القارئ: عبد الكريم عبد الحكم",                 code: "bvc65457689565732453567786745635466786878987565y2018_gmail_002_201806", available: true },
+    "mushaf_ibnJammaz":   { name: "القارئ: مفتاح السلطني",                        code: "555_20vvvvvv",                                                     available: true },
+    "mushaf_ruways":      { name: "القارئ: عبد الرحيم النابلسي (رويس)", code: "abdul-rahim-nabulsi/ruways-an-yaqub-al-hadrami", available: true },
+    "mushaf_ruh":         { name: "القارئ: عبد الله بن محمد الحميد",              code: "rawhhameed",                                                       available: true },
+    "mushaf_ishaq":       { name: "القارئ: مفتاح محمد سُلطاني",                     code: "ishaq_an_khalaf",                                                  available: true },
+    "mushaf_ishaq":       { name: "القارئ: مفتاح محمد سُلطاني",                     code: "ishaq_an_khalaf",                                                  available: true }
+};
+
+// ============================================================
+// 🗺️ خريطة: القارئ → ملف المصحف
+// ============================================================
+const mushafFileMap = {
+    // حفص: كل القراء يشتركون في نفس المصحف
+    'mushaf_hafs':   'mushaf_hafs',
+    'mushaf_hafs_2': 'mushaf_hafs',
 };
 
 // ============================================================
 // 2. قائمة المصاحف (الروايات) - مبنية من reciterMapping
 // ============================================================
 const RIWAYAT_LIST = [
-    { id: 'mushaf_hafs',        name: 'حفص عن عاصم' },
-    { id: 'mushaf_shubah',      name: 'شعبة عن عاصم' },
-    { id: 'mushaf_qalun1',      name: 'قالون عن نافع ' },
-    { id: 'mushaf_qalun2',      name: 'قالون عن نافع ' },
-    { id: 'mushaf_warsh1',      name: 'ورش عن نافع' },
-    { id: 'mushaf_warsh2',      name: 'ورش عن نافع' },
-    { id: 'mushaf_asbahani',    name: 'الأصبهاني' },
-    { id: 'mushaf_bazzi',       name: 'البزي عن ابن كثير' },
-    { id: 'mushaf_qunbul',      name: 'قنبل عن ابن كثير' },
-    { id: 'mushaf_doori1',      name: 'الدوري عن أبي عمرو' },
-    { id: 'mushaf_doori',       name: 'الدوري' },
-    { id: 'mushaf_soosi',       name: 'السوسي عن أبي عمرو' },
-    { id: 'mushaf_doori_kisai', name: 'الدوري عن الكسائي' },
-    { id: 'mushaf_hisham',      name: 'هشام عن ابن عامر' },
-    { id: 'mushaf_ibnDhakwan',  name: 'ابن ذكوان عن ابن عامر' },
-    { id: 'mushaf_khalaf1',      name: 'خلف عن حمزة' },
-    { id: 'mushaf_khallad2',     name: 'خلاد عن حمزة' },
-    { id: 'mushaf_abuHarith',   name: 'أبو الحارث عن الكسائي' },
-    { id: 'mushaf_ibnWardan',   name: 'ابن وردان عن أبي جعفر' },
-    { id: 'mushaf_ibnJammaz',   name: 'ابن جماز' },
-    { id: 'mushaf_ruh',         name: 'روح عن يعقوب' },
-    { id: 'mushaf_ishaq',       name: 'إسحاق عن خلف' },
-    { id: 'mushaf_ishaq',       name: 'إدريس عن خلف' }
+    
+    { id: 'mushaf_qalun1',      name: 'رواية: قالون عن نافع بالإسكان ' },
+    { id: 'mushaf_qalun2',      name: 'رواية: قالون عن نافع بالصلة ' },
+    { id: 'mushaf_warsh1',      name: 'رواية: ورش عن نافع بقصر البدل' },
+    { id: 'mushaf_warsh2',      name: 'رواية: ورش عن نافع بتوسط البدل' },
+    { id: 'mushaf_asbahani',    name: 'رواية: ورش من طريق الأصبهاني' },
+    { id: 'mushaf_bazzi',       name: 'رواية: البزي عن ابن كثير' },
+    { id: 'mushaf_qunbul',      name: 'رواية: قنبل عن ابن كثير' },
+    { id: 'mushaf_doori1',      name: 'رواية: الدوري عن أبي عمرو' },
+    { id: 'mushaf_doori',       name: 'رواية: الدوري عن أبي عمرو' },
+    { id: 'mushaf_soosi',       name: 'رواية: السوسي عن أبي عمرو' },
+    { id: 'mushaf_doori_kisai', name: 'رواية: الدوري عن الكسائي' },
+    { id: 'mushaf_hisham',      name: 'رواية: هشام عن ابن عامر' },
+    { id: 'mushaf_ibnDhakwan',  name: 'رواية: ابن ذكوان عن ابن عامر' },
+    { id: 'mushaf_hafs',        name: 'رواية: حفص عن عاصم' },
+    { id: 'mushaf_shubah',      name: 'رواية: شعبة عن عاصم' },
+    { id: 'mushaf_khalaf1',     name: 'رواية: خلف عن حمزة' },
+    { id: 'mushaf_khallad2',    name: 'رواية: خلاد عن حمزة' },
+    { id: 'mushaf_abuHarith',   name: 'رواية: أبو الحارث عن الكسائي' },
+    { id: 'mushaf_ibnWardan',   name: 'رواية: ابن وردان عن أبي جعفر' },
+    { id: 'mushaf_ibnJammaz',   name: 'رواية: ابن جماز عن أبي جعفر' },
+    { id: 'mushaf_ruh',         name: 'رواية: روح عن يعقوب' },
+    { id: 'mushaf_ruways',      name: 'رواية: رويس عن يعقوب' },
+    { id: 'mushaf_ishaq',       name: 'رواية: إسحاق عن خلف' },
+    { id: 'mushaf_ishaq',       name: 'رواية: إدريس عن خلف' }
 ];
 
 // ============================================================
@@ -115,7 +129,13 @@ const SURAH_AYAH_COUNT = [
     5, 6
 ];
 
-
+// ============================================================
+// 🔢 تحويل الأرقام إلى عربية مشرقية (٠١٢٣٤٥٦٧٨٩)
+// ============================================================
+function toArabicNumber(num) {
+    const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return String(num).split('').map(d => arabicDigits[parseInt(d)] || d).join('');
+}
 
 // ============================================================
 // 5. المتغيرات العامة
@@ -296,23 +316,60 @@ function populateQariSelects(riwayaId) {
     if (!select) return;
     select.innerHTML = '<option value="">اختر القارئ</option>';
 
-    const reciter = reciterMapping[riwayaId];
-    if (!reciter) return;
+    // ✅ الأساس الحقيقي للرواية المختارة (مثلاً: mushaf_qalun1 → mushaf_qalun1)
+    // (نستخدم المفتاح كاملاً - لأن كل رواية لها مفتاح خاص)
+    const selectedKey = riwayaId;
 
-    const option = document.createElement('option');
-    if (reciter.available) {
-        option.value = riwayaId;
+    // ✅ ابحث عن القراء الذين لهم **نفس الأساس بالضبط** (باستثناء _رقم إضافي)
+    // مثال: mushaf_hafs → mushaf_hafs + mushaf_hafs_2
+    //       mushaf_qalun1 → mushaf_qalun1 (فقط)
+    //       mushaf_qalun2 → mushaf_qalun2 (فقط)
+    
+    const matchedMushafs = [];
+
+    // 1. أضف القارئ الرئيسي
+    if (reciterMapping[selectedKey]) {
+        matchedMushafs.push({
+            id: selectedKey,
+            ...reciterMapping[selectedKey]
+        });
+    }
+
+    // 2. ابحث عن قراء "إضافيين" لهم نفس المفتاح + _رقم
+    // مثال: mushaf_hafs_2, mushaf_hafs_3
+    for (const key in reciterMapping) {
+        if (key === selectedKey) continue;
+        if (!key.startsWith('mushaf_')) continue;
+        
+        // ✅ الشرط: المفتاح يبدأ بـ selectedKey + '_'
+        // مثال: selectedKey = 'mushaf_hafs'
+        //       key = 'mushaf_hafs_2'  → يبدأ بـ 'mushaf_hafs_' ✅
+        //       key = 'mushaf_hafs_3'  → ✅
+        //       key = 'mushaf_qalun2'  → لا يبدأ بـ 'mushaf_qalun1_' ❌
+        if (!key.startsWith(selectedKey + '_')) continue;
+        
+        const reciter = reciterMapping[key];
+        if (!reciter || !reciter.available) continue;
+        
+        matchedMushafs.push({
+            id: key,
+            ...reciter
+        });
+    }
+
+    // 3. أضف كل قارئ للقائمة
+    matchedMushafs.forEach(reciter => {
+        const option = document.createElement('option');
+        option.value = reciter.id;
         option.textContent = reciter.name;
         option.dataset.code = reciter.code;
         select.appendChild(option);
-        select.disabled = false;
-    } else {
-        option.value = '';
-        option.textContent = '⏳ ' + (reciter.waitMessage || 'سيتم إضافة القارئ قريباً');
-        option.disabled = true;
-        select.appendChild(option);
-        select.disabled = true;
-    }
+    });
+
+    select.disabled = matchedMushafs.length === 0;
+
+    console.log(`✅ تم تحميل ${matchedMushafs.length} قارئ لـ: ${selectedKey}`);
+    matchedMushafs.forEach(m => console.log(`   - ${m.id}: ${m.name}`));
 }
 
 // ============================================================
@@ -336,7 +393,7 @@ function bindEvents() {
     // ============================================================
     // 📚 الرواية والقارئ
     // ============================================================
-    document.getElementById('overlayRiwayaSelect')?.addEventListener('change', (e) => {
+   document.getElementById('overlayRiwayaSelect')?.addEventListener('change', (e) => {
         selectedRiwaya = e.target.value;
         if (selectedRiwaya) {
             populateQariSelects(selectedRiwaya);
@@ -350,6 +407,10 @@ function bindEvents() {
         selectedQari = e.target.value;
         const opt = e.target.selectedOptions[0];
         selectedQariCode = opt?.dataset.code || null;
+        
+        // ✅ احفظ المفتاح لاستخدامه في loadMushafData
+        // (selectedQari = "mushaf_hafs_2" مثلاً)
+        
         updateInfoBar();
     });
 
@@ -430,12 +491,15 @@ function updateInfoBar() {
     const riwayaDisplay = document.getElementById('riwayaDisplay');
     const qariDisplay = document.getElementById('qariDisplay');
 
+    // ✅ 1. عرض الرواية
     if (riwayaDisplay) {
         const riwaya = RIWAYAT_LIST.find(r => r.id === selectedRiwaya);
         riwayaDisplay.textContent = riwaya ? riwaya.name : '— اختر الرواية —';
     }
+    
+    // ✅ 2. عرض القارئ المختار (selectedQari وليس selectedRiwaya)
     if (qariDisplay) {
-        const reciter = selectedRiwaya ? reciterMapping[selectedRiwaya] : null;
+        const reciter = selectedQari ? reciterMapping[selectedQari] : null;
         qariDisplay.textContent = reciter ? reciter.name : '— اختر القارئ —';
     }
 }
@@ -444,30 +508,27 @@ function updateInfoBar() {
 // 13. تحميل بيانات المصحف من Data/mushaf_XXX.js
 // ============================================================
 async function loadMushafData(mushafId) {
-    const fileName = mushafId.endsWith('.js') ? mushafId : `${mushafId}.js`;
-
-    // ✅ المسار الصحيح من Reader/ إلى Data/
+    // ✅ 1. تحقق من الخريطة: هل للقارئ ملف مخصص؟
+    const realMushafId = mushafFileMap[mushafId] || mushafId;
+    
+    const fileName = realMushafId.endsWith('.js') ? realMushafId : `${realMushafId}.js`;
     const filePath = `../Data/${fileName}`;
 
-    console.log('📖 محاولة تحميل:', filePath);
+    console.log(`📖 محاولة تحميل: ${filePath} (للقارئ: ${mushafId})`);
 
     try {
         const response = await fetch(filePath);
         
         if (!response.ok) {
             console.error(`❌ فشل: ${response.status} ${response.statusText}`);
-            console.error(`   المسار الكامل: ${new URL(filePath, window.location.href).href}`);
             return null;
         }
         
         const text = await response.text();
-        console.log('✅ تم تحميل الملف، الحجم:', text.length, 'حرف');
 
-        // استخراج الآيات
         const data = extractData(text);
         if (!data.length) {
-            console.warn('⚠️ لم يتم استخراج أي آية - تحقق من صيغة الملف');
-            console.log('أول 500 حرف:', text.substring(0, 500));
+            console.warn('⚠️ لم يتم استخراج أي آية');
             return null;
         }
 
@@ -521,7 +582,8 @@ async function startListening() {
     if (!selectedRiwaya)  { alert('الرجاء اختيار الرواية');  return; }
     if (!selectedQari)    { alert('الرجاء اختيار القارئ');   return; }
 
-    const reciter = reciterMapping[selectedRiwaya];
+    // ✅ استخدم selectedQari (القارئ المختار) بدل selectedRiwaya
+    const reciter = reciterMapping[selectedQari];
     if (!reciter || !reciter.available || !reciter.code) {
         alert('القارئ غير متوفر حالياً');
         return;
@@ -531,7 +593,7 @@ async function startListening() {
     if (ayahTextEl) ayahTextEl.innerHTML = '⏳ جاري تحميل المصحف...';
 
     // تحميل بيانات المصحف
-    const mushafData = await loadMushafData(selectedRiwaya);
+    const mushafData = await loadMushafData(selectedQari);
     if (!mushafData) {
         if (ayahTextEl) ayahTextEl.innerHTML = '❌ فشل تحميل المصحف';
         return;
@@ -602,7 +664,9 @@ function buildAyahsForSurah(surahNum) {
 // ============================================================
 function buildAudioUrl(reciterCode, surahNum) {
     const suraNum = String(surahNum).padStart(3, '0');
-
+    if (reciterCode === 'mohammed-alfaqih/hafs-an-asim') {
+        return `https://media.way2quran.com/${reciterCode}/${suraNum}.mp3`;
+    }
     if (reciterCode === 'abdul-rashid-soufi/abi-al-harith-an-al-kisai') {
         return `https://media.way2quran.com/${reciterCode}/${surahNum}.mp3`;
     }
@@ -633,11 +697,15 @@ function buildAudioUrl(reciterCode, surahNum) {
     if (reciterCode.includes('muftah_sultany/Rewayat')) {
         return `https://server14.mp3quran.net/${reciterCode}/${suraNum}.mp3`;
     }
+    if (reciterCode === 'abdul-rahim-nabulsi/ruways-an-yaqub-al-hadrami') {
+    return `https://media.way2quran.com/${reciterCode}/${suraNum}.mp3`;
+    }
     if (reciterCode === 'qari') {
         return `https://server11.mp3quran.net/qari/${suraNum}.mp3`;
     }
 
     return `https://server8.mp3quran.net/${reciterCode}/${suraNum}.mp3`;
+    
 }
 
 // ============================================================
@@ -894,22 +962,57 @@ function computeAyahTimings(ayahTexts, totalDuration) {
     return timings;
 }
 
-// ✅ عرض الآية الحالية مع التلوين
+// ============================================================
+// 📖 عرض الآية الحالية + رقم الآية
+// ============================================================
 function displayAyah(ayahIndex, ayahText) {
     const ayahTextEl = document.getElementById('ayahText');
+    const titleEl = document.getElementById('surahTitle');
     if (!ayahTextEl) return;
 
-    // تأثير تلاشي سريع
+    // ✅ حساب رقم الآية الحقيقي
+    let ayahNumber;
+    if (selectedSurah === 1) {
+        ayahNumber = ayahIndex + 1;
+    } else {
+        ayahNumber = ayahIndex === 0 ? 0 : ayahIndex;
+    }
+    
+    const arabicNum = ayahNumber > 0 ? toArabicNumber(ayahNumber) : '';
+
+    // ✅ تحديث عنوان السورة + رقم الآية
+    if (titleEl) {
+        const surahName = surahNames[selectedSurah - 1] || '';
+        if (arabicNum) {
+            titleEl.innerHTML = `${surahName} <span class="surah-ayah-number">${arabicNum}</span>`;
+        } else {
+            titleEl.textContent = surahName;
+        }
+    }
+
+    // ✅ عرض الآية بدون رقم (لأن الرقم في العنوان)
     ayahTextEl.style.opacity = '0';
     setTimeout(() => {
         let content = ayahText && ayahText.trim() 
             ? ayahText 
             : 'بسم ٱلله ٱلرحمن ٱلرحيم';
         
-        // ✅ بدون رقم الآية
         ayahTextEl.innerHTML = `ﵳ ${content} ﵲ`;
         ayahTextEl.style.opacity = '1';
     }, 120);
+}
+
+// ============================================================
+// 🔄 تحديث عنوان السورة + رقم الآية
+// ============================================================
+function updateSurahTitleWithNumber(surahNum, ayahNum) {
+    const titleEl = document.getElementById('surahTitle');
+    if (!titleEl) return;
+    
+    const surahName = surahNames[surahNum - 1] || '';
+    const arabicAyahNum = toArabicNumber(ayahNum);
+    
+    titleEl.innerHTML = `${surahName} <span class="surah-ayah-number">${arabicAyahNum}</span>`;
 }
 
 // ============================================================
