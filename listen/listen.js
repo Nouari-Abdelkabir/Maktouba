@@ -16,14 +16,18 @@ const reciterMapping = {
     "mushaf_qalun4":      { name: "سيتم إضافة القارئ المناسب قريباً",            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
     "mushaf_warsh1":      { name: "القارئ: ياسين الجزائري",                      code: "qari",                                                             available: true },
     "mushaf_warsh2":      { name: "القارئ: محمود خليل الحصري",                  code: "husr/Rewayat-Warsh-A-n-Nafi",                                      available: true },
+    "mushaf_warsh2_2":    { name: "القارئ: العيون الكوشي",                      code: "al-uyoun-al-kushi/warsh-an-nafi", available: true },
     "mushaf_warsh3":      { name: "سيتم إضافة القارئ المناسب قريباً",            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
     "mushaf_warsh4":      { name: "سيتم إضافة القارئ المناسب قريباً",            code: "",                                                                 available: false, waitMessage: "سيتم إضافة القارئ المناسب قريباً" },
     "mushaf_asbahani":    { name: "القارئ: محمد عبدالكريم",                     code: "m_krm/Rewayat-Warsh-A-n-Nafi-Men-Tariq-Abi-Baker-Alasbahani",      available: true },
+    "mushaf_asbahani_2": { name: "القارئ: أبو الوليد حمزة عوض الهاشمي ",     code: "abu-al-walid-hmzh-awad-al-hashimi/warsh-an-nafi-min-tariq-al-asbahani", available: true },
+    "mushaf_asbahani_3": { name: "القارئ: منصور البلحاج ",                   code: "mnswr-blhaj/warsh-an-nafi-min-tariq-al-asbahani", available: true },
     "mushaf_bazzi":       { name: "القارئ: أحمد ديبان",                          code: "deban/Rewayat-Albizi-A-n-Ibn-Katheer",                             available: true },
     "mushaf_qunbul":      { name: "القارئ: أحمد ديبان",                          code: "deban/Rewayat-Qunbol-A-n-Ibn-Katheer",                             available: true },
     "mushaf_doori1":      { name: "القارئ: أحمد ديبان",                           code: "deban/Rewayat-Aldori-A-n-Abi-Amr",                                 available: true },
     "mushaf_doori":       { name: "القارئ: صابر عبد الحكم",                      code: "The-ten-readings/Rewayat-Aldori-A-n-Abi-Amr-madd/Sabdulhakam",     available: true },
     "mushaf_soosi":       { name: "القارئ: عبد الرشيد صوفي",                      code: "soufi/Rewayat-Assosi-A-n-Abi-Amr",                                 available: true },
+    "mushaf_soosi_2":     { name: "القارئ: ياسر العتبي ",                      code: "yasser-al-atby/as-susi-an-abu-amr", available: true },
     "mushaf_hisham":      { name: "القارئ: أحمد ديبان",                           code: "deban/Rewayat-Hesham-A-n-Abi-A-mer",                               available: true },
     "mushaf_ibnDhakwan":  { name: "القارئ: مفتاح محمد سُلطاني",                    code: "muftah_sultany/Rewayat_Ibn-Thakwan-A-n-Ibn-Amer",                  available: true },
     "mushaf_hafs":        { name: "القارئ: مشاري راشد العفاسي",                 code: "afs",                                                              available: true },
@@ -34,8 +38,9 @@ const reciterMapping = {
     "mushaf_abuHarith":   { name: "القارئ: عبد الرشيد صوفي",                      code: "abdul-rashid-soufi/abi-al-harith-an-al-kisai",                     available: true },
     "mushaf_ibnWardan":   { name: "القارئ: عبد الكريم عبد الحكم",                 code: "bvc65457689565732453567786745635466786878987565y2018_gmail_002_201806", available: true },
     "mushaf_ibnJammaz":   { name: "القارئ: مفتاح السلطني",                        code: "555_20vvvvvv",                                                     available: true },
-    "mushaf_ruways":      { name: "القارئ: عبد الرحيم النابلسي (رويس)", code: "abdul-rahim-nabulsi/ruways-an-yaqub-al-hadrami", available: true },
+    "mushaf_ruways":      { name: "القارئ: أيمن المزني ",                         code: "ayman-al-mazni/ruways-an-yaqub-al-hadrami",                        available: true },
     "mushaf_ruh":         { name: "القارئ: عبد الله بن محمد الحميد",              code: "rawhhameed",                                                       available: true },
+    "mushaf_ruh_2":       { name: "القارئ: ياسر السيد حسين العطالي",            code: "yasser-al-syd-hussein-al-ataly/ruuh-an-yaqub-al-hadrami", available: true },
     "mushaf_ishaq":       { name: "القارئ: مفتاح محمد سُلطاني",                     code: "ishaq_an_khalaf",                                                  available: true },
     "mushaf_ishaq":       { name: "القارئ: مفتاح محمد سُلطاني",                     code: "ishaq_an_khalaf",                                                  available: true }
 };
@@ -47,6 +52,11 @@ const mushafFileMap = {
     // حفص: كل القراء يشتركون في نفس المصحف
     'mushaf_hafs':   'mushaf_hafs',
     'mushaf_hafs_2': 'mushaf_hafs',
+    'mushaf_ruh_2': 'mushaf_ruh',
+    "mushaf_warsh2_2": 'mushaf_warsh2',
+    "mushaf_asbahani_2": 'mushaf_asbahani',
+    'mushaf_asbahani_3': 'mushaf_asbahani',
+    'mushaf_soosi_2': 'mushaf_soosi',
 };
 
 // ============================================================
@@ -684,6 +694,31 @@ function buildAyahsForSurah(surahNum) {
 // ============================================================
 function buildAudioUrl(reciterCode, surahNum) {
     const suraNum = String(surahNum).padStart(3, '0');
+     // ✅ ياسر العطالي (روح) من way2quran
+    if (reciterCode === 'yasser-al-syd-hussein-al-ataly/ruuh-an-yaqub-al-hadrami') {
+        return `https://media.way2quran.com/${reciterCode}/${suraNum}.mp3`;
+    }
+    if (reciterCode === 'al-uyoun-al-kushi/warsh-an-nafi') {
+        return `https://media.way2quran.com/${reciterCode}/${surahNum}.mp3`;
+        //                                                        ↑
+        //                                              surahNum بدون padStart
+    }
+     // ✅ أبو الوليد الهاشمي (الأصبهاني) من way2quran
+    if (reciterCode === 'abu-al-walid-hmzh-awad-al-hashimi/warsh-an-nafi-min-tariq-al-asbahani') {
+        return `https://media.way2quran.com/${reciterCode}/${suraNum}.mp3`;
+    }
+    // ✅ منصور البلحاج (الأصبهاني) من way2quran
+    if (reciterCode === 'mnswr-blhaj/warsh-an-nafi-min-tariq-al-asbahani') {
+        return `https://media.way2quran.com/${reciterCode}/${suraNum}.mp3`;
+    }
+    // ✅ ياسر العتبي (السوسي) من way2quran
+    if (reciterCode === 'yasser-al-atby/as-susi-an-abu-amr') {
+        return `https://media.way2quran.com/${reciterCode}/${suraNum}.mp3`;
+    }
+
+
+
+
     if (reciterCode === 'mohammed-alfaqih/hafs-an-asim') {
         return `https://media.way2quran.com/${reciterCode}/${suraNum}.mp3`;
     }
@@ -717,7 +752,7 @@ function buildAudioUrl(reciterCode, surahNum) {
     if (reciterCode.includes('muftah_sultany/Rewayat')) {
         return `https://server14.mp3quran.net/${reciterCode}/${suraNum}.mp3`;
     }
-    if (reciterCode === 'abdul-rahim-nabulsi/ruways-an-yaqub-al-hadrami') {
+    if (reciterCode === 'ayman-al-mazni/ruways-an-yaqub-al-hadrami') {
     return `https://media.way2quran.com/${reciterCode}/${suraNum}.mp3`;
     }
     if (reciterCode === 'qari') {

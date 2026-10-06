@@ -34,7 +34,7 @@
 body {
     font-family: 'NouariAbdelkabir', 'Amiri', serif;
     background-color: #06202B;
-    background-image: url('images/bg1.jpg');
+    background-image: url('images/bg19.jpg');
     background-size: cover;
     background-position: center top;
     background-position: center 30%;
@@ -176,7 +176,7 @@ body {
 
 .info-value {
     font-family: 'NouariAbdelkabir', 'Amiri', serif;
-    font-size: 1.4em;
+    font-size: 1.7em;
     font-weight: 700;
     color: #ecb605;
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
