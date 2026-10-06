@@ -181,17 +181,38 @@ function initializePage() {
     populateRiwayaSelects();
     bindEvents();
     loadSavedSettings();
+    
+    // ✅ مراقبة تغيير حجم النافذة (لتبديل مجلد الصور)
+    let lastIsMobile = window.innerWidth <= 768;
+    
+    window.addEventListener('resize', () => {
+        const isMobileNow = window.innerWidth <= 768;
+        
+        // إذا تغيّر الوضع (حاسوب ↔ هاتف)
+        if (isMobileNow !== lastIsMobile) {
+            lastIsMobile = isMobileNow;
+            console.log(`🔄 تبديل الوضع: ${isMobileNow ? 'هاتف' : 'حاسوب'} - إعادة تحميل الصور`);
+            loadBackgroundImages();
+        }
+    });
 }
- 
 // ============================================================
 // 🖼️ تحميل صور الخلفية - نسخة موحدة (حاسوب + هاتف)
 // ============================================================
+let currentBgFolder = null;  // ✅ متغير لتتبع المجلد الحالي
+
 async function loadBackgroundImages() {
     const isMobile = window.innerWidth <= 768;
-    const MAX_IMAGES = 50;
-    
-    // ✅ مجلد الصور حسب الجهاز
     const folder = isMobile ? 'images_mobile' : 'images';
+    
+    // ✅ إذا كنا نحمل من نفس المجلد، لا نعيد التحميل
+    if (currentBgFolder === folder && backgroundImages.length > 0) {
+        console.log(`⏭️ تخطي التحميل - نفس المجلد (${folder})`);
+        return;
+    }
+    
+    currentBgFolder = folder;
+    const MAX_IMAGES = 50;
     
     console.log(`🖼️ تحميل صور من مجلد: ${folder}`);
     
@@ -202,16 +223,16 @@ async function loadBackgroundImages() {
         allImages.push(`${folder}/bg${i}.jpeg`);
         allImages.push(`${folder}/bg${i}.png`);
         allImages.push(`${folder}/bg${i}.webp`);
-        allImages.push(`${folder}/bg${i}.gif`)
+        allImages.push(`${folder}/bg${i}.gif`);
     }
     
     // ✅ التحقق
     const validImages = await checkImages(allImages);
-    console.log(`✅ تم العثور على ${validImages.length} صورة`);
+    console.log(`✅ تم العثور على ${validImages.length} صورة في ${folder}`);
     
     if (validImages.length === 0) {
-        console.warn('⚠️ لم يتم العثور على أي صورة - استخدام الخلفية الافتراضية');
-        return;  // ✅ الخلفية الافتراضية من CSS ستبقى
+        console.warn(`⚠️ لا توجد صور في ${folder} - استخدام الخلفية الافتراضية`);
+        return;
     }
     
     // ✅ ترتيب حسب الرقم
@@ -221,7 +242,7 @@ async function loadBackgroundImages() {
         return numA - numB;
     });
     
-    // ✅ **نطبق الصور على body** (نفس الطريقة للحاسوب والهاتف)
+    // ✅ **نطبق الصور على body**
     document.body.style.backgroundImage = `url('${validImages[0]}')`;
     
     // ✅ تبديل تلقائي كل 10 ثوان
@@ -233,9 +254,8 @@ async function loadBackgroundImages() {
         document.body.style.backgroundImage = `url('${validImages[currentIndex]}')`;
     }, 10000);
     
-    console.log(`🖥️📱 تم تفعيل خلفيات ${isMobile ? 'الهاتف' : 'الحاسوب'} (${validImages.length} صورة)`);
+    console.log(`✅ تم تفعيل خلفيات ${isMobile ? '📱 الهاتف' : '🖥️ الحاسوب'} (${validImages.length} صورة)`);
 }
-
 // ============================================================
 // ✅ التحقق من وجود الصور (بالتوازي)
 // ============================================================
