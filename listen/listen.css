@@ -30,6 +30,7 @@
     box-sizing: border-box;
 }
 
+
 /* ✅ الخلفية الموحدة (حاسوب + هاتف) */
 body {
     font-family: 'NouariAbdelkabir', 'Amiri', serif;
@@ -76,20 +77,20 @@ body {
 .main-nav ul {
     list-style: none;
     display: flex;
-    gap: 15px;
+    gap: 20px;
 }
 
 .main-nav ul li a {
     color: #FFFFFF;
     text-decoration: none;
-    font-size: 1em;
+    font-size: 1.2em;
     padding: 10px 10px;
-    border-radius: 12px;
+    border-radius: 30px;
     transition: all 0.3s ease;
 }
 
 .main-nav ul li a:hover {
-    background: rgba(253, 235, 158, 0.15);
+    background: rgba(218, 193, 79, 0.76);
 }
 
 /* ============ 2.2 الواجهة الرئيسية ============ */
@@ -127,14 +128,33 @@ body {
     justify-content: center;
     padding: 30px;
     text-align: center;
+    overflow-y: auto;              /* ✅ السماح بالتمرير */
+    overflow-x: hidden;
+    scrollbar-width: thin;         /* Firefox */
+    scrollbar-color: rgba(253, 235, 158, 0.4) transparent;
 }
-
+/* ✅ شريط التمرير الأنيق */
+.content-overlay::-webkit-scrollbar {
+    width: 6px;
+}
+.content-overlay::-webkit-scrollbar-track {
+    background: transparent;
+}
+.content-overlay::-webkit-scrollbar-thumb {
+    background: rgba(253, 235, 158, 0.4);
+    border-radius: 10px;
+}
+.content-overlay::-webkit-scrollbar-thumb:hover {
+    background: rgba(253, 235, 158, 0.7);
+}
 .surah-title {
-    font-size: 4em;
+    font-size: clamp(2em, 3.5vw + 1rem, 4em);
     color: #FDEB9E;
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-    margin-bottom: 1.5em;
+    margin-bottom: 1em;
+    margin-top: 1em;    
     font-weight: 700;
+     flex-shrink: 0;   
 }
 
 .ayah-box {
@@ -146,6 +166,7 @@ body {
     padding: 0;
     max-width: 80%;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
 }
 
 .ayah-text {
@@ -157,26 +178,29 @@ body {
     border: 2px solid rgba(201, 168, 107, 0.6);
     color: #1a1a1a;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    font-size: 2.7em;
+     font-size: clamp(1.5em, 2.5vw + 1rem, 2.7em);
     transition: opacity 0.15s ease;
+     word-wrap: break-word; 
+     overflow-wrap: break-word;
+    hyphens: auto; 
 }
 
 /* ============ 2.4 شريط المعلومات ============ */
 .info-bar {
-    position: absolute;
-    bottom: 40px;
+    position: fixed;                /* ← ثابت على الشاشة */
+    bottom: clamp(60px, 8vh, 90px); /* ← فوق المشغل بمسافة آمنة */
     left: 20px;
     right: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 3;
+    z-index: 400;                   /* ← أقل من المشغل (500) */
     pointer-events: none;
 }
 
 .info-value {
     font-family: 'NouariAbdelkabir', 'Amiri', serif;
-    font-size: 1.7em;
+     font-size: clamp(1em, 1.5vw + 0.5rem, 1.7em);
     font-weight: 700;
     color: #ecb605;
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
@@ -192,60 +216,137 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.75);
+   
     z-index: 1000;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: clamp(15px, 3vw, 40px);
     overflow-y: auto;
 }
 
 .selector-overlay.show {
     display: flex;
+    animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 .selector-box {
-    background: rgba(6, 32, 43, 0.98);
     border: 2px solid #FDEB9E;
-    border-radius: 20px;
-    padding: 25px 30px;
-    max-width: 820px;
+    border-radius: clamp(15px, 2vw, 25px);
+    padding: clamp(20px, 2.5vw, 35px);
+    max-width: clamp(600px, 75vw, 950px);
     width: 100%;
-    max-height: 90vh;
+    max-height: clamp(70vh, 85vh, 90vh);
     overflow-y: auto;
     position: relative;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    animation: slideUp 0.35s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ✅ شريط التمرير الداخلي */
+.selector-box::-webkit-scrollbar {
+    width: 8px;
+}
+.selector-box::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+.selector-box::-webkit-scrollbar-thumb {
+    background: #7AE2CF;
+    border-radius: 10px;
+}
+.selector-box::-webkit-scrollbar-thumb:hover {
+    background: #FDEB9E;
 }
 
 .close-selector {
     position: absolute;
-    top: 15px;
-    left: 20px;
-    background: none;
-    border: none;
+    top: clamp(12px, 1.5vw, 20px);
+    left: clamp(12px, 1.5vw, 20px);
+    width: clamp(30px, 3vw, 40px);
+    height: clamp(30px, 3vw, 40px);
+    background: rgba(253, 235, 158, 0.12);
+    border: 1px solid rgba(253, 235, 158, 0.4);
+    border-radius: 50%;
     color: #FDEB9E;
-    font-size: 1.5em;
+    font-size: clamp(1em, 1.5vw, 1.4em);
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
 }
 
 .close-selector:hover {
-    color: #FF6B6B;
-    transform: scale(1.2);
+    background: #FF6B6B;
+    border-color: #FF6B6B;
+    color: #FFFFFF;
+    transform: rotate(90deg) scale(1.1);
 }
 
-.selector-section {
-    margin-bottom: 20px;
+.surah-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(clamp(85px, 8vw, 120px), 1fr));
+    gap: clamp(5px, 0.8vw, 10px);
+    max-height: clamp(250px, 35vh, 380px);
+    overflow-y: auto;
+    padding: clamp(4px, 0.5vw, 8px);
+    direction: rtl;
 }
 
-.selector-section h3 {
-    color: #FDEB9E;
-    font-size: 1.1em;
-    margin-bottom: 12px;
-    border-bottom: 2px solid #7AE2CF;
-    padding-bottom: 8px;
-    text-align: right;
+.surah-grid::-webkit-scrollbar {
+    width: 6px;
+}
+.surah-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+.surah-grid::-webkit-scrollbar-thumb {
+    background: #7AE2CF;
+    border-radius: 10px;
+}
+
+.surah-btn {
+    background: rgba(10, 48, 64, 0.8);
+    color: #FFFFFF;
+    border: 1px solid #7AE2CF;
+    border-radius: 8px;
+    padding: clamp(6px, 0.9vh, 12px) clamp(4px, 0.5vw, 8px);
+    font-family: 'NouariAbdelkabir', 'Amiri', serif;
+    font-size: clamp(0.7em, 0.9vw, 0.88em);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+    min-height: clamp(36px, 5vh, 48px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.surah-btn:hover {
+    background: rgba(122, 226, 207, 0.25);
+    transform: translateY(-2px);
+}
+
+.surah-btn.active {
+    background: #FDEB9E;
+    color: #06202B;
+    font-weight: bold;
+    border-color: #FDEB9E;
 }
 
 /* ============ 2.6 شبكة السور ============ */
@@ -306,10 +407,10 @@ body {
 .controls-row {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    gap: 12px;
+    gap: clamp(10px, 1.5vw, 18px);
     align-items: end;
-    margin-top: 15px;
-    padding-top: 15px;
+    margin-top: clamp(15px, 2vh, 25px);
+    padding-top: clamp(15px, 2vh, 25px);
     border-top: 2px solid #7AE2CF;
 }
 
@@ -322,7 +423,7 @@ body {
 
 .control-label {
     color: #FDEB9E;
-    font-size: 0.9em;
+    font-size: clamp(1em, 1vw, 1.2em);
     font-weight: bold;
     text-align: right;
 }
@@ -332,10 +433,10 @@ body {
     background: rgba(10, 48, 64, 0.8);
     color: #FFFFFF;
     border: 1px solid #7AE2CF;
-    border-radius: 8px;
-    padding: 10px 12px;
+    border-radius: 10px;
+    padding: clamp(8px, 1.2vh, 12px) clamp(10px, 1vw, 15px);
     font-family: 'NouariAbdelkabir', 'Amiri', serif;
-    font-size: 0.9em;
+    font-size: clamp(0.8em, 1vw, 0.95em);
     cursor: pointer;
     outline: none;
     transition: border-color 0.3s ease;
@@ -353,13 +454,13 @@ body {
 }
 
 .start-listening-btn {
-    width: 50px;
-    height: 50px;
+    width: clamp(45px, 5vw, 55px);
+    height: clamp(45px, 5vw, 55px);
     background: #FDEB9E;
     color: #06202B;
     border: none;
     border-radius: 50%;
-    font-size: 1.3em;
+    font-size: clamp(1.1em, 1.4vw, 1.35em);
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
@@ -368,12 +469,13 @@ body {
     box-shadow: 0 4px 15px rgba(253, 235, 158, 0.3);
     flex-shrink: 0;
     align-self: end;
-    margin-bottom: 1px;
+    margin-bottom: 2px;
 }
 
 .start-listening-btn:hover {
     background: #E6D17B;
     transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(253, 235, 158, 0.5);
 }
 
 .start-listening-btn:active {
@@ -602,19 +704,36 @@ body.fullscreen-mode:hover .audio-player {
 }
 
 #fullscreenBtn:hover {
-    background: rgba(253, 235, 158, 0.15);
+    background: rgba(238, 205, 56, 0.808);
 }
 
-body.fullscreen-mode #fullscreenBtn::before {
-    content: '⛉';
-}
-
+/* ✅ عند تفعيل ملء الشاشة */
 body.fullscreen-mode #fullscreenBtn {
     font-size: 0;
+    position: relative;
+    padding: 10px 10px;                  /* ← نفس .main-nav a */
+    border-radius: 12px;                 /* ← نفس */
+    transition: all 0.3s ease;
+    background: transparent;             /* ← شفاف افتراضياً */
 }
 
-body.fullscreen-mode #fullscreenBtn::before {
-    font-size: 1.2em;
+body.fullscreen-mode #fullscreenBtn::after {
+    content: 'خروج';
+    font-family: 'NouariAbdelkabir', 'Amiri', serif;
+    font-size: 0.9rem;
+    color: #FF6B6B;
+    font-weight: bold;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+body.fullscreen-mode #fullscreenBtn:hover {
+    background: rgba(253, 235, 158, 0.15);  /* ← نفس .main-nav a:hover */
 }
 
 body.fullscreen-mode .listen-container {
@@ -623,11 +742,11 @@ body.fullscreen-mode .listen-container {
 }
 
 body.fullscreen-mode .listen-main {
-    padding: 0;
+    padding: 10;
 }
 
 body.fullscreen-mode .content-overlay {
-    padding: 20px 15px;
+    padding: 20px 20px;
 }
 
 
@@ -657,7 +776,7 @@ body.fullscreen-mode .content-overlay {
     .main-header { padding: 6px 12px; }
     .logo h1 { font-size: 0.9em; }
     .main-nav ul { gap: 6px; }
-    .main-nav ul li a { font-size: 0.85em; padding: 8px 12px; }
+    .main-nav ul li a { font-size: 1em; padding: 8px 12px; }
     
     /* ✅ الواجهة الرئيسية */
     .listen-main { padding: 0; }
@@ -667,7 +786,7 @@ body.fullscreen-mode .content-overlay {
     }
     
     /* ✅ المحتوى */
-    .content-overlay { padding: 20px 15px 90px; }
+    .content-overlay { padding: 20px 15px 90px; overflow-y: auto;  justify-content: flex-start; padding-top: 80px; }
     
     /* ✅ عنوان السورة */
     .surah-title {
@@ -688,42 +807,69 @@ body.fullscreen-mode .content-overlay {
     
     /* ✅ شريط المعلومات */
     .info-bar {
-        bottom: 40px;
+        bottom: clamp(55px, 9vh, 75px);  /* ← أعلى قليلاً في الهاتف */
         left: 15px;
         right: 15px;
     }
     .info-value { font-size: 1em; }
     
     /* ✅ شاشة الاختيار */
+    /* ✅ شاشة الاختيار في الهاتف - مركزية ومتجاوبة */
     .selector-overlay {
-        padding: 0;
-        align-items: flex-end;
-    }
-    .selector-box {
-        max-width: 100%;
-        width: 100%;
-        max-height: 92vh;
-        border-radius: 25px 25px 0 0;
-        padding: 20px 15px;
-        animation: slideUp 0.3s ease-out;
-    }
-    @keyframes slideUp {
-        from { transform: translateY(100%); }
-        to   { transform: translateY(0); }
-    }
-    .close-selector {
-        top: 12px;
-        left: 15px;
-        width: 35px;
-        height: 35px;
-        background: rgba(253, 235, 158, 0.15);
-        border-radius: 50%;
-        font-size: 1.2em;
-        display: flex;
-        align-items: center;
+        padding: clamp(12px, 4vw, 20px);
+        align-items: center;               /* ← مركزي بدلاً من الأسفل */
         justify-content: center;
     }
-    .selector-section h3 { font-size: 1em; padding-bottom: 6px; }
+
+    .selector-box {
+        max-width: 96vw;                   /* ← ملء العرض تقريباً */
+        width: 100%;
+        max-height: 88vh;                  /* ← ارتفاع مناسب */
+        border-radius: 20px;               /* ← زوايا كل الاتجاهات */
+        padding: clamp(18px, 4vw, 25px);
+    }
+
+    /* ✅ شبكة السور في الهاتف */
+    .surah-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        max-height: clamp(240px, 32vh, 320px);
+        gap: clamp(5px, 1vw, 8px);
+    }
+
+    .surah-btn {
+        font-size: clamp(0.68em, 2.5vw, 0.78em);
+        padding: clamp(8px, 1.5vh, 12px) clamp(4px, 1vw, 6px);
+        min-height: clamp(38px, 5vh, 46px);
+    }
+
+    /* ✅ صف التحكم - عمودي في الهاتف */
+    .controls-row {
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(8px, 2vw, 12px);
+        align-items: stretch;
+    }
+
+    .control-label {
+        font-size: clamp(0.9em, 2.5vw, 1em);
+    }
+
+    .overlay-select {
+        padding: clamp(10px, 1.5vh, 14px) clamp(8px, 2vw, 12px);
+        font-size: clamp(0.78em, 2.5vw, 0.88em);
+        min-height: clamp(42px, 5vh, 48px);
+    }
+
+    .start-listening-btn {
+        grid-column: 1 / -1;
+        width: 100%;
+        height: clamp(44px, 6vh, 52px);
+        border-radius: 12px;
+        font-size: clamp(1em, 3vw, 1.2em);
+        order: 3;
+        margin-top: 5px;
+        align-self: stretch;
+        margin-bottom: 0;
+    }
     
     /* ✅ شبكة السور */
     .surah-grid {
@@ -743,34 +889,56 @@ body.fullscreen-mode .content-overlay {
     }
     
     /* ✅ صف التحكم */
+    /* ✅ صف التحكم - نفس تخطيط الحاسوب */
     .controls-row {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        align-items: stretch;
+        grid-template-columns: 1fr auto 1fr;    /* ← نفس الحاسوب */
+        gap: clamp(8px, 2vw, 14px);
+        align-items: end;
+        margin-top: clamp(15px, 2vh, 25px);
+        padding-top: clamp(15px, 2vh, 25px);
+        border-top: 2px solid #7AE2CF;
     }
-    .control-label { font-size: 0.8em; }
+
+    .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+    }
+
+    .control-label {
+        font-size: clamp(0.7em, 2.2vw, 0.82em);
+        text-align: right;
+    }
+
     .overlay-select {
-        padding: 12px 10px;
-        font-size: 0.85em;
-        border-radius: 10px;
-        min-height: 44px;
+        padding: clamp(8px, 1.2vh, 11px) clamp(8px, 1.5vw, 10px);
+        font-size: clamp(0.72em, 2.2vw, 0.82em);
+        min-height: clamp(38px, 5vh, 44px);
+        border-radius: 8px;
     }
+
+    /* ✅ زر البدء الدائري في المنتصف */
     .start-listening-btn {
-        grid-column: 1 / -1;
-        width: 100%;
-        height: 48px;
-        border-radius: 12px;
-        font-size: 1.2em;
-        order: 3;
-        margin-top: 5px;
+        grid-column: auto;                       /* ← إلغاء full-width */
+        width: clamp(44px, 11vw, 52px);          /* ← دائري بحجم مناسب */
+        height: clamp(44px, 11vw, 52px);
+        border-radius: 50%;                      /* ← دائري */
+        font-size: clamp(1.1em, 3vw, 1.3em);
+        order: 0;                                /* ← إلغاء الترتيب السابق */
+        margin-top: 0;
+        margin-bottom: 2px;                      /* ← محاذاة مع القوائم */
+        align-self: end;
+        flex-shrink: 0;
+        box-shadow: 0 4px 15px rgba(253, 235, 158, 0.4);
     }
     
     /* ============================================================
        📱 مشغل الصوت في الهاتف - مضغوط
        ============================================================ */
     .audio-player {
-        padding: 6px 8px;
-        gap: 3px;
+        padding: clamp(4px, 1vh, 8px) clamp(6px, 1vw, 10px);
+        gap: clamp(2px, 0.5vw, 5px);
         width: 100vw;
         max-width: 100vw;
         box-sizing: border-box;
@@ -900,20 +1068,68 @@ body.fullscreen-mode .content-overlay {
 /* ============ 6.3 للهواتف الصغيرة (480px) ============ */
 @media (max-width: 480px) {
     .logo h1 { font-size: 0.8em; }
-    .main-nav ul li a { font-size: 0.8em; padding: 6px 10px; }
+    .main-nav ul li a { font-size: 1em; padding: 6px 10px; }
     
     .surah-title { font-size: 3em; margin-bottom: 30px; }
     .ayah-text { font-size: 1.9em; padding: 5px 5px; line-height: 1.9; }
     
-    .info-bar { bottom: 40px; left: 10px; right: 10px; }
+    .info-bar {  bottom: clamp(55px, 9vh, 75px);  /* ← أعلى قليلاً في الهاتف */ left: 10px; right: 10px; }
     .info-value { font-size: 1em; }
     
     .surah-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
     .surah-btn { font-size: 0.7em; padding: 8px 3px; min-height: 38px; }
     
-    .selector-box { padding: 18px 12px; }
-    .overlay-select { padding: 10px 8px; font-size: 0.8em; }
-    .start-listening-btn { height: 44px; font-size: 1.1em; }
+    /* ✅ شاشة الاختيار للشاشات الصغيرة */
+.selector-overlay {
+        padding: 10px;
+    }
+
+    .selector-box {
+        max-width: 98vw;
+        max-height: 90vh;
+        padding: 15px 12px;
+        border-radius: 18px;
+    }
+
+    .close-selector {
+        top: 10px;
+        left: 10px;
+        width: 32px;
+        height: 32px;
+        font-size: 1em;
+    }
+
+    .selector-section h3 {
+        font-size: 0.95em;
+        padding-bottom: 5px;
+    }
+
+    .surah-grid {
+        grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+        gap: 5px;
+        max-height: 240px;
+    }
+
+    .surah-btn {
+        font-size: 0.7em;
+        padding: 7px 3px;
+        min-height: 36px;
+    }
+
+    .controls-row {
+        gap: 8px;
+    }
+
+    .overlay-select {
+        padding: 10px 8px;
+        font-size: 0.78em;
+        min-height: 42px;
+    }
+
+    .start-listening-btn {
+        height: 44px;
+        font-size: 1em;
+    }
     
     /* ✅ مشغل الصوت */
     .player-btn { width: 28px; height: 28px; font-size: 0.65em; }
@@ -964,7 +1180,7 @@ body.fullscreen-mode .content-overlay {
     .content-overlay { padding: 10px 20px 80px; }
     .surah-title { font-size: 3em; margin-bottom: 30px; }
     .ayah-text { font-size: 1.5em; padding: 5px 5px; line-height: 1.8; }
-    .info-bar { bottom: 40px; }
+    .info-bar {  bottom: clamp(55px, 9vh, 75px);  /* ← أعلى قليلاً في الهاتف */ }
 }
 
 .surah-ayah-number {

@@ -1055,6 +1055,11 @@ function displayAyah(ayahIndex, ayahText) {
         ayahTextEl.innerHTML = `ﵳ ${content} ﵲ`;
         ayahTextEl.style.opacity = '1';
     }, 120);
+    // ✅ تمرير تلقائي إلى الأعلى عند عرض آية جديدة
+    const overlay = document.querySelector('.content-overlay');
+    if (overlay && overlay.scrollHeight > overlay.clientHeight) {
+        overlay.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 }
 
 // ============================================================
