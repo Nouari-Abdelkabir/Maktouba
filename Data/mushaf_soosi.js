@@ -6393,7 +6393,7 @@ const quranData = [
     { sura: 104, name: "سُورَةُ الهُمَزَةِ", ayah: 5, text: " وَمَا أَدۡ<span class='c4'>ر۪ىٰ</span>كَ مَا ٱلۡحُطَمَةُ ", page: 601 },
     { sura: 104, name: "سُورَةُ الهُمَزَةِ", ayah: 6, text: " نَارُ ٱللَّهِ ٱلۡمُوقَدَةُ ", page: 601 },
     { sura: 104, name: "سُورَةُ الهُمَزَةِ", ayah: 7, text: " ٱلَّتِي تَطَّلِ<span class='c3'>ع عَّ</span>لَى ٱلۡأَفۡـِٔدَةِ ", page: 601 },
-    { sura: 104, name: "سُورَةُ الهُمَزَةِ", ayah: 8, text: " إِنَّــهَا عَلَيۡهِم مُّ<span class='c7'>و</span>صَدَةٞ ", page: 601 },
+    { sura: 104, name: "سُورَةُ الهُمَزَةِ", ayah: 8, text: " إِنَّــهَا عَلَيۡهِم مُّؤۡصَدَةٞ ", page: 601 },
     { sura: 104, name: "سُورَةُ الهُمَزَةِ", ayah: 9, text: " فِي عــَمَدٖ مُّمَدَّدَ<span class='c5'>هۡۜ</span> ", page: 601 },
     { sura: 105, name: "سُورَةُ الفِيلِ", ayah: 0, text: "سُورَةُ الفِيلِ", page: 601 },
     { sura: 105, name: "سُورَةُ الفِيلِ", ayah: 0, text: "<span class='c5'>بسم ٱلله ٱلرحمن ٱلرحيم</span><span class='c1'>/ْ</span>", page: 601 },
