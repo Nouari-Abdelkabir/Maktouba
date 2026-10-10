@@ -60,6 +60,26 @@ const mushafFileMap = {
 };
 
 // ============================================================
+// 🗺️ خريطة: القارئ → مجلد الملفات في alignments/
+// ============================================================
+const alignmentsMap = {
+    // حفص
+    'mushaf_hafs':       'mushaf_hafs/afs',
+    'mushaf_hafs_2':     'mushaf_hafs/mohammed-alfaqih',
+    
+    // الأصبهاني
+    'mushaf_asbahani_3': 'mushaf_asbahani/mnswr-blhaj',
+    
+    // البزي
+    'mushaf_bazzi':      'mushaf_bazzi/deban-bazzi',
+    
+    // هشام
+    'mushaf_hisham':     'mushaf_hisham/deban-hisham',
+    
+    // أضف باقي القراء هنا حسب المجلدات الموجودة
+};
+
+// ============================================================
 // 2. قائمة المصاحف (الروايات) - مبنية من reciterMapping
 // ============================================================
 const RIWAYAT_LIST = [
@@ -639,6 +659,18 @@ async function startListening() {
     buildAyahsForSurah(selectedSurah);
     currentAyahIndex = -1;
     ayahTimings = [];
+    
+    // 🎯 محاولة تحميل توقيتات دقيقة من alignments/
+    const fileTimings = await loadAlignmentsTimings(selectedQari, selectedSurah);
+    
+    if (fileTimings) {
+        // ✅ توقيتات دقيقة 100%
+        ayahTimings = fileTimings;
+        console.log('🎯 استخدام توقيتات دقيقة من alignments/');
+    } else {
+        // ⚠️ الحساب التقريبي (سيتم عند updateDuration)
+        console.log('⚠️ لا يوجد ملف توقيتات - استخدام الحساب التقريبي');
+    }
 
     // ✅ عرض أول آية فوراً
     if (currentAyahTexts.length > 0) {
@@ -893,21 +925,27 @@ function updateDuration() {
     
     if (audioPlayer && audioPlayer.duration && currentAyahTexts.length > 0) {
         
-        // ✅ 1. جرّب استرجاع التوقيتات المحفوظة أولاً
+        // ✅ 1. إذا كانت التوقيتات الدقيقة محمّلة مسبقاً → لا تلمسها
+        if (ayahTimings.length > 0 && ayahTimings[0].start !== undefined) {
+            console.log('✅ الاحتفاظ بالتوقيتات الدقيقة المحمّلة');
+            currentAyahIndex = -1;
+            syncAyahWithCurrentTime();
+            return;
+        }
+        
+        // ✅ 2. جرّب استرجاع التوقيتات المحفوظة
         const savedTimings = loadSavedTimings();
         
         if (savedTimings) {
             ayahTimings = savedTimings;
             console.log('✅ استخدام توقيتات محفوظة سابقاً');
         } else {
-            // ✅ 2. احسب توقيتات جديدة
+            // ✅ 3. احسب توقيتات جديدة
             ayahTimings = computeAyahTimings(currentAyahTexts, audioPlayer.duration);
             console.log('✅ تم حساب توقيتات جديدة');
         }
         
         currentAyahIndex = -1;
-        
-        // ✅ مزامنة فورية
         syncAyahWithCurrentTime();
     }
 }
@@ -1659,3 +1697,87 @@ document.addEventListener('DOMContentLoaded', () => {
         isFullscreenMode = true;
     }
 });
+
+
+
+// ============================================================
+// 🗺️ استثناءات: حالات لا يتبع فيها اسم المجلد النمط
+// ============================================================
+const alignmentsExceptions = {
+    'mushaf_bazzi':   'deban-bazzi',
+    'mushaf_hisham':  'deban-hisham',
+    'mushaf_qunbul':  'deban-qunbul',
+    'mushaf_doori1':  'deban-doori',
+    'mushaf_shubah':  'deban-shubah',
+};
+
+// ============================================================
+// 📂 تحميل توقيتات دقيقة من مجلد alignments/
+// ============================================================
+async function loadAlignmentsTimings(reciterKey, surahNum) {
+    const reciter = reciterMapping[reciterKey];
+    if (!reciter || !reciter.code) {
+        console.log('ℹ️ لا يوجد كود لهذا القارئ:', reciterKey);
+        return null;
+    }
+    
+    const fileName = String(surahNum).padStart(3, '0') + '.json';
+    
+    // ✅ 1. mushaf_id = المفتاح كما هو (بدون حذف أرقام!)
+    // mushaf_hafs → mushaf_hafs
+    // mushaf_hafs_2 → mushaf_hafs_2 ❌ خطأ
+    // نريد mushaf_hafs فقط للـ _2
+    // والحل: احذف فقط _رقم (بدون حذف أرقام ملتصقة)
+    const mushafId = reciterKey.replace(/_\d+$/, '');
+    
+    // ✅ 2. reciter_id من الكود
+    let reciterId = reciter.code.split('/')[0];
+    
+    // ✅ 3. إذا كان هناك استثناء، استخدمه
+    if (alignmentsExceptions[reciterKey]) {
+        reciterId = alignmentsExceptions[reciterKey];
+    }
+    
+    // ✅ 4. بناء قائمة المسارات (بدون deban- العشوائي)
+    const possiblePaths = [
+        // 1. mushaf_id مع reciterId
+        `alignments/${mushafId}/${reciterId}/${fileName}`,
+        // 2. مع ../ للمجلد الأب
+        `../alignments/${mushafId}/${reciterId}/${fileName}`,
+        // 3. بدون حذف _رقم (للاحتياط)
+        `alignments/${reciterKey}/${reciterId}/${fileName}`,
+        // 4. المسار المطلق
+        `alignments/${mushafId}/${reciterKey.replace('mushaf_', '')}/${fileName}`,
+    ];
+    
+    for (const path of possiblePaths) {
+        try {
+            console.log('📂 محاولة:', path);
+            const response = await fetch(path);
+            
+            if (!response.ok) continue;
+            
+            const data = await response.json();
+            
+            if (!data.ayahs || !Array.isArray(data.ayahs)) {
+                console.warn('⚠️ بنية ملف غير صحيحة');
+                continue;
+            }
+            
+            const timings = data.ayahs.map(a => ({
+                num: a.ayah_number,
+                start: a.start,
+                end: a.end
+            }));
+            
+            console.log(`✅ تم تحميل ${timings.length} توقيت من: ${path}`);
+            return timings;
+            
+        } catch (err) {
+            // جرّب المسار التالي
+        }
+    }
+    
+    console.log('ℹ️ لا يوجد ملف توقيتات:', reciterKey, '/', surahNum);
+    return null;
+}
