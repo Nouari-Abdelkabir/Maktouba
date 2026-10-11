@@ -634,7 +634,6 @@ async function startListening() {
     if (!selectedRiwaya)  { alert('الرجاء اختيار الرواية');  return; }
     if (!selectedQari)    { alert('الرجاء اختيار القارئ');   return; }
 
-    // ✅ استخدم selectedQari (القارئ المختار) بدل selectedRiwaya
     const reciter = reciterMapping[selectedQari];
     if (!reciter || !reciter.available || !reciter.code) {
         alert('القارئ غير متوفر حالياً');
@@ -644,7 +643,6 @@ async function startListening() {
     const ayahTextEl = document.getElementById('ayahText');
     if (ayahTextEl) ayahTextEl.innerHTML = '⏳ جاري تحميل المصحف...';
 
-    // تحميل بيانات المصحف
     const mushafData = await loadMushafData(selectedQari);
     if (!mushafData) {
         if (ayahTextEl) ayahTextEl.innerHTML = '❌ فشل تحميل المصحف';
@@ -657,21 +655,32 @@ async function startListening() {
     const player = document.getElementById('audioPlayer');
     if (player) player.style.display = 'flex';
 
-    // ✅ بناء قائمة الآيات مع البسملة
     buildAyahsForSurah(selectedSurah);
     currentAyahIndex = -1;
     ayahTimings = [];
     
-    // 🎯 محاولة تحميل توقيتات دقيقة من alignments/
+    // ✅ 1. أعد تعيين الأزرار (افتراضياً ظاهرة)
+    const syncBtn = document.getElementById('syncModeBtn');
+    const resetBtn = document.getElementById('resetTimingsBtn');
+    if (syncBtn) syncBtn.style.display = 'flex';
+    if (resetBtn) resetBtn.style.display = 'flex';
+
+    // 🎯 محاولة تحميل توقيتات دقيقة
     const fileTimings = await loadAlignmentsTimings(selectedQari, selectedSurah);
     
     if (fileTimings) {
-        // ✅ توقيتات دقيقة 100%
         ayahTimings = fileTimings;
-        console.log('🎯 استخدام توقيتات دقيقة من alignments/');
+        console.log('🎯 استخدام توقيتات دقيقة');
+        
+        // ✅ إخفاء الأزرار
+        if (syncBtn) syncBtn.style.display = 'none';
+        if (resetBtn) resetBtn.style.display = 'none';
     } else {
-        // ⚠️ الحساب التقريبي (سيتم عند updateDuration)
-        console.log('⚠️ لا يوجد ملف توقيتات - استخدام الحساب التقريبي');
+        console.log('⚠️ لا يوجد ملف - حساب تقريبي');
+        
+        // ✅ إظهار الأزرار
+        if (syncBtn) syncBtn.style.display = 'flex';
+        if (resetBtn) resetBtn.style.display = 'flex';
     }
 
     // ✅ عرض أول آية فوراً
@@ -688,7 +697,6 @@ async function startListening() {
     updateInfoBar();
     saveSettings();
     
-    // ✅ إشعار
     showToast(`🎧 ${RIWAYAT_LIST.find(r => r.id === selectedRiwaya)?.name || ''} - ${surahNames[selectedSurah - 1]}`);
 }
 
@@ -1164,37 +1172,62 @@ function updatePlayPauseButtons() {
     if (pauseBtn) pauseBtn.style.opacity = isPlaying ? '1' : '0.5';
 }
 
-// ✅ الانتقال للسورة التالية
+// ============================================================
+// 🎧 عند انتهاء السورة — الانتقال للسورة التالية
+// ============================================================
 async function onAudioEnded() {
     const nextSurah = selectedSurah + 1;
     
     if (nextSurah > surahNames.length) {
         isPlaying = false;
         updatePlayPauseButtons();
+        console.log('🎉 انتهت كل السور');
         return;
     }
-
+    
+    console.log(`🎧 الانتقال إلى السورة ${nextSurah}`);
+    
+    // ✅ 1. حدّث السورة
     selectedSurah = nextSurah;
     updateSurahTitle(nextSurah);
-
-    // ✅ ابدأ الصوت فوراً
-    const audioUrl = buildAudioUrl(selectedQariCode, nextSurah);
     
-    // ✅ بناء الآيات
+    // ✅ 2. ابنِ نصوص الآيات
     buildAyahsForSurah(nextSurah);
     currentAyahIndex = -1;
-    ayahTimings = []; // ← سلسلة جديدة، ستحسب عند updateDuration
+    ayahTimings = [];
     
-    // ✅ عرض أول آية
+    // ✅ 3. حمّل التوقيتات الدقيقة **قبل** الصوت
+    const fileTimings = await loadAlignmentsTimings(selectedQari, nextSurah);
+
+    // ✅ تحديث حالة الأزرار
+    const syncBtn = document.getElementById('syncModeBtn');
+    const resetBtn = document.getElementById('resetTimingsBtn');
+
+    if (fileTimings) {
+        ayahTimings = fileTimings;
+        console.log(`🎯 توقيتات دقيقة للسورة ${nextSurah}`);
+        
+        // ✅ إخفاء الأزرار
+        if (syncBtn) syncBtn.style.display = 'none';
+        if (resetBtn) resetBtn.style.display = 'none';
+    } else {
+        console.log(`⚠️ لا يوجد ملف للسورة ${nextSurah} — تقريبي`);
+        
+        // ✅ إظهار الأزرار
+        if (syncBtn) syncBtn.style.display = 'flex';
+        if (resetBtn) resetBtn.style.display = 'flex';
+    }
+    
+    // ✅ 4. اعرض أول آية
     if (currentAyahTexts.length > 0) {
         currentAyahIndex = 0;
         displayAyah(0, currentAyahTexts[0]);
     }
     
-    // ✅ تشغيل الصوت
+    // ✅ 5. شغّل الصوت (الآن ayahTimings جاهزة)
+    const audioUrl = buildAudioUrl(selectedQariCode, nextSurah);
     loadAndPlayAudio(audioUrl);
     
-    console.log(`🎧 الانتقال إلى السورة ${nextSurah}`);
     showToast(`📖 ${surahNames[nextSurah - 1]}`);
 }
 
