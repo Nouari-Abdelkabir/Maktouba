@@ -1736,69 +1736,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// ============================================================
-// 🗺️ استثناءات: حالات لا يتبع فيها اسم المجلد النمط
-// ============================================================
-const alignmentsExceptions = {
-    'mushaf_bazzi':   'deban-bazzi',
-    'mushaf_hisham':  'deban-hisham',
-    'mushaf_qunbul':  'deban-qunbul',
-    'mushaf_doori1':  'deban-doori',
-    'mushaf_shubah':  'deban-shubah',
-};
+
 
 // ============================================================
-// 📂 تحميل توقيتات دقيقة من مجلد alignments/
+// 📖 فهرس ملفات alignments
+// ============================================================
+let alignmentsIndex = null;
+
+async function loadAlignmentsIndex() {
+    if (alignmentsIndex) return alignmentsIndex;
+    
+    try {
+        const response = await fetch('alignments/index.json');
+        if (response.ok) {
+            alignmentsIndex = await response.json();
+            console.log('✅ تم تحميل فهرس alignments');
+        }
+    } catch (e) {
+        console.warn('⚠️ لا يوجد فهرس alignments');
+    }
+    return alignmentsIndex;
+}
+
+// ============================================================
+// 📂 تحميل توقيتات دقيقة من alignments/
 // ============================================================
 async function loadAlignmentsTimings(reciterKey, surahNum) {
     const reciter = reciterMapping[reciterKey];
-    if (!reciter || !reciter.code) {
-        console.log('ℹ️ لا يوجد كود لهذا القارئ:', reciterKey);
+    if (!reciter || !reciter.code) return null;
+    
+    const index = await loadAlignmentsIndex();
+    if (!index) return null;
+    
+    const mushafId = reciterKey.replace(/_\d+$/, '');
+    const mushafEntry = index[mushafId];
+    if (!mushafEntry) {
+        console.log(`ℹ️ لا يوجد مصحف في الفهرس: ${mushafId}`);
         return null;
+    }
+    
+    const folders = [];
+    for (const [folder, keys] of Object.entries(mushafEntry)) {
+        if (keys.includes(reciterKey)) {
+            folders.push(folder);
+        }
+    }
+    
+    if (folders.length === 0) {
+        folders.push(...Object.keys(mushafEntry));
     }
     
     const fileName = String(surahNum).padStart(3, '0') + '.json';
     
-    // ✅ 1. mushaf_id = المفتاح كما هو (بدون حذف أرقام!)
-    // mushaf_hafs → mushaf_hafs
-    // mushaf_hafs_2 → mushaf_hafs_2 ❌ خطأ
-    // نريد mushaf_hafs فقط للـ _2
-    // والحل: احذف فقط _رقم (بدون حذف أرقام ملتصقة)
-    const mushafId = reciterKey.replace(/_\d+$/, '');
-    
-    // ✅ 2. reciter_id من الكود
-    let reciterId = reciter.code.split('/')[0];
-    
-    // ✅ 3. إذا كان هناك استثناء، استخدمه
-    if (alignmentsExceptions[reciterKey]) {
-        reciterId = alignmentsExceptions[reciterKey];
-    }
-    
-    // ✅ 4. بناء قائمة المسارات (بدون deban- العشوائي)
-    const possiblePaths = [
-        // 1. mushaf_id مع reciterId
-        `alignments/${mushafId}/${reciterId}/${fileName}`,
-        // 2. مع ../ للمجلد الأب
-        `../alignments/${mushafId}/${reciterId}/${fileName}`,
-        // 3. بدون حذف _رقم (للاحتياط)
-        `alignments/${reciterKey}/${reciterId}/${fileName}`,
-        // 4. المسار المطلق
-        `alignments/${mushafId}/${reciterKey.replace('mushaf_', '')}/${fileName}`,
-    ];
-    
-    for (const path of possiblePaths) {
+    for (const folder of folders) {
+        const path = `alignments/${mushafId}/${folder}/${fileName}`;
         try {
             console.log('📂 محاولة:', path);
             const response = await fetch(path);
-            
             if (!response.ok) continue;
             
             const data = await response.json();
-            
-            if (!data.ayahs || !Array.isArray(data.ayahs)) {
-                console.warn('⚠️ بنية ملف غير صحيحة');
-                continue;
-            }
+            if (!data.ayahs || !Array.isArray(data.ayahs)) continue;
             
             const timings = data.ayahs.map(a => ({
                 num: a.ayah_number,
@@ -1809,12 +1807,12 @@ async function loadAlignmentsTimings(reciterKey, surahNum) {
             console.log(`✅ تم تحميل ${timings.length} توقيت من: ${path}`);
             return timings;
             
-        } catch (err) {
-            // جرّب المسار التالي
+        } catch (e) {
+            // جرّب التالي
         }
     }
     
-    console.log('ℹ️ لا يوجد ملف توقيتات:', reciterKey, '/', surahNum);
+    console.log(`ℹ️ لا يوجد ملف: ${reciterKey}/${surahNum}`);
     return null;
 }
 
