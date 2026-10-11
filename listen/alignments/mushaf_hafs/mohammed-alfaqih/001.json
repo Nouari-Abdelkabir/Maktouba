@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_hafs",
+  "reciter_id": "mohammed-alfaqih",
+  "reciter_code": "mohammed-alfaqih/hafs-an-asim",
+  "reciter_name": "محمد الفقيه",
+  "audio_url": "https://media.way2quran.com/mohammed-alfaqih/hafs-an-asim/001.mp3",
+  "audio_duration": 37,
+  "generated_at": "2026-10-11T11:35:30.641Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 4.98,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 4.98,
+      "end": 8.86,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 8.86,
+      "end": 10.82,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 10.82,
+      "end": 13.42,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 13.42,
+      "end": 17.9,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 17.9,
+      "end": 21.83,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 21.83,
+      "end": 37,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:35:30.641Z"
+}

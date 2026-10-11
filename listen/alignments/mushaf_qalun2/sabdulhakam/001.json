@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_qalun2",
+  "reciter_id": "sabdulhakam",
+  "reciter_code": "The-ten-readings/Rewayat-Qalon-A-n-Nafi-Qaser-Jame/Sabdulhakam",
+  "reciter_name": "صابر عبد الحكم",
+  "audio_url": "https://server16.mp3quran.net/The-ten-readings/Rewayat-Qalon-A-n-Nafi-Qaser-Jame/Sabdulhakam/001.mp3",
+  "audio_duration": 47.89,
+  "generated_at": "2026-10-11T11:44:57.027Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 9.38,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 9.38,
+      "end": 14.31,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 14.31,
+      "end": 17.89,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 17.89,
+      "end": 21.2,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 21.2,
+      "end": 26.45,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 26.45,
+      "end": 30.88,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 30.88,
+      "end": 47.89,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:44:57.027Z"
+}

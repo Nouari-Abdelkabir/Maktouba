@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_ibnDhakwan",
+  "reciter_id": "muftah-ibnDhakwan",
+  "reciter_code": "muftah_sultany/Rewayat_Ibn-Thakwan-A-n-Ibn-Amer",
+  "reciter_name": "مفتاح محمد سُلطاني",
+  "audio_url": "https://server14.mp3quran.net/muftah_sultany/Rewayat_Ibn-Thakwan-A-n-Ibn-Amer/001.mp3",
+  "audio_duration": 50.75,
+  "generated_at": "2026-10-11T12:20:07.311Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 12.2,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 12.2,
+      "end": 17.34,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 17.34,
+      "end": 20.69,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 20.69,
+      "end": 25.9,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 25.9,
+      "end": 31.91,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 31.91,
+      "end": 36.87,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 36.87,
+      "end": 50.75,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T12:20:07.311Z"
+}

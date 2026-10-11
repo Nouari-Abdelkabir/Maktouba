@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_qunbul",
+  "reciter_id": "deban-qunbul",
+  "reciter_code": "deban/Rewayat-Qunbol-A-n-Ibn-Katheer",
+  "reciter_name": "أحمد ديبان",
+  "audio_url": "https://server16.mp3quran.net/deban/Rewayat-Qunbol-A-n-Ibn-Katheer/001.mp3",
+  "audio_duration": 51.66,
+  "generated_at": "2026-10-11T11:47:15.033Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 8.74,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 8.74,
+      "end": 13.74,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 13.74,
+      "end": 16.67,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 16.67,
+      "end": 23.09,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 23.09,
+      "end": 27.67,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 27.67,
+      "end": 31.82,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 31.82,
+      "end": 51.66,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:47:15.033Z"
+}

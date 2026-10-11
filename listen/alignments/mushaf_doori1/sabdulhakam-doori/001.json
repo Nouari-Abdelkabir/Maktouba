@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_doori1",
+  "reciter_id": "sabdulhakam-doori",
+  "reciter_code": "The-ten-readings/Rewayat-Aldori-A-n-Abi-Amr-madd/Sabdulhakam",
+  "reciter_name": "صابر عبد الحكم",
+  "audio_url": "https://server16.mp3quran.net/The-ten-readings/Rewayat-Aldori-A-n-Abi-Amr-madd/Sabdulhakam/001.mp3",
+  "audio_duration": 46.81,
+  "generated_at": "2026-10-11T11:49:15.461Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 8.81,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 8.81,
+      "end": 13.46,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 13.46,
+      "end": 17.07,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 17.07,
+      "end": 19.75,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 19.75,
+      "end": 25,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 25,
+      "end": 29.51,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 29.51,
+      "end": 46.81,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:49:15.461Z"
+}

@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_hisham",
+  "reciter_id": "deban-hisham",
+  "reciter_code": "deban/Rewayat-Hesham-A-n-Abi-A-mer",
+  "reciter_name": "أحمد ديبان",
+  "audio_url": "https://server16.mp3quran.net/deban/Rewayat-Hesham-A-n-Abi-A-mer/001.mp3",
+  "audio_duration": 42.05,
+  "generated_at": "2026-10-11T12:18:50.599Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 4.23,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 4.23,
+      "end": 9.17,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 9.17,
+      "end": 11.95,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 11.95,
+      "end": 15.6,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 15.6,
+      "end": 21.14,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 21.14,
+      "end": 25.77,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 25.77,
+      "end": 42.05,
+      "manually_verified": false
+    }
+  ],
+  "updated_at": "2026-10-11T12:18:50.599Z"
+}

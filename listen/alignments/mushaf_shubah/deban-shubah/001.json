@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_shubah",
+  "reciter_id": "deban-shubah",
+  "reciter_code": "deban/Rewayat-Sho-bah-A-n-Asim",
+  "reciter_name": "أحمد ديبان",
+  "audio_url": "https://server16.mp3quran.net/deban/Rewayat-Sho-bah-A-n-Asim/001.mp3",
+  "audio_duration": 36.36,
+  "generated_at": "2026-10-11T12:20:51.734Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 4.36,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 4.36,
+      "end": 8.73,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 8.73,
+      "end": 10.72,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 10.72,
+      "end": 12.82,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 12.82,
+      "end": 16.89,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 16.89,
+      "end": 20.03,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 20.03,
+      "end": 36.36,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T12:20:51.734Z"
+}

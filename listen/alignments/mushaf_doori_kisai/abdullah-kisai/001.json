@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_doori_kisai",
+  "reciter_id": "abdullah-kisai",
+  "reciter_code": "abdullah/Rewayat-AlDorai-A-n-Al-Kisa-ai",
+  "reciter_name": "محمد عبدالحكيم سعيد عبدالله",
+  "audio_url": "https://server9.mp3quran.net/abdullah/Rewayat-AlDorai-A-n-Al-Kisa-ai/001.mp3",
+  "audio_duration": 60.04,
+  "generated_at": "2026-10-11T11:57:43.636Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 12.38,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 12.38,
+      "end": 19.87,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 19.87,
+      "end": 26.05,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 26.05,
+      "end": 30.67,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 30.67,
+      "end": 37.18,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 37.18,
+      "end": 43.24,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 43.24,
+      "end": 60.04,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:57:43.636Z"
+}

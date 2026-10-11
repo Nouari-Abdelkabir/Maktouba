@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_warsh2",
+  "reciter_id": "al-uyoun-al-kushi",
+  "reciter_code": "al-uyoun-al-kushi/warsh-an-nafi",
+  "reciter_name": "العيون الكوشي",
+  "audio_url": "https://media.way2quran.com/al-uyoun-al-kushi/warsh-an-nafi/1.mp3",
+  "audio_duration": 35.8,
+  "generated_at": "2026-10-11T11:38:48.275Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 6.82,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 6.82,
+      "end": 10.77,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 10.77,
+      "end": 13.31,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 13.31,
+      "end": 16.08,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 16.08,
+      "end": 20.32,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 20.32,
+      "end": 23.49,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 23.49,
+      "end": 35.8,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:38:48.275Z"
+}

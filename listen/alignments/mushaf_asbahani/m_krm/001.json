@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_asbahani",
+  "reciter_id": "m_krm",
+  "reciter_code": "m_krm/Rewayat-Warsh-A-n-Nafi-Men-Tariq-Abi-Baker-Alasbahani",
+  "reciter_name": "محمد عبدالكريم",
+  "audio_url": "https://server12.mp3quran.net/m_krm/Rewayat-Warsh-A-n-Nafi-Men-Tariq-Abi-Baker-Alasbahani/001.mp3",
+  "audio_duration": 53.86,
+  "generated_at": "2026-10-11T11:40:09.308Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 13.16,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 13.16,
+      "end": 18.75,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 18.75,
+      "end": 22.06,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 22.06,
+      "end": 25.05,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 25.05,
+      "end": 31.25,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 31.25,
+      "end": 34.39,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 34.39,
+      "end": 53.86,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:40:09.308Z"
+}

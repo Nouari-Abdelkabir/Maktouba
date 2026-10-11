@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_ruh",
+  "reciter_id": "yasser-al-ataly",
+  "reciter_code": "yasser-al-syd-hussein-al-ataly/ruuh-an-yaqub-al-hadrami",
+  "reciter_name": "ياسر السيد حسين العطالي",
+  "audio_url": "https://media.way2quran.com/yasser-al-syd-hussein-al-ataly/ruuh-an-yaqub-al-hadrami/001.mp3",
+  "audio_duration": 43,
+  "generated_at": "2026-10-11T12:29:50.192Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 8.17,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 8.17,
+      "end": 12.78,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 12.78,
+      "end": 16.18,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 16.18,
+      "end": 19.66,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 19.66,
+      "end": 24.64,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 24.64,
+      "end": 28.7,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 28.7,
+      "end": 43,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T12:29:50.192Z"
+}

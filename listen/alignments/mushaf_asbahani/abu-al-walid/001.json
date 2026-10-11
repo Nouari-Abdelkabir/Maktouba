@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_asbahani",
+  "reciter_id": "abu-al-walid",
+  "reciter_code": "abu-al-walid-hmzh-awad-al-hashimi/warsh-an-nafi-min-tariq-al-asbahani",
+  "reciter_name": "أبو الوليد حمزة عوض الهاشمي",
+  "audio_url": "https://media.way2quran.com/abu-al-walid-hmzh-awad-al-hashimi/warsh-an-nafi-min-tariq-al-asbahani/001.mp3",
+  "audio_duration": 57.4,
+  "generated_at": "2026-10-11T11:41:49.624Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 4.58,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 4.58,
+      "end": 10.7,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 10.7,
+      "end": 16.35,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 16.35,
+      "end": 21.93,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 21.93,
+      "end": 30.73,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 30.73,
+      "end": 38.02,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 38.02,
+      "end": 57.4,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:41:49.624Z"
+}

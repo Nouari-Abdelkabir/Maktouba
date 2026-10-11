@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_ruh",
+  "reciter_id": "rawhhameed",
+  "reciter_code": "rawhhameed",
+  "reciter_name": "عبد الله بن محمد الحميد",
+  "audio_url": "https://archive.org/download/rawhhameed/001.mp3",
+  "audio_duration": 33.55,
+  "generated_at": "2026-10-11T12:29:00.796Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 3.84,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 3.84,
+      "end": 7.23,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 7.23,
+      "end": 10.48,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 10.48,
+      "end": 13.75,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 13.75,
+      "end": 18.21,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 18.21,
+      "end": 21.72,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 21.72,
+      "end": 33.55,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T12:29:00.796Z"
+}

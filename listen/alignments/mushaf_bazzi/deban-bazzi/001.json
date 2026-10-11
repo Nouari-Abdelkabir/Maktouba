@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_bazzi",
+  "reciter_id": "deban-bazzi",
+  "reciter_code": "deban/Rewayat-Albizi-A-n-Ibn-Katheer",
+  "reciter_name": "أحمد ديبان",
+  "audio_url": "https://server16.mp3quran.net/deban/Rewayat-Albizi-A-n-Ibn-Katheer/001.mp3",
+  "audio_duration": 44.39,
+  "generated_at": "2026-10-11T11:45:57.461Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 9.48,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 9.48,
+      "end": 13.21,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 13.21,
+      "end": 16.07,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 16.07,
+      "end": 18.75,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 18.75,
+      "end": 23.85,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 23.85,
+      "end": 27.03,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 27.03,
+      "end": 44.39,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:45:57.461Z"
+}

@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_doori1",
+  "reciter_id": "deban-doori",
+  "reciter_code": "deban/Rewayat-Aldori-A-n-Abi-Amr",
+  "reciter_name": "أحمد ديبان",
+  "audio_url": "https://server16.mp3quran.net/deban/Rewayat-Aldori-A-n-Abi-Amr/001.mp3",
+  "audio_duration": 40.06,
+  "generated_at": "2026-10-11T11:48:03.961Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 3.71,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 3.71,
+      "end": 7.32,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 7.32,
+      "end": 9.89,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 9.89,
+      "end": 13.89,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 13.89,
+      "end": 18.59,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 18.59,
+      "end": 22.36,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 22.36,
+      "end": 40.06,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:48:03.961Z"
+}

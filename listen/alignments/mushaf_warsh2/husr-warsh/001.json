@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_warsh2",
+  "reciter_id": "husr-warsh",
+  "reciter_code": "husr/Rewayat-Warsh-A-n-Nafi",
+  "reciter_name": "محمود خليل الحصري",
+  "audio_url": "https://server13.mp3quran.net/husr/Rewayat-Warsh-A-n-Nafi/001.mp3",
+  "audio_duration": 58.36,
+  "generated_at": "2026-10-11T11:37:51.112Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 12.38,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 12.38,
+      "end": 19.04,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 19.04,
+      "end": 23.67,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 23.67,
+      "end": 28.6,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 28.6,
+      "end": 35.43,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 35.43,
+      "end": 41.18,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 41.18,
+      "end": 58.36,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-11T11:37:51.112Z"
+}
