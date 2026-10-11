@@ -180,6 +180,7 @@ let audioPlayer = null;
 let isPlaying = false;
 let backgroundInterval = null;
 let currentSpeed = 1.0;
+let currentPlaybackSpeed = 1.0;
 
 // ✅ بيانات المصحف الحالي (يُحمَّل من Data/mushaf_XXX.js)
 let mushafPages = [];      // مصفوفة الصفحات (604)
@@ -434,6 +435,7 @@ function bindEvents() {
         openSelector();
     });
     document.getElementById('closeSelector')?.addEventListener('click', closeSelector);
+    document.getElementById('speedBtn')?.addEventListener('click', cycleSpeed);
 
     const overlay = document.getElementById('selectorOverlay');
     overlay?.addEventListener('click', (e) => {
@@ -809,6 +811,7 @@ function loadAndPlayAudio(audioUrl) {
 
     audioPlayer.src = audioUrl;
     audioPlayer.playbackRate = currentSpeed;
+    audioPlayer.playbackRate = currentPlaybackSpeed;
     const vol = document.getElementById('volumeSlider')?.value || 70;
     audioPlayer.volume = vol / 100;
 
@@ -1780,4 +1783,38 @@ async function loadAlignmentsTimings(reciterKey, surahNum) {
     
     console.log('ℹ️ لا يوجد ملف توقيتات:', reciterKey, '/', surahNum);
     return null;
+}
+
+
+// ============================================================
+// ⏩ تبديل سرعة التشغيل
+// ============================================================
+function cycleSpeed() {
+    const speeds = [1, 1.5, 2, 3];
+    const currentIndex = speeds.indexOf(currentPlaybackSpeed);
+    const nextIndex = (currentIndex + 1) % speeds.length;
+    
+    currentPlaybackSpeed = speeds[nextIndex];
+    
+    // ✅ تطبيق السرعة على الصوت
+    if (audioPlayer) {
+        audioPlayer.playbackRate = currentPlaybackSpeed;
+    }
+    
+    // ✅ تحديث الزر
+    const btn = document.getElementById('speedBtn');
+    if (btn) {
+        btn.textContent = currentPlaybackSpeed + 'x';
+        
+        // ألوان حسب السرعة
+        const colors = {
+            1: '#FDEB9E',
+            1.5: '#b9b727',
+            2: '#fffb04',
+            3: '#fd0000'
+        };
+        btn.style.background = colors[currentPlaybackSpeed] || '#FDEB9E';
+    }
+    
+    showToast(`⏩ السرعة: ${currentPlaybackSpeed}x`);
 }
