@@ -832,12 +832,80 @@ function loadAndPlayAudio(audioUrl) {
         });
 }
 
-function playAudio() {
-    if (audioPlayer && audioPlayer.paused) {
-        audioPlayer.play();
-        isPlaying = true;
-        updatePlayPauseButtons();
+// ============================================================
+// ▶️ تشغيل الصوت
+// ============================================================
+async function playAudio() {
+    console.log('▶️ زر Play تم الضغط عليه');
+    
+    // ✅ 1. تحقق من الإعدادات
+    if (!selectedQari || !selectedSurah) {
+        showToast('⚠️ اختر القارئ والسورة أولاً');
+        return;
     }
+    
+    // ✅ 2. عيّن selectedQariCode إذا لم يكن معيّناً
+    if (!selectedQariCode) {
+        const reciter = reciterMapping[selectedQari];
+        if (reciter && reciter.code) {
+            selectedQariCode = reciter.code;
+            console.log('✅ تم تعيين selectedQariCode:', selectedQariCode);
+        } else {
+            showToast('❌ القارئ غير متوفر');
+            return;
+        }
+    }
+    
+    // ✅ 3. إذا كان الصوت محمّلاً → شغّله
+    if (audioPlayer && audioPlayer.src && audioPlayer.src !== '') {
+        if (audioPlayer.paused) {
+            audioPlayer.play();
+            isPlaying = true;
+            updatePlayPauseButtons();
+        }
+        return;
+    }
+    
+    // ✅ 4. حمّل الصوت أولاً
+    console.log('🎵 تحميل الصوت...');
+    
+    // تأكد من المصحف
+    if (mushafAllAyahs.length === 0) {
+        const mushafData = await loadMushafData(selectedQari);
+        if (!mushafData) {
+            showToast('❌ فشل تحميل المصحف');
+            return;
+        }
+    }
+    
+    // ابنِ الآيات
+    if (currentAyahTexts.length === 0) {
+        buildAyahsForSurah(selectedSurah);
+        currentAyahIndex = 0;
+        if (currentAyahTexts.length > 0) {
+            displayAyah(0, currentAyahTexts[0]);
+        }
+    }
+    
+    // حمّل التوقيتات
+    if (ayahTimings.length === 0) {
+        const fileTimings = await loadAlignmentsTimings(selectedQari, selectedSurah);
+        if (fileTimings) {
+            ayahTimings = fileTimings;
+        }
+    }
+    
+    // ✅ ابنِ رابط الصوت
+    const audioUrl = buildAudioUrl(selectedQariCode, selectedSurah);
+    console.log('🔊 رابط الصوت:', audioUrl);
+    
+    if (!audioUrl || audioUrl.includes('undefined')) {
+        showToast('❌ رابط الصوت غير صحيح');
+        return;
+    }
+    
+    // ✅ شغّل الصوت
+    loadAndPlayAudio(audioUrl);
 }
 
 function pauseAudio() {
@@ -1258,34 +1326,65 @@ function saveSettings() {
     }));
 }
 
-function loadSavedSettings() {
+
+// ============================================================
+// 💾 استعادة الإعدادات (أو تعيين الافتراضية)
+// ============================================================
+async function loadSavedSettings() {
     const saved = localStorage.getItem('listenSettings');
-    if (!saved) return;
-    try {
-        const s = JSON.parse(saved);
-        const volumeSlider = document.getElementById('volumeSlider');
-        if (volumeSlider && s.volume) volumeSlider.value = s.volume;
-
-        if (s.riwaya) {
-            selectedRiwaya = s.riwaya;
-            const riwayaSelect = document.getElementById('overlayRiwayaSelect');
-            if (riwayaSelect) riwayaSelect.value = s.riwaya;
-            populateQariSelects(s.riwaya);
-
-            if (s.qari) {
-                selectedQari = s.qari;
-                const qariSelect = document.getElementById('overlayQariSelect');
-                if (qariSelect) qariSelect.value = s.qari;
-                const reciter = reciterMapping[s.riwaya];
-                selectedQariCode = reciter?.code || null;
-            }
-            updateInfoBar();
+    
+    // ✅ استخدم الإعدادات المحفوظة أو الافتراضية
+    let settings;
+    
+    if (saved) {
+        try {
+            settings = JSON.parse(saved);
+        } catch (e) {
+            settings = null;
         }
-
-        if (s.surah) selectSurah(s.surah);
-    } catch (e) {
-        console.error('خطأ في تحميل الإعدادات:', e);
     }
+    
+    // ✅ الإعدادات الافتراضية
+    if (!settings) {
+        settings = {
+            surah: 1,
+            riwaya: 'mushaf_warsh1',
+            qari: 'mushaf_warsh1',
+            volume: 70
+        };
+        console.log('🆕 استخدام الإعدادات الافتراضية');
+    } else {
+        console.log('✅ استعادة الإعدادات السابقة');
+    }
+    
+    // ✅ طبّق الإعدادات
+    if (settings.volume) {
+        const volumeSlider = document.getElementById('volumeSlider');
+        if (volumeSlider) volumeSlider.value = settings.volume;
+    }
+    
+    selectedRiwaya = settings.riwaya || 'mushaf_warsh1';
+    const riwayaSelect = document.getElementById('overlayRiwayaSelect');
+    if (riwayaSelect) riwayaSelect.value = selectedRiwaya;
+    
+    populateQariSelects(selectedRiwaya);
+    
+    selectedQari = settings.qari || 'mushaf_warsh1';
+    const qariSelect = document.getElementById('overlayQariSelect');
+    if (qariSelect) qariSelect.value = selectedQari;
+    
+    const reciter = reciterMapping[selectedQari];
+    selectedQariCode = reciter?.code || null;
+    
+    selectedSurah = settings.surah || 1;
+    selectSurah(selectedSurah);
+    
+    updateInfoBar();
+    updateSurahTitle(selectedSurah);
+    
+    // ✅ حمّل وعرض الآية
+    await loadAndDisplayDefaultAyah();
+    
     // ✅ استرجاع وضع المزامنة
     const savedSyncMode = localStorage.getItem('syncMode');
     if (savedSyncMode === 'manual') {
@@ -1294,9 +1393,146 @@ function loadSavedSettings() {
         if (btn) {
             btn.textContent = '✋';
             btn.style.background = '#7AE2CF';
-            btn.title = 'وضع يدوي: الأزرار تنقل الآية فقط';
         }
     }
+}
+
+// ============================================================
+// 📖 تحميل وعرض الآية الأولى (عند بدء التطبيق)
+// ============================================================
+async function loadAndDisplayDefaultAyah() {
+    if (!selectedQari || !selectedSurah) {
+        console.log('⚠️ لا يوجد قارئ أو سورة');
+        return;
+    }
+    
+    console.log(`🔄 تحميل السورة ${selectedSurah}...`);
+    
+    try {
+        // ✅ 1. حمّل المصحف
+        const mushafData = await loadMushafData(selectedQari);
+        if (!mushafData) {
+            console.warn('⚠️ فشل تحميل المصحف');
+            return;
+        }
+        
+        // ✅ 2. ابنِ الآيات
+        buildAyahsForSurah(selectedSurah);
+        currentAyahIndex = 0;
+        
+        // ✅ 3. اعرض أول آية
+        if (currentAyahTexts.length > 0) {
+            displayAyah(0, currentAyahTexts[0]);
+            console.log('✅ عرض أول آية');
+        }
+        
+        // ✅ 4. حمّل التوقيتات الدقيقة
+        const fileTimings = await loadAlignmentsTimings(selectedQari, selectedSurah);
+        if (fileTimings) {
+            ayahTimings = fileTimings;
+            console.log('🎯 توقيتات دقيقة جاهزة');
+        }
+        
+        // ✅ 5. أظهر المشغل
+        const player = document.getElementById('audioPlayer');
+        if (player) {
+            player.style.display = 'flex';
+            console.log('✅ تم إظهار المشغل');
+        }
+        
+        // ✅ 6. حدّث زر المزامنة
+        const syncBtn = document.getElementById('syncModeBtn');
+        const resetBtn = document.getElementById('resetTimingsBtn');
+        
+        if (fileTimings) {
+            if (syncBtn) syncBtn.style.display = 'none';
+            if (resetBtn) resetBtn.style.display = 'none';
+        } else {
+            if (syncBtn) syncBtn.style.display = 'flex';
+            if (resetBtn) resetBtn.style.display = 'flex';
+        }
+        
+    } catch (e) {
+        console.warn('⚠️ خطأ:', e.message);
+    }
+}
+
+// ============================================================
+// 🎁 الإعدادات الافتراضية (عند أول فتح)
+// ============================================================
+async function applyDefaultSettings() {
+    // ✅ 1. الإعدادات الافتراضية
+    const defaultRiwaya = 'mushaf_warsh1';
+    const defaultQari = 'mushaf_warsh1';
+    const defaultSurah = 1;
+    const defaultVolume = 70;
+    
+    // ✅ 2. تطبيق الرواية
+    selectedRiwaya = defaultRiwaya;
+    const riwayaSelect = document.getElementById('overlayRiwayaSelect');
+    if (riwayaSelect) riwayaSelect.value = defaultRiwaya;
+    
+    // ✅ 3. ملء قائمة القراء
+    populateQariSelects(defaultRiwaya);
+    
+    // ✅ 4. تطبيق القارئ
+    selectedQari = defaultQari;
+    const qariSelect = document.getElementById('overlayQariSelect');
+    if (qariSelect) qariSelect.value = defaultQari;
+    
+    const reciter = reciterMapping[defaultQari];
+    selectedQariCode = reciter?.code || null;
+    
+    // ✅ 5. تطبيق السورة
+    selectSurah(defaultSurah);
+    
+    // ✅ 6. مستوى الصوت
+    const volumeSlider = document.getElementById('volumeSlider');
+    if (volumeSlider) volumeSlider.value = defaultVolume;
+    
+    // ✅ 7. تحديث الشريط
+    updateInfoBar();
+    updateSurahTitle(defaultSurah);
+    
+    // ✅ 8. أظهر المشغل أولاً
+    const player = document.getElementById('audioPlayer');
+    if (player) {
+        player.style.display = 'flex';
+        console.log('✅ تم إظهار المشغل');
+    }
+    
+    // ✅ 9. تحميل بيانات المصحف وعرض الآية الأولى
+    console.log('🆕 تحميل الفاتحة تلقائياً...');
+    
+    try {
+        const mushafData = await loadMushafData(defaultQari);
+        if (mushafData) {
+            buildAyahsForSurah(defaultSurah);
+            currentAyahIndex = 0;
+            
+            if (currentAyahTexts.length > 0) {
+                displayAyah(0, currentAyahTexts[0]);
+                console.log('✅ عرض الآية الأولى');
+            }
+            
+            // حمّل التوقيتات الدقيقة
+            const fileTimings = await loadAlignmentsTimings(defaultQari, defaultSurah);
+            if (fileTimings) {
+                ayahTimings = fileTimings;
+                console.log('🎯 توقيتات دقيقة جاهزة');
+            }
+        }
+    } catch (e) {
+        console.warn('⚠️ خطأ:', e.message);
+    }
+    
+    // ✅ 10. حفظ الإعدادات
+    saveSettings();
+    
+    // ✅ 11. رسالة
+    showToast('🎧 اضغط ▶️ للاستماع');
+    
+    console.log('✅ تم تعيين الإعدادات الافتراضية');
 }
 
 // ============================================================
