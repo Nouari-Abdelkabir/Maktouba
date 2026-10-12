@@ -1,0 +1,55 @@
+{
+  "surah_id": 1,
+  "mushaf_id": "mushaf_abuHarith",
+  "reciter_id": "soufi-abi-al-harith",
+  "reciter_code": "abdul-rashid-soufi/abi-al-harith-an-al-kisai",
+  "reciter_name": "عبد الرشيد صوفي",
+  "audio_url": "https://media.way2quran.com/abdul-rashid-soufi/abi-al-harith-an-al-kisai/1.mp3",
+  "audio_duration": 43.24,
+  "generated_at": "2026-10-12T08:20:14.088Z",
+  "ayahs": [
+    {
+      "ayah_number": 1,
+      "start": 0,
+      "end": 9.91,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 9.91,
+      "end": 13.72,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 13.72,
+      "end": 17.06,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 17.06,
+      "end": 20.97,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 20.97,
+      "end": 25.9,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 25.9,
+      "end": 30.42,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 30.42,
+      "end": 43.24,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-12T08:20:14.088Z"
+}
