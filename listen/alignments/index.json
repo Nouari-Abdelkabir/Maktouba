@@ -1,0 +1,79 @@
+{
+  "mushaf_hafs": {
+    "afs": ["mushaf_hafs"],
+    "mohammed-alfaqih": ["mushaf_hafs_2"]
+  },
+  "mushaf_qalun1": {
+    "husr-qalun": ["mushaf_qalun1"]
+  },
+  "mushaf_qalun2": {
+    "sabdulhakam": ["mushaf_qalun2"]
+  },
+  "mushaf_warsh1": {
+    "qari": ["mushaf_warsh1"]
+  },
+  "mushaf_warsh2": {
+    "al-uyoun-al-kushi": ["mushaf_warsh2"],
+    "husr-warsh": ["mushaf_warsh2"]
+  },
+  "mushaf_asbahani": {
+    "abu-al-walid": ["mushaf_asbahani_2"],
+    "m_krm": ["mushaf_asbahani"],
+    "mnswr-blhaj": ["mushaf_asbahani_3"]
+  },
+  "mushaf_bazzi": {
+    "deban-bazzi": ["mushaf_bazzi"]
+  },
+  "mushaf_qunbul": {
+    "deban-qunbul": ["mushaf_qunbul"]
+  },
+  "mushaf_doori1": {
+    "deban-doori": ["mushaf_doori1"],
+    "sabdulhakam-doori": ["mushaf_doori1"]
+  },
+  "mushaf_doori": {
+    "sabir-doori": ["mushaf_doori"]
+  },
+  "mushaf_soosi": {
+    "soufi-soosi": ["mushaf_soosi"],
+    "yasser-al-atby": ["mushaf_soosi_2"]
+  },
+  "mushaf_doori_kisai": {
+    "abdullah-kisai": ["mushaf_doori_kisai"]
+  },
+  "mushaf_abuHarith": {
+    "soufi-abi-al-harith": ["mushaf_abuHarith"]
+  },
+  "mushaf_hisham": {
+    "deban-hisham": ["mushaf_hisham"]
+  },
+  "mushaf_ibnDhakwan": {
+    "bvc-ibnWardan": ["mushaf_ibnDhakwan"]
+  },
+  "mushaf_shubah": {
+    "deban-shubah": ["mushaf_shubah"]
+  },
+  "mushaf_khalaf1": {
+    "soufi-khalaf": ["mushaf_khalaf1"]
+  },
+  "mushaf_khallad2": {
+    "khalladsaltani": ["mushaf_khallad2"]
+  },
+   
+  "mushaf_ibnWardan": {
+    "abdulkarim-ibnWardan": ["mushaf_ibnWardan"]
+  },
+  "mushaf_ibnJammaz": {
+    "555-ibnJammaz": ["mushaf_ibnJammaz"]
+  },
+  "mushaf_ruways": {
+    "ayman-al-mazni": ["mushaf_ruways"]
+  },
+  "mushaf_ruh": {
+    "rawhhameed": ["mushaf_ruh"],
+    "yasser-al-ataly": ["mushaf_ruh_2"]
+  },
+  "mushaf_ishaq": {
+    "ishaq_an_khalaf": ["mushaf_ishaq"]
+  }
+}
