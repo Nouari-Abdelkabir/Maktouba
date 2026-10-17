@@ -291,7 +291,10 @@
 "290-مًا":{"symbol":"مًا","meaning":"كسر التنوين (التقاء الساكنين)","class":"c16","mushaf":"shubah"},
 "291-ٱ":{"symbol":"ٱ","meaning":"كسر التنوين (التقاء الساكنين)","class":"c16","mushaf":"shubah"},
 "292-يَ":{"symbol":"يَ","meaning":"ابدال الهمزة ياء مفتوحة","class":"c7","mushaf":"shubah"},
-
+"293-وّ":{"symbol":"وّ","meaning":"ترك الغنة","class":"c15","mushaf":"khalaf1"},
+"294-يّ":{"symbol":"يّ","meaning":"ترك الغنة","class":"c15","mushaf":"khalaf1"},
+"295-وّ":{"symbol":"وّ","meaning":"ترك الغنة","class":"c15","mushaf":"khalaf2"},
+"296-يّ":{"symbol":"يّ","meaning":"ترك الغنة","class":"c15","mushaf":"khalaf2"},
 
 
 
