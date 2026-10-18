@@ -1,0 +1,174 @@
+{
+  "surah_id": 82,
+  "mushaf_id": "mushaf_hafs",
+  "reciter_id": "mohammed-alfaqih",
+  "reciter_code": "mohammed-alfaqih/hafs-an-asim",
+  "reciter_name": "محمد الفقيه",
+  "audio_url": "https://media.way2quran.com/mohammed-alfaqih/hafs-an-asim/082.mp3",
+  "audio_duration": 105.91,
+  "generated_at": "2026-10-18T15:12:00.919Z",
+  "source_type": "server",
+  "ayahs": [
+    {
+      "ayah_number": 0,
+      "start": 0,
+      "end": 5.04,
+      "wordCount": 4,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 1,
+      "start": 5.04,
+      "end": 8.83,
+      "wordCount": 3,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 2,
+      "start": 8.83,
+      "end": 12.61,
+      "wordCount": 3,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 3,
+      "start": 12.61,
+      "end": 16.39,
+      "wordCount": 3,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 4,
+      "start": 16.39,
+      "end": 20.17,
+      "wordCount": 3,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 5,
+      "start": 20.17,
+      "end": 26.48,
+      "wordCount": 5,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 6,
+      "start": 26.48,
+      "end": 34.04,
+      "wordCount": 6,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 7,
+      "start": 34.04,
+      "end": 39.09,
+      "wordCount": 4,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 8,
+      "start": 39.09,
+      "end": 46.65,
+      "wordCount": 6,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 9,
+      "start": 46.65,
+      "end": 51.7,
+      "wordCount": 4,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 10,
+      "start": 51.7,
+      "end": 55.48,
+      "wordCount": 3,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 11,
+      "start": 55.48,
+      "end": 58,
+      "wordCount": 2,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 12,
+      "start": 58,
+      "end": 61.78,
+      "wordCount": 3,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 13,
+      "start": 61.78,
+      "end": 66.83,
+      "wordCount": 4,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 14,
+      "start": 66.83,
+      "end": 71.87,
+      "wordCount": 4,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 15,
+      "start": 71.87,
+      "end": 75.65,
+      "wordCount": 3,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 16,
+      "start": 75.65,
+      "end": 80.7,
+      "wordCount": 4,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 17,
+      "start": 80.7,
+      "end": 87,
+      "wordCount": 5,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 18,
+      "start": 87,
+      "end": 94.57,
+      "wordCount": 6,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 19,
+      "start": 94.57,
+      "end": 105.91,
+      "wordCount": 9,
+      "confidence": 1,
+      "manually_verified": false
+    }
+  ],
+  "updated_at": "2026-10-18T15:12:00.919Z"
+}

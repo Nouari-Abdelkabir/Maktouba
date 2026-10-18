@@ -1,0 +1,103 @@
+{
+  "surah_id": 61,
+  "mushaf_id": "mushaf_hafs",
+  "reciter_id": "mohammed-alfaqih",
+  "reciter_code": "mohammed-alfaqih/hafs-an-asim",
+  "reciter_name": "محمد الفقيه",
+  "audio_url": "https://media.way2quran.com/mohammed-alfaqih/hafs-an-asim/061.mp3",
+  "audio_duration": 238.59,
+  "generated_at": "2026-10-18T15:46:35.352Z",
+  "ayahs": [
+    {
+      "ayah_number": 0,
+      "start": 0,
+      "end": 5.46,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 1,
+      "start": 5.46,
+      "end": 13.13,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 13.13,
+      "end": 21.55,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 21.55,
+      "end": 28.75,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 28.75,
+      "end": 41.73,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 41.73,
+      "end": 62.1,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 62.1,
+      "end": 94.28,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 94.28,
+      "end": 107.92,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 8,
+      "start": 107.92,
+      "end": 119,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 9,
+      "start": 119,
+      "end": 131.44,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 10,
+      "start": 131.44,
+      "end": 143.64,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 11,
+      "start": 143.64,
+      "end": 158.51,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 12,
+      "start": 158.51,
+      "end": 181.77,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 13,
+      "start": 181.77,
+      "end": 193.47,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 14,
+      "start": 193.47,
+      "end": 238.59,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-18T15:46:35.352Z"
+}
