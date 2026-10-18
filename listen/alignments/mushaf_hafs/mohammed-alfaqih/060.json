@@ -1,0 +1,97 @@
+{
+  "surah_id": 60,
+  "mushaf_id": "mushaf_hafs",
+  "reciter_id": "mohammed-alfaqih",
+  "reciter_code": "mohammed-alfaqih/hafs-an-asim",
+  "reciter_name": "محمد الفقيه",
+  "audio_url": "https://media.way2quran.com/mohammed-alfaqih/hafs-an-asim/060.mp3",
+  "audio_duration": 367.53,
+  "generated_at": "2026-10-18T15:55:04.946Z",
+  "ayahs": [
+    {
+      "ayah_number": 0,
+      "start": 0,
+      "end": 5.72,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 1,
+      "start": 5.72,
+      "end": 53.42,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 53.42,
+      "end": 67.53,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 67.53,
+      "end": 81.59,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 81.59,
+      "end": 133.83,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 133.83,
+      "end": 145.96,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 145.96,
+      "end": 161.45,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 161.45,
+      "end": 175.12,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 8,
+      "start": 175.12,
+      "end": 193.27,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 9,
+      "start": 193.27,
+      "end": 216.5,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 10,
+      "start": 216.5,
+      "end": 277.2,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 11,
+      "start": 277.2,
+      "end": 298.29,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 12,
+      "start": 298.29,
+      "end": 346.53,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 13,
+      "start": 346.53,
+      "end": 367.53,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-18T15:55:04.947Z"
+}
