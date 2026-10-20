@@ -1,0 +1,199 @@
+{
+  "surah_id": 32,
+  "mushaf_id": "mushaf_hafs",
+  "reciter_id": "mohammed-alfaqih",
+  "reciter_code": "mohammed-alfaqih/hafs-an-asim",
+  "reciter_name": "محمد الفقيه",
+  "audio_url": "https://media.way2quran.com/mohammed-alfaqih/hafs-an-asim/032.mp3",
+  "audio_duration": 406.07,
+  "generated_at": "2026-10-19T21:55:23.915Z",
+  "ayahs": [
+    {
+      "ayah_number": 0,
+      "start": 0,
+      "end": 5.09,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 1,
+      "start": 5.09,
+      "end": 10.48,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 10.48,
+      "end": 16.88,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 16.88,
+      "end": 32.52,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 32.52,
+      "end": 53.21,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 53.21,
+      "end": 67.86,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 67.86,
+      "end": 73.56,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 73.56,
+      "end": 84.98,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 8,
+      "start": 84.98,
+      "end": 93.5,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 9,
+      "start": 93.5,
+      "end": 107.65,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 10,
+      "start": 107.65,
+      "end": 124.15,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 11,
+      "start": 124.15,
+      "end": 135.7,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 12,
+      "start": 135.7,
+      "end": 151.98,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 13,
+      "start": 151.98,
+      "end": 168.46,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 14,
+      "start": 168.46,
+      "end": 182.93,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 15,
+      "start": 182.93,
+      "end": 200.35,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 16,
+      "start": 200.35,
+      "end": 215.95,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 17,
+      "start": 215.95,
+      "end": 229.49,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 18,
+      "start": 229.49,
+      "end": 237.79,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 19,
+      "start": 237.79,
+      "end": 250.51,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 20,
+      "start": 250.51,
+      "end": 274.22,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 21,
+      "start": 274.22,
+      "end": 285.72,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 22,
+      "start": 285.72,
+      "end": 299.54,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 23,
+      "start": 299.54,
+      "end": 315.97,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 24,
+      "start": 315.97,
+      "end": 330.55,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 25,
+      "start": 330.55,
+      "end": 340.65,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 26,
+      "start": 340.65,
+      "end": 357.47,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 27,
+      "start": 357.47,
+      "end": 376.29,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 28,
+      "start": 376.29,
+      "end": 383.68,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 29,
+      "start": 383.68,
+      "end": 394.59,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 30,
+      "start": 394.59,
+      "end": 406.07,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-19T21:55:23.915Z"
+}

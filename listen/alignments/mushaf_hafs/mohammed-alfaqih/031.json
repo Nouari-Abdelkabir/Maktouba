@@ -1,0 +1,294 @@
+{
+  "surah_id": 31,
+  "mushaf_id": "mushaf_hafs",
+  "reciter_id": "mohammed-alfaqih",
+  "reciter_code": "mohammed-alfaqih/hafs-an-asim",
+  "reciter_name": "محمد الفقيه",
+  "audio_url": "https://media.way2quran.com/mohammed-alfaqih/hafs-an-asim/031.mp3",
+  "audio_duration": 542.59,
+  "generated_at": "2026-10-19T21:55:32.395Z",
+  "source_type": "server",
+  "ayahs": [
+    {
+      "ayah_number": 0,
+      "start": 0,
+      "end": 3.92,
+      "wordCount": 4,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 1,
+      "start": 3.92,
+      "end": 4.9,
+      "wordCount": 1,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 2,
+      "start": 4.9,
+      "end": 8.81,
+      "wordCount": 4,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 3,
+      "start": 8.81,
+      "end": 11.75,
+      "wordCount": 3,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 4,
+      "start": 11.75,
+      "end": 20.57,
+      "wordCount": 9,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 5,
+      "start": 20.57,
+      "end": 28.4,
+      "wordCount": 8,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 6,
+      "start": 28.4,
+      "end": 47.01,
+      "wordCount": 19,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 7,
+      "start": 47.01,
+      "end": 62.68,
+      "wordCount": 16,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 8,
+      "start": 62.68,
+      "end": 70.52,
+      "wordCount": 8,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 9,
+      "start": 70.52,
+      "end": 78.35,
+      "wordCount": 8,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 10,
+      "start": 78.35,
+      "end": 104.8,
+      "wordCount": 27,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 11,
+      "start": 104.8,
+      "end": 118.51,
+      "wordCount": 14,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 12,
+      "start": 118.51,
+      "end": 136.14,
+      "wordCount": 18,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 13,
+      "start": 136.14,
+      "end": 150.83,
+      "wordCount": 15,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 14,
+      "start": 150.83,
+      "end": 167.48,
+      "wordCount": 17,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 15,
+      "start": 167.48,
+      "end": 195.88,
+      "wordCount": 29,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 16,
+      "start": 195.88,
+      "end": 220.37,
+      "wordCount": 25,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 17,
+      "start": 220.37,
+      "end": 237.02,
+      "wordCount": 17,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 18,
+      "start": 237.02,
+      "end": 252.69,
+      "wordCount": 16,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 19,
+      "start": 252.69,
+      "end": 263.46,
+      "wordCount": 11,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 20,
+      "start": 263.46,
+      "end": 292.84,
+      "wordCount": 30,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 21,
+      "start": 292.84,
+      "end": 313.41,
+      "wordCount": 21,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 22,
+      "start": 313.41,
+      "end": 329.08,
+      "wordCount": 16,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 23,
+      "start": 329.08,
+      "end": 343.77,
+      "wordCount": 15,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 24,
+      "start": 343.77,
+      "end": 350.63,
+      "wordCount": 7,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 25,
+      "start": 350.63,
+      "end": 365.32,
+      "wordCount": 15,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 26,
+      "start": 365.32,
+      "end": 375.11,
+      "wordCount": 10,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 27,
+      "start": 375.11,
+      "end": 395.68,
+      "wordCount": 21,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 28,
+      "start": 395.68,
+      "end": 406.45,
+      "wordCount": 11,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 29,
+      "start": 406.45,
+      "end": 430.94,
+      "wordCount": 25,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 30,
+      "start": 430.94,
+      "end": 446.61,
+      "wordCount": 16,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 31,
+      "start": 446.61,
+      "end": 465.22,
+      "wordCount": 19,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 32,
+      "start": 465.22,
+      "end": 486.76,
+      "wordCount": 22,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 33,
+      "start": 486.76,
+      "end": 516.15,
+      "wordCount": 30,
+      "confidence": 1,
+      "manually_verified": false
+    },
+    {
+      "ayah_number": 34,
+      "start": 516.15,
+      "end": 542.59,
+      "wordCount": 27,
+      "confidence": 1,
+      "manually_verified": false
+    }
+  ],
+  "updated_at": "2026-10-19T21:55:32.395Z"
+}
