@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أسانيد النشر</title>
+
+  <!-- مكتبة الرسم البياني -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+  <!-- مكتبة ELK للتخطيط الممتاز -->
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape-elk@2.2.0/dist/cytoscape-elk.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>أسانيد «النشر في القراءات العشر»</h1>
+
+    <div class="controls" style="margin-right: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+    <!-- شريط البحث -->
+    <div style="position: relative;">
+      <input type="text" id="searchInput" placeholder="🔍 ابحث عن شيخ، راوٍ، أو طريق..." 
+             style="padding: 8px 12px; border-radius: 6px; border: 1px solid #24313f; background: #0f1720; color: white; width: 220px; font-family: inherit;">
+      <div id="searchResults" style="position: absolute; top: 100%; right: 0; left: 0; background: #16212c; border: 1px solid #24313f; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 1000; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
+      <button id="btn-reset-search" style="display: none; padding: 8px 15px; cursor: pointer; background: #e67e22; color: white; border: none; border-radius: 4px;">↩️ إلغاء البحث</button>
+    </div>
+    
+
+    <button id="btn-focus" style="padding: 8px 15px; cursor: pointer; background: #3d8bfd; color: white; border: none; border-radius: 4px;">🔍 زوم على الطبقة</button>
+  </div>
+  </header>
+
+  <main>
+    <div id="cy"></div>
+    <div id="info"></div>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+:root {
+  --bg: #0f1720;
+  --panel: #16212c;
+  --text: #e8eef5;
+  --muted: #8fa3b8;
+  --border: #24313f;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, "Noto Naskh Arabic", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---------- الترويسة ---------- */
+header {
+  padding: 12px 20px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  font-size: 18px;
+  margin: 0;
+  font-weight: 600;
+}
+
+header .sub {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- مفتاح الألوان ---------- */
+.legend {
+  display: flex;
+  gap: 14px;
+  margin-right: auto;
+  font-size: 12px;
+  color: var(--muted);
+  align-items: center;
+}
+
+.legend .dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+/* ---------- منطقة الرسم ---------- */
+main {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+}
+
+#cy {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 20%, #1a2735 0%, #0f1720 70%);
+}
+
+/* ---------- صندوق المعلومات ---------- */
+#info {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(22, 33, 44, 0.96);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  max-width: 320px;
+  display: none;
+  line-height: 1.7;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+}
+
+#info b { color: #7ec8ff; }
+
+#info .routes {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* تنسيق شريط البحث */
+#searchResults div {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #24313f;
+  font-size: 14px;
+  color: #e8eef5;
+}
+#searchResults div:hover {
+  background: #2a3a4c;
+}
