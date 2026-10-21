@@ -9,34 +9,83 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
   <!-- مكتبة ELK للتخطيط الممتاز -->
   <script src="https://cdn.jsdelivr.net/npm/cytoscape-elk@2.2.0/dist/cytoscape-elk.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+<!-- أضف هذه المكتبات -->
+<script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
   
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
+   <header>
     <h1>أسانيد «النشر في القراءات العشر»</h1>
 
     <div class="controls" style="margin-right: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-    <!-- شريط البحث -->
-    <div style="position: relative;">
-      <input type="text" id="searchInput" placeholder="🔍 ابحث عن شيخ، راوٍ، أو طريق..." 
-             style="padding: 8px 12px; border-radius: 6px; border: 1px solid #24313f; background: #0f1720; color: white; width: 220px; font-family: inherit;">
-      <div id="searchResults" style="position: absolute; top: 100%; right: 0; left: 0; background: #16212c; border: 1px solid #24313f; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 1000; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
-      <button id="btn-reset-search" style="display: none; padding: 8px 15px; cursor: pointer; background: #e67e22; color: white; border: none; border-radius: 4px;">↩️ إلغاء البحث</button>
-    </div>
-    
+      <!-- شريط البحث -->
+      <div style="position: relative;">
+        <input type="text" id="searchInput" placeholder="🔍 ابحث عن شيخ، راوٍ، أو طريق..." 
+               style="padding: 8px 12px; border-radius: 6px; border: 1px solid #24313f; background: #0f1720; color: white; width: 220px; font-family: inherit;">
+        <div id="searchResults" style="position: absolute; top: 100%; right: 0; left: 0; background: #16212c; border: 1px solid #24313f; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 1000; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
+      </div>
 
-    <button id="btn-focus" style="padding: 8px 15px; cursor: pointer; background: #3d8bfd; color: white; border: none; border-radius: 4px;">🔍 زوم على الطبقة</button>
-  </div>
+      <!-- الأزرار -->
+      <button id="btn-reset-search" style="display: none; padding: 8px 15px; cursor: pointer; background: #e67e22; color: white; border: none; border-radius: 4px;">↩️ إلغاء البحث</button>
+      <button id="btn-switch-nabi" style="padding: 8px 15px; cursor: pointer; background: #9b59b6; color: white; border: none; border-radius: 4px; font-weight: bold;">🔄 تبديل السند</button>
+      <button id="btn-focus" style="padding: 8px 15px; cursor: pointer; background: #3d8bfd; color: white; border: none; border-radius: 4px;">🔍 زوم على الطبقة</button>
+    </div>
   </header>
 
   <main>
-    <div id="cy"></div>
+    <div id="cy" style="width: 100%; height: 100%; display: block;"></div>
+    <div id="cy-nabi" style="width: 100%; height: 100%; display: none;"></div>
     <div id="info"></div>
+  <!-- 🌟 الطبقة العائمة لأزرار المسارات -->
+ <div id="path-buttons-container" style="position: absolute; top: 60px; left: 50%; transform: translateX(-50%); background: rgba(22, 33, 44, 0.9); padding: 10px 20px; border-radius: 8px; border: 1px solid #24313f; display: none; z-index: 1000; gap: 10px; flex-wrap: wrap; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
   </main>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="nabi_data.js"></script>
+  <script src="nabi_app.js"></script>
+
+  <script>
+    // زر التبديل بين الشاشتين
+    document.getElementById("btn-switch-nabi").addEventListener("click", () => {
+      // 🌟 إخفاء شريط الأزرار عند التبديل
+        const pathButtonsContainer = document.getElementById("path-buttons-container");
+        if (pathButtonsContainer) {
+            pathButtonsContainer.style.display = "none";
+            pathButtonsContainer.innerHTML = "";
+        }
+        const cyDiv = document.getElementById("cy");
+        const nabiDiv = document.getElementById("cy-nabi");
+        const btn = document.getElementById("btn-switch-nabi");
+
+        if (cyDiv.style.display === "none") {
+            // العودة لشجرة القراء
+            cyDiv.style.display = "block";
+            nabiDiv.style.display = "none";
+            btn.innerText = "🔄 تبديل إلى سند النبي";
+            
+            // إعادة رسم شجرة القراء إذا لزم الأمر
+            if (cy) {
+                setTimeout(() => { cy.resize(); cy.fit(cy.nodes(":visible"), 100); }, 100);
+            }
+        } else {
+            // التبديل لشجرة النبي
+            cyDiv.style.display = "none";
+            nabiDiv.style.display = "block";
+            btn.innerText = "🔄 تبديل إلى سند القراء";
+            
+            // تهيئة شجرة النبي إذا لم تكن مهيأة
+            if (!cyNabi) {
+                initNabiCytoscape();
+            } else {
+                setTimeout(() => { cyNabi.resize(); cyNabi.fit(cyNabi.nodes(":visible"), 100); }, 100);
+            }
+        }
+    });
+  </script>
 </body>
 </html>

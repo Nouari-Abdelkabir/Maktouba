@@ -19,11 +19,11 @@ function generateDummyRoutes(parentId, prefix, count) {
         addEdge(parentId, routeId);
 
         const sheikhId = `${routeId}_sheikh`;
-        addNode(sheikhId, `شيخ وهمي ${i}`, "other");
+        addNode(sheikhId, `شيخ سيضاف قريبا ${i}`, "other");
         addEdge(routeId, sheikhId);
 
         const bookId = `${routeId}_book`;
-        addNode(bookId, `كتاب وهمي ${i}`, "book");
+        addNode(bookId, `كتاب سيضاف قريبا ${i}`, "book");
         addEdge(sheikhId, bookId);
     }
 }
@@ -346,3 +346,6 @@ const DATA = {
     nodes: nodes,
     edges: edges
 };
+
+
+
