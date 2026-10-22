@@ -301,6 +301,7 @@ if (searchInput) {
     searchInput.addEventListener("input", function() {
         const query = this.value.trim().toLowerCase();
         
+                
         // 1. إغلاق كل شيء أولاً
         cy.nodes().forEach(node => {
             if (node.id() !== "hidden_root" && node.id() !== "middle") {
