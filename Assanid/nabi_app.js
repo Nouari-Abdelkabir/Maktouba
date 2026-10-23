@@ -11,7 +11,10 @@ function getNabiNodeColor(node) {
   if (node.type === "rawi") return "#27ae60"; // الصحابة (أخضر)
   if (node.type === "tabiee") return "#2980b9"; // التابعون (أزرق)
   if (node.type === "imam") return "#8e44ad"; // الأئمة (بنفسجي)
-  if (node.type === "level4") return "#f1c40f"; // الطبقة 4 (أصفر)
+  if (node.type === "level4") return "#f1c40f"; // 
+  if (node.type === "khalaf_reader") return "#d35400"; // 🌟 لون خاص لخلف
+  if (node.type === "khalaf_t1") return "#c0392b"; // 🌟 لون لشيوخ خلف
+  if (node.type === "khalaf_t2") return "#563ce7"; // 🌟 لون لشيوخ شيوخ خلفالطبقة 4 (أصفر)
   if (node.type === "reader") return "#e67e22"; // القراء (برتقالي)
   return "#5b6b7c";
 }
@@ -79,23 +82,29 @@ function initNabiCytoscape() {
       wheelSensitivity: 0.1
     });
 
-    // 🌟 إعدادات المسافات التي قمت بضبطها (مع إضافة الطبقة الرابعة)
+    // ============================================================
+    // 🌟 إعدادات المسافات (تشمل كل الطبقات بما فيها طبقات خلف العاشر)
+    // ============================================================
     const layerSettings = {
-        "reader":  { v: 300, h: 240 }, 
-        "level4":  { v: 120, h: 180 }, // مسافة الطبقة الرابعة
-        "imam":    { v: 250, h: 160 }, 
-        "tabiee":  { v: 180, h: 160 }, 
-        "rawi":    { v: 220, h: 200 }, 
-        "prophet": { v: 100, h: 0   }, 
-        "jibril":  { v: 100, h: 0   }, 
-        "allah":   { v: 0,   h: 0   }  
+        "khalaf_reader": { v: 150, h: 240 }, // خلف العاشر (الأسفل)
+        "khalaf_t1":     { v: 120, h: 180 }, // شيوخ خلف
+        "reader":        { v: 300, h: 240 }, // القراء التسعة
+        "khalaf_t2":     { v: 120, h: 180 }, // شيوخ شيوخ خلف
+        "level4":        { v: 120, h: 180 }, 
+        "imam":          { v: 250, h: 160 }, 
+        "tabiee":        { v: 180, h: 160 }, 
+        "rawi":          { v: 220, h: 200 }, 
+        "prophet":       { v: 100, h: 0   }, 
+        "jibril":        { v: 100, h: 0   }, 
+        "allah":         { v: 0,   h: 0   }  
     };
 
     const startX = 0; 
     let currentY = 300; 
 
     const layers = {
-        "reader": [], "level4": [], "imam": [], "tabiee": [], "rawi": [], "prophet": [], "jibril": [], "allah": []
+        "khalaf_reader": [], "khalaf_t1": [], "reader": [], "khalaf_t2": [], 
+        "level4": [], "imam": [], "tabiee": [], "rawi": [], "prophet": [], "jibril": [], "allah": []
     };
 
     // تجميع العقد حسب الطبقة
@@ -110,39 +119,42 @@ function initNabiCytoscape() {
         else if (type === "tabiee") layers.tabiee.push(node);
         else if (type === "imam") layers.imam.push(node);
         else if (type === "level4") layers.level4.push(node);
+        else if (type === "khalaf_reader") layers.khalaf_reader.push(node);
+        else if (type === "khalaf_t1") layers.khalaf_t1.push(node);
+        else if (type === "khalaf_t2") layers.khalaf_t2.push(node);
         else if (type === "reader" || type === "qari") layers.reader.push(node);
     });
 
-     // دالة توزيع الطبقة
+    // دالة توزيع الطبقة
     const placeLayer = (layerNodes, layerName) => {
         if (layerNodes.length > 0) {
             const settings = layerSettings[layerName];
             
-            // 🌟 إزاحة خاصة للطبقة الرابعة (لليمين أو اليسار)
+            // إزاحة خاصة للطبقة الرابعة
             let offsetX = 0;
             if (layerName === "level4") {
-                offsetX = 600; // 🌟 قيمة الإزاحة: 100 بكسل لليمين (اجعلها -100 لليسار)
+                offsetX = 100;
             }
 
-            // 1. توزيع أفقي
             if (layerNodes.length === 1) {
                 layerNodes[0].position({ x: startX + offsetX, y: currentY });
             } else {
                 const totalWidth = (layerNodes.length - 1) * settings.h;
-                const layerStartX = startX - (totalWidth / 2) + offsetX; // نضيف الإزاحة هنا
+                const layerStartX = startX - (totalWidth / 2) + offsetX;
                 layerNodes.forEach((node, index) => {
                     node.position({ x: layerStartX + (index * settings.h), y: currentY });
                 });
             }
-            
-            // 2. النزول للطبقة التي فوقها بناءً على المسافة العمودية
             currentY -= settings.v; 
         }
     };
 
     // توزيع الطبقات من الأسفل إلى الأعلى
-    placeLayer(layers.reader, "reader");
-    placeLayer(layers.level4, "level4"); // 🌟 إضافة الطبقة الرابعة
+    placeLayer(layers.khalaf_reader, "khalaf_reader"); // 1. خلف العاشر (الأسفل)
+    placeLayer(layers.khalaf_t1, "khalaf_t1");         // 2. شيوخ خلف المباشرين
+    placeLayer(layers.khalaf_t2, "khalaf_t2");         // 4. شيوخ شيوخ خلف (الذين يقرأ عليهم القراء)
+    placeLayer(layers.reader, "reader");               // 3. القراء التسعة (فوق شيوخ خلف)
+    placeLayer(layers.level4, "level4");               // 5. الطبقة الرابعة
     placeLayer(layers.imam, "imam");
     placeLayer(layers.tabiee, "tabiee");
     placeLayer(layers.rawi, "rawi");
@@ -150,36 +162,38 @@ function initNabiCytoscape() {
     placeLayer(layers.jibril, "jibril");
     placeLayer(layers.allah, "allah");
 
+    // ============================================================
     // أحداث النقر والتلوين
+    // ============================================================
+     // إضافة حدث النقر (لحفظ العقدة، إضاءتها، وتلوين جميع أسهمها)
     cyNabi.on("tap", "node", function(evt) {
       const node = evt.target; 
-      lastNabiClickedNode = node; 
+      lastNabiClickedNode = node; // لحفظ العقدة ليعمل بها زر الزوم
       
+      // 1. إزالة الإضاءة من العقد الأخرى
       cyNabi.nodes().removeClass("highlighted");
+      // 2. إضافة الإضاءة للعقدة التي تم النقر عليها
       node.addClass("highlighted");
 
+      // 3. إعادة جميع الأسهم إلى لونها الأصلي
       cyNabi.edges().removeClass("highlighted-edge");
-      node.connectedEdges().forEach(edge => edge.addClass("highlighted-edge"));
+
+      // 4. تلوين جميع الأسهم المتصلة بالعقدة (الداخلة والخارجة)
+      node.connectedEdges().addClass("highlighted-edge");
     });
+
+
 
     cyNabi.on("tap", function(evt) {
       if (evt.target === cyNabi) {
           cyNabi.nodes().removeClass("highlighted");
           cyNabi.edges().removeClass("highlighted-edge");
           lastNabiClickedNode = null;
-          
-          // 🌟 إخفاء شريط الأزرار
           const pathButtonsContainer = document.getElementById("path-buttons-container");
-          if (pathButtonsContainer) {
-              pathButtonsContainer.style.display = "none";
-              pathButtonsContainer.innerHTML = "";
-          }
-
-          // 🌟 إخفاء صندوق السند النصي
+          if (pathButtonsContainer) pathButtonsContainer.style.display = "none";
+          
           const isnadBox = document.getElementById("isnad-text-box");
-          if (isnadBox) {
-              isnadBox.style.display = "none";
-          }
+          if (isnadBox) isnadBox.style.display = "none";
       }
     });
 
@@ -211,7 +225,7 @@ document.getElementById("btn-focus").addEventListener("click", () => {
 
 
 // ============================================================
-// البحث في شجرة النبي (بناءً على أعمدة الجدول الأصلي)
+// البحث في شجرة النبي (تلوين مسار واحد بناءً على العمود)
 // ============================================================
 const nabiSearchInput = document.getElementById("searchInput2");
 const nabiSearchResults = document.getElementById("searchResults2");
@@ -235,7 +249,6 @@ if (nabiSearchInput) {
             return;
         }
 
-        // البحث في العقد كما كان (لإظهار القائمة)
         const matchedNodes = cyNabi.nodes().filter(node => {
             return node.data("label").toLowerCase().includes(query);
         });
@@ -244,7 +257,6 @@ if (nabiSearchInput) {
             nabiSearchResults.style.display = "block";
             nabiBtnResetSearch.style.display = "inline-block"; 
             
-            // نعرض في القائمة الأسماء الفريدة فقط (لتجنب التكرار)
             const uniqueNames = [...new Set(matchedNodes.map(n => n.data("label")))];
 
             uniqueNames.forEach(name => {
@@ -262,7 +274,7 @@ if (nabiSearchInput) {
                     nabiSearchResults.style.display = "none";
                     newNabiSearchInput.value = ""; 
                     
-                    // 🌟 1. البحث في الجدول الأصلي (NABI_COLUMNS) عن الأعمدة التي تحتوي على هذا الاسم
+                    // البحث في الجدول عن الأعمدة التي تحتوي على هذا الاسم
                     const matchingColumns = [];
                     for (let i = 0; i < NABI_COLUMNS.length; i++) {
                         const col = NABI_COLUMNS[i];
@@ -273,7 +285,7 @@ if (nabiSearchInput) {
                             col.l2 === name || 
                             col.l1 === name
                         ) {
-                            matchingColumns.push(i); // نحفظ رقم العمود
+                            matchingColumns.push(i); 
                         }
                     }
 
@@ -282,7 +294,7 @@ if (nabiSearchInput) {
                         return;
                     }
 
-                    // 2. تجهيز الشريط العلوي
+                    // تجهيز الشريط العلوي
                     pathButtonsContainer.innerHTML = "";
                     pathButtonsContainer.style.display = "flex";
                     
@@ -293,7 +305,7 @@ if (nabiSearchInput) {
                     title.style.marginLeft = "10px";
                     pathButtonsContainer.appendChild(title);
 
-                    // 3. إنشاء الأزرار (بعدد الأعمدة التي وجدناها)
+                    // إنشاء الأزرار
                     matchingColumns.forEach((colIndex, btnIndex) => {
                         const btn = document.createElement("div");
                         btn.innerText = btnIndex + 1;
@@ -313,7 +325,6 @@ if (nabiSearchInput) {
                         btn.addEventListener("mouseenter", () => btn.style.transform = "scale(1.1)");
                         btn.addEventListener("mouseleave", () => btn.style.transform = "scale(1)");
 
-                        // عند النقر على الزر، يتم تلوين المسار
                         btn.addEventListener("click", () => {
                             cyNabi.nodes().removeClass("highlighted");
                             cyNabi.edges().removeClass("highlighted-edge");
@@ -333,30 +344,32 @@ if (nabiSearchInput) {
                                 pathNodes.add(getNodeByLabel(colData.qari));
                             }
                             
-                            // 2. تلوين الطبقة 4 (إن وجدت)
+                            // 2. تلوين الطبقة 4
                             if (colData.l4) {
                                 getNodeByLabel(colData.l4).addClass("highlighted");
                                 pathNodes.add(getNodeByLabel(colData.l4));
                             }
-                            // 3. تلوين الطبقة 3 (إن وجدت)
+                            // 3. تلوين الطبقة 3
                             if (colData.l3) {
                                 getNodeByLabel(colData.l3).addClass("highlighted");
                                 pathNodes.add(getNodeByLabel(colData.l3));
                             }
-                            // 4. تلوين الطبقة 2 (إن وجدت)
+                            // 4. تلوين الطبقة 2
                             if (colData.l2) {
                                 getNodeByLabel(colData.l2).addClass("highlighted");
                                 pathNodes.add(getNodeByLabel(colData.l2));
                             }
-                            // 5. تلوين الطبقة 1 (إن وجدت)
+                            // 5. تلوين الطبقة 1
                             if (colData.l1) {
                                 getNodeByLabel(colData.l1).addClass("highlighted");
                                 pathNodes.add(getNodeByLabel(colData.l1));
                             }
                             
-                            // 6. تلوين النبي
-                            getNodeByLabel("رسول الله صلى الله عليه وسلم").addClass("highlighted");
-                            pathNodes.add(getNodeByLabel("رسول الله صلى الله عليه وسلم"));
+                            // 6. تلوين النبي (إذا لم يكن العمود لخلف العاشر)
+                            if (!colData.isKhalaf) {
+                                getNodeByLabel("رسول الله صلى الله عليه وسلم").addClass("highlighted");
+                                pathNodes.add(getNodeByLabel("رسول الله صلى الله عليه وسلم"));
+                            }
 
                             // 7. تلوين الأسهم بين هذه العقد
                             let orderedNodes = [
@@ -367,8 +380,8 @@ if (nabiSearchInput) {
                                 colData.l1
                             ].filter(n => n); 
 
-                            // 🌟 إذا لم يكن العمود خاصاً بخلف العاشر، نضيف النبي في النهاية
-                            if (!colData.isKhalaf) { // 🌟 تم تصحيح col إلى colData
+                            // إذا لم يكن العمود لخلف العاشر، نضيف النبي
+                            if (!colData.isKhalaf) {
                                 orderedNodes.push("رسول الله صلى الله عليه وسلم");
                             }
 
@@ -386,7 +399,7 @@ if (nabiSearchInput) {
 
                             // تغيير لون الزر النشط
                             Array.from(pathButtonsContainer.children).forEach(b => {
-                                if (b.innerText !== "اختر السند (بناءً على الجدول): ") b.style.background = "#ffd700";
+                                if (b.innerText !== "اختر السند : ") b.style.background = "#ffd700";
                             });
                             btn.style.background = "#e74c3c"; 
                             
@@ -397,11 +410,11 @@ if (nabiSearchInput) {
                                 duration: 600
                             });
 
-                            // 🌟 8. توليد السند النصي
+                            // 8. توليد السند النصي
                             const isnadBox = document.getElementById("isnad-text-box");
                             if (isnadBox) {
                                 let text = "";
-                                
+                                // نستخدم orderedNodes (تبدأ بالقارئ وتنتهي بالنبي)
                                 orderedNodes.forEach((nodeName, index) => {
                                     if (nodeName === name) {
                                         text += `<span style="color: #ffd700; font-weight: bold;">${nodeName}</span>`;
@@ -413,11 +426,6 @@ if (nabiSearchInput) {
                                         text += " عن ";
                                     }
                                 });
-                                
-                                // 🌟 لا نضيف "عن رسول الله" إذا كان العمود لخلف العاشر
-                                //if (!colData.isKhalaf) { // 🌟 تم تصحيح col إلى colData
-                                   // text += " عن رسول الله صلى الله عليه وسلم";
-                                //}
                                 
                                 isnadBox.innerHTML = text;
                                 isnadBox.style.display = "block";
@@ -459,12 +467,6 @@ document.addEventListener("click", function(e) {
 if (nabiBtnResetSearch) {
     const newNabiBtnReset = nabiBtnResetSearch.cloneNode(true);
     nabiBtnResetSearch.parentNode.replaceChild(newNabiBtnReset, nabiBtnResetSearch);
-
-    // داخل حدث btnResetSearch أو cyNabi.on("tap")
-        const isnadBox = document.getElementById("isnad-text-box");
-        if (isnadBox) {
-            isnadBox.style.display = "none";
-        }
     
     newNabiBtnReset.addEventListener("click", () => {
         newNabiBtnReset.style.display = "none";
@@ -475,6 +477,9 @@ if (nabiBtnResetSearch) {
         
         cyNabi.nodes().removeClass("highlighted");
         cyNabi.edges().removeClass("highlighted-edge");
+        
+        const isnadBox = document.getElementById("isnad-text-box");
+        if (isnadBox) isnadBox.style.display = "none";
         
         cyNabi.fit(cyNabi.nodes(":visible"), 100);
     });

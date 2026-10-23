@@ -196,40 +196,45 @@ for (let i = 0; i < columns.length; i++) {
     
     if (!col.qari || col.qari.trim() === "") continue;
 
-    // نبدأ بالقارئ
-    const qariId = getOrCreatePerson(col.qari, "reader");
+    // 🌟 تحديد النوع الخاص بالقارئ (خلف العاشر أم غيره)
+    const qariType = col.qari === "خلف العاشر" ? "khalaf_reader" : "reader";
+    const qariId = getOrCreatePerson(col.qari, qariType);
     let lastId = qariId;
 
-    // الطبقة 4 (إن وجدت)
+    // الطبقة 4 (في أعمدة خلف، هذه هي الطبقة الأولى من شيوخه)
     if (col.l4 && col.l4.trim() !== "") {
-        const l4Id = getOrCreatePerson(col.l4, "level4");
+        const l4Type = col.isKhalaf ? "khalaf_t1" : "level4";
+        const l4Id = getOrCreatePerson(col.l4, l4Type);
         addNabiEdge(lastId, l4Id);
-        lastId = l4Id; // تحديث آخر شخص تم ربطه
+        lastId = l4Id;
     }
 
-    // الطبقة 3 (إن وجدت)
+    // الطبقة 3 (في أعمدة خلف، هذه هي الطبقة الثانية من شيوخه)
     if (col.l3 && col.l3.trim() !== "") {
-        const l3Id = getOrCreatePerson(col.l3, "imam");
+        const l3Type = col.isKhalaf ? "khalaf_t2" : "imam";
+        const l3Id = getOrCreatePerson(col.l3, l3Type);
         addNabiEdge(lastId, l3Id);
         lastId = l3Id;
     }
 
-    // الطبقة 2 (إن وجدت)
+    // الطبقة 2 (التابعون)
     if (col.l2 && col.l2.trim() !== "") {
         const l2Id = getOrCreatePerson(col.l2, "tabiee");
         addNabiEdge(lastId, l2Id);
         lastId = l2Id;
     }
 
-    // الطبقة 1 (إن وجدت)
+    // الطبقة 1 (الصحابة)
     if (col.l1 && col.l1.trim() !== "") {
         const l1Id = getOrCreatePerson(col.l1, "rawi");
         addNabiEdge(lastId, l1Id);
         lastId = l1Id;
     }
 
-    // في النهاية، نربط آخر شخص (سواء كان طبقة 1 أو 2 أو 3) بالنبي
-    addNabiEdge(lastId, prophetId);
+    // ربط آخر شخص بالنبي (إلا إذا كان خلف العاشر)
+    if (!col.isKhalaf) {
+        addNabiEdge(lastId, prophetId);
+    }
 }
 
 const NABI_DATA = {

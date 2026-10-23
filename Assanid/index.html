@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>أسانيد النشر</title>
+  <title>أسانيد القراء العشرة وطرقهم</title>
 
   <!-- مكتبة الرسم البياني -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
@@ -25,21 +25,21 @@
       
       <!-- 🌟 شريط بحث شجرة القراء (يظهر افتراضياً) -->
       <div id="search-wrapper-1" style="position: relative; display: block;">
-        <input type="text" id="searchInput1" placeholder="🔍 ابحث في سند القراء..." 
+        <input type="text" id="searchInput1" placeholder="🔍 ابحث في الطرق..." 
                style="padding: 8px 12px; border-radius: 6px; border: 1px solid #24313f; background: #0f1720; color: white; width: 220px; font-family: inherit;">
         <div id="searchResults1" style="position: absolute; top: 100%; right: 0; left: 0; background: #16212c; border: 1px solid #24313f; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 1000; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
       </div>
 
       <!-- 🌟 شريط بحث شجرة النبي (مخفي افتراضياً) -->
       <div id="search-wrapper-2" style="position: relative; display: none;">
-        <input type="text" id="searchInput2" placeholder="🔍 ابحث في سند النبي..." 
+        <input type="text" id="searchInput2" placeholder="🔍 ابحث في الأسانيد..." 
                style="padding: 8px 12px; border-radius: 6px; border: 1px solid #24313f; background: #0f1720; color: white; width: 220px; font-family: inherit;">
         <div id="searchResults2" style="position: absolute; top: 100%; right: 0; left: 0; background: #16212c; border: 1px solid #24313f; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 1000; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
       </div>
 
       <!-- الأزرار -->
       <button id="btn-reset-search" style="display: none; padding: 8px 15px; cursor: pointer; background: #e67e22; color: white; border: none; border-radius: 4px;">↩️ إلغاء البحث</button>
-      <button id="btn-switch-isnad" style="padding: 8px 15px; cursor: pointer; background: #9b59b6; color: white; border: none; border-radius: 4px; font-weight: bold;">🔄 تبديل السند (القراء / النبي)</button>
+      <button id="btn-switch-isnad" style="padding: 8px 15px; cursor: pointer; background: #9b59b6; color: white; border: none; border-radius: 4px; font-weight: bold;">🔄 التبديل بين الأسانيد والطرق</button>
       <button id="btn-focus" style="padding: 8px 15px; cursor: pointer; background: #3d8bfd; color: white; border: none; border-radius: 4px;">🔍 زوم على الطبقة</button>
     </div>
   </header>
@@ -49,9 +49,9 @@
     <div id="cy-nabi" style="width: 100%; height: 100%; display: none;"></div>
     <div id="info"></div>
   <!-- 🌟 الطبقة العائمة لأزرار المسارات -->
- <div id="path-buttons-container" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(22, 33, 44, 0.9); padding: 10px 20px; border-radius: 8px; border: 1px solid #24313f; display: none; z-index: 1000; gap: 10px; flex-wrap: wrap; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
+  <div id="path-buttons-container" style="position: absolute; top: 2px; left: 0; width: 100%; background: rgba(22, 33, 44, 0.95); padding: 2px 4px; border-radius: 0; border-top: 1px solid #24313f; border-bottom: 1px solid #24313f; display: none; z-index: 1000; gap: 10px; flex-wrap: wrap; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
  <!-- 🌟 صندوق السند النصي -->
-    <div id="isnad-text-box" style="position: absolute; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(22, 33, 44, 0.95); padding: 15px 25px; border-radius: 8px; border: 1px solid #ffd700; display: none; z-index: 1000; color: #fff; font-size: 18px; font-family: 'Noto Naskh Arabic', serif; line-height: 1.8; max-width: 90%; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
+  <div id="isnad-text-box" style="position: absolute; top: 40px; left: 0; width: 100%; background: rgba(22, 33, 44, 0.95); padding: 2px 4px; border-radius: 0; display: none; z-index: 1000; color: #fff; font-size: 18px; font-family: 'Noto Naskh Arabic', serif; line-height: 1.8; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
   </main>
 
   <script src="data.js"></script>
@@ -77,7 +77,7 @@
             // العودة لشجرة القراء
             cyDiv.style.display = "block";
             nabiDiv.style.display = "none";
-            btn.innerText = "🔄 تبديل إلى سند النبي";
+            btn.innerText = "🔄 التبديل إلى الأسانيد";
             
             // إظهار بحث القراء وإخفاء بحث النبي
             document.getElementById("search-wrapper-1").style.display = "block";
@@ -90,7 +90,7 @@
             // التبديل لشجرة النبي
             cyDiv.style.display = "none";
             nabiDiv.style.display = "block";
-            btn.innerText = "🔄 تبديل إلى سند القراء";
+            btn.innerText = "🔄التبديل إلى الطرق";
             
             // إظهار بحث النبي وإخفاء بحث القراء
             document.getElementById("search-wrapper-1").style.display = "none";
