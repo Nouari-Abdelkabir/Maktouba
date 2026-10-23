@@ -121,7 +121,7 @@ function initNabiCytoscape() {
             // 🌟 إزاحة خاصة للطبقة الرابعة (لليمين أو اليسار)
             let offsetX = 0;
             if (layerName === "level4") {
-                offsetX = 400; // 🌟 قيمة الإزاحة: 100 بكسل لليمين (اجعلها -100 لليسار)
+                offsetX = 600; // 🌟 قيمة الإزاحة: 100 بكسل لليمين (اجعلها -100 لليسار)
             }
 
             // 1. توزيع أفقي
@@ -167,8 +167,19 @@ function initNabiCytoscape() {
           cyNabi.nodes().removeClass("highlighted");
           cyNabi.edges().removeClass("highlighted-edge");
           lastNabiClickedNode = null;
+          
+          // 🌟 إخفاء شريط الأزرار
           const pathButtonsContainer = document.getElementById("path-buttons-container");
-          if (pathButtonsContainer) pathButtonsContainer.style.display = "none";
+          if (pathButtonsContainer) {
+              pathButtonsContainer.style.display = "none";
+              pathButtonsContainer.innerHTML = "";
+          }
+
+          // 🌟 إخفاء صندوق السند النصي
+          const isnadBox = document.getElementById("isnad-text-box");
+          if (isnadBox) {
+              isnadBox.style.display = "none";
+          }
       }
     });
 
@@ -202,8 +213,8 @@ document.getElementById("btn-focus").addEventListener("click", () => {
 // ============================================================
 // البحث في شجرة النبي (بناءً على أعمدة الجدول الأصلي)
 // ============================================================
-const nabiSearchInput = document.getElementById("searchInput");
-const nabiSearchResults = document.getElementById("searchResults");
+const nabiSearchInput = document.getElementById("searchInput2");
+const nabiSearchResults = document.getElementById("searchResults2");
 const nabiBtnResetSearch = document.getElementById("btn-reset-search");
 const pathButtonsContainer = document.getElementById("path-buttons-container");
 
@@ -302,7 +313,7 @@ if (nabiSearchInput) {
                         btn.addEventListener("mouseenter", () => btn.style.transform = "scale(1.1)");
                         btn.addEventListener("mouseleave", () => btn.style.transform = "scale(1)");
 
-                        // عند النقر على الزر، يتم تلوين المسار الخاص بهذا العمود
+                        // عند النقر على الزر، يتم تلوين المسار
                         btn.addEventListener("click", () => {
                             cyNabi.nodes().removeClass("highlighted");
                             cyNabi.edges().removeClass("highlighted-edge");
@@ -348,21 +359,23 @@ if (nabiSearchInput) {
                             pathNodes.add(getNodeByLabel("رسول الله صلى الله عليه وسلم"));
 
                             // 7. تلوين الأسهم بين هذه العقد
-                            // نقوم بالمرور على كل عقدتين متتاليتين ونبحث عن السهم بينهما
-                            const orderedNodes = [
+                            let orderedNodes = [
                                 colData.qari, 
                                 colData.l4, 
                                 colData.l3, 
                                 colData.l2, 
-                                colData.l1, 
-                                "رسول الله صلى الله عليه وسلم"
-                            ].filter(n => n); // إزالة الفراغات
+                                colData.l1
+                            ].filter(n => n); 
+
+                            // 🌟 إذا لم يكن العمود خاصاً بخلف العاشر، نضيف النبي في النهاية
+                            if (!colData.isKhalaf) { // 🌟 تم تصحيح col إلى colData
+                                orderedNodes.push("رسول الله صلى الله عليه وسلم");
+                            }
 
                             for (let i = 0; i < orderedNodes.length - 1; i++) {
                                 const sourceLabel = orderedNodes[i];
                                 const targetLabel = orderedNodes[i+1];
                                 
-                                // البحث عن السهم الذي يربط بين هذين الاسمين
                                 const edge = cyNabi.edges().filter(e => 
                                     e.source().data("label") === sourceLabel && 
                                     e.target().data("label") === targetLabel
@@ -373,7 +386,7 @@ if (nabiSearchInput) {
 
                             // تغيير لون الزر النشط
                             Array.from(pathButtonsContainer.children).forEach(b => {
-                                if (b.innerText !== "اختر السند : ") b.style.background = "#ffd700";
+                                if (b.innerText !== "اختر السند (بناءً على الجدول): ") b.style.background = "#ffd700";
                             });
                             btn.style.background = "#e74c3c"; 
                             
@@ -383,6 +396,32 @@ if (nabiSearchInput) {
                                 fit: { eles: elementsToFit, padding: 100 },
                                 duration: 600
                             });
+
+                            // 🌟 8. توليد السند النصي
+                            const isnadBox = document.getElementById("isnad-text-box");
+                            if (isnadBox) {
+                                let text = "";
+                                
+                                orderedNodes.forEach((nodeName, index) => {
+                                    if (nodeName === name) {
+                                        text += `<span style="color: #ffd700; font-weight: bold;">${nodeName}</span>`;
+                                    } else {
+                                        text += nodeName;
+                                    }
+
+                                    if (index < orderedNodes.length - 1) {
+                                        text += " عن ";
+                                    }
+                                });
+                                
+                                // 🌟 لا نضيف "عن رسول الله" إذا كان العمود لخلف العاشر
+                                //if (!colData.isKhalaf) { // 🌟 تم تصحيح col إلى colData
+                                   // text += " عن رسول الله صلى الله عليه وسلم";
+                                //}
+                                
+                                isnadBox.innerHTML = text;
+                                isnadBox.style.display = "block";
+                            }
                         });
                         
                         pathButtonsContainer.appendChild(btn);
@@ -420,6 +459,12 @@ document.addEventListener("click", function(e) {
 if (nabiBtnResetSearch) {
     const newNabiBtnReset = nabiBtnResetSearch.cloneNode(true);
     nabiBtnResetSearch.parentNode.replaceChild(newNabiBtnReset, nabiBtnResetSearch);
+
+    // داخل حدث btnResetSearch أو cyNabi.on("tap")
+        const isnadBox = document.getElementById("isnad-text-box");
+        if (isnadBox) {
+            isnadBox.style.display = "none";
+        }
     
     newNabiBtnReset.addEventListener("click", () => {
         newNabiBtnReset.style.display = "none";

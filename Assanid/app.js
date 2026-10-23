@@ -293,8 +293,8 @@ cy.on("tap", "node", function(evt) {
 // ============================================================
 // 10. البحث
 // ============================================================
-const searchInput = document.getElementById("searchInput");
-const searchResults = document.getElementById("searchResults");
+const searchInput = document.getElementById("searchInput1");
+const searchResults = document.getElementById("searchResults1");
 const btnResetSearch = document.getElementById("btn-reset-search");
 
 if (searchInput) {
