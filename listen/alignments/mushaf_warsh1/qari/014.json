@@ -1,0 +1,331 @@
+{
+  "surah_id": 14,
+  "mushaf_id": "mushaf_warsh1",
+  "reciter_id": "qari",
+  "reciter_code": "qari",
+  "reciter_name": "ياسين الجزائري",
+  "audio_url": "https://server11.mp3quran.net/qari/014.mp3",
+  "audio_duration": 1060.94,
+  "generated_at": "2026-10-23T08:26:12.794Z",
+  "ayahs": [
+    {
+      "ayah_number": 0,
+      "start": 0,
+      "end": 4.84,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 1,
+      "start": 4.84,
+      "end": 28.97,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 28.97,
+      "end": 40.63,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 40.63,
+      "end": 65.6,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 65.6,
+      "end": 92.01,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 92.01,
+      "end": 115.83,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 115.83,
+      "end": 154.84,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 154.84,
+      "end": 170.27,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 8,
+      "start": 170.27,
+      "end": 188.76,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 9,
+      "start": 188.76,
+      "end": 247.59,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 10,
+      "start": 247.59,
+      "end": 306.82,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 11,
+      "start": 306.82,
+      "end": 343.05,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 12,
+      "start": 343.05,
+      "end": 365.68,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 13,
+      "start": 365.68,
+      "end": 388.56,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 14,
+      "start": 388.56,
+      "end": 399.22,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 15,
+      "start": 399.22,
+      "end": 404.11,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 16,
+      "start": 404.11,
+      "end": 416.69,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 17,
+      "start": 416.69,
+      "end": 435.42,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 18,
+      "start": 435.42,
+      "end": 456.59,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 19,
+      "start": 456.59,
+      "end": 471.18,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 20,
+      "start": 471.18,
+      "end": 475.51,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 21,
+      "start": 475.51,
+      "end": 526.53,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 22,
+      "start": 526.53,
+      "end": 586.34,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 23,
+      "start": 586.34,
+      "end": 604.73,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 24,
+      "start": 604.73,
+      "end": 622.56,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 25,
+      "start": 622.56,
+      "end": 638.76,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 26,
+      "start": 638.76,
+      "end": 650.38,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 27,
+      "start": 650.38,
+      "end": 669.12,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 28,
+      "start": 669.12,
+      "end": 679.73,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 29,
+      "start": 679.73,
+      "end": 684.87,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 30,
+      "start": 684.87,
+      "end": 700.71,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 31,
+      "start": 700.71,
+      "end": 727.72,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 32,
+      "start": 727.72,
+      "end": 753.11,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 33,
+      "start": 753.11,
+      "end": 765.8,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 34,
+      "start": 765.8,
+      "end": 783.17,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 35,
+      "start": 783.17,
+      "end": 794.81,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 36,
+      "start": 794.81,
+      "end": 812.68,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 37,
+      "start": 812.68,
+      "end": 844.04,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 38,
+      "start": 844.04,
+      "end": 863.74,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 39,
+      "start": 863.74,
+      "end": 879.26,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 40,
+      "start": 879.26,
+      "end": 891.33,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 41,
+      "start": 891.33,
+      "end": 899.05,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 42,
+      "start": 899.05,
+      "end": 914.46,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 43,
+      "start": 914.46,
+      "end": 925.55,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 44,
+      "start": 925.55,
+      "end": 965.73,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 45,
+      "start": 965.73,
+      "end": 982.37,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 46,
+      "start": 982.37,
+      "end": 993.49,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 47,
+      "start": 993.49,
+      "end": 1005.59,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 48,
+      "start": 1005.59,
+      "end": 1015.21,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 49,
+      "start": 1015.21,
+      "end": 1022.36,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 50,
+      "start": 1022.36,
+      "end": 1031.46,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 51,
+      "start": 1031.46,
+      "end": 1040.56,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 52,
+      "start": 1040.56,
+      "end": 1060.94,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-10-23T08:26:12.794Z"
+}
