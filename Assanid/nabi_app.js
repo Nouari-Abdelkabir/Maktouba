@@ -11,8 +11,8 @@ function getNabiNodeColor(node) {
   if (node.type === "rawi") return "#27ae60"; // الصحابة (أخضر)
   if (node.type === "tabiee") return "#2980b9"; // التابعون (أزرق)
   if (node.type === "imam") return "#8e44ad"; // الأئمة (بنفسجي)
-  if (node.type === "level4") return "#f1c40f"; // 
-  if (node.type === "khalaf_reader") return "#d35400"; // 🌟 لون خاص لخلف
+  if (node.type === "level4") return "#977e0d"; // 
+  if (node.type === "khalaf_reader") return "#e67e22"; // 🌟 لون خاص لخلف
   if (node.type === "khalaf_t1") return "#c0392b"; // 🌟 لون لشيوخ خلف
   if (node.type === "khalaf_t2") return "#563ce7"; // 🌟 لون لشيوخ شيوخ خلفالطبقة 4 (أصفر)
   if (node.type === "reader") return "#e67e22"; // القراء (برتقالي)
@@ -32,6 +32,8 @@ function buildNabiElements(data) {
 }
 
 const NABI_STYLE = [
+
+    
   {
     selector: "node",
     style: {
@@ -53,11 +55,12 @@ const NABI_STYLE = [
   },
   { selector: "node[type='qari']", style: { "font-size": "24px", "padding": "20px" } },
   { selector: "node[type='tariq']", style: { "font-size": "20px", "padding": "15px" } },
-  { selector: "node[type='rawi']", style: { "font-size": "18px", "padding": "12px" } },
-  { selector: "node[type='tabiee']", style: { "font-size": "16px", "padding": "10px" } },
-  { selector: "node[type='imam']", style: { "font-size": "15px", "padding": "10px" } },
-  { selector: "node[type='level4']", style: { "font-size": "14px", "padding": "8px" } },
+  { selector: "node[type='rawi']", style:{ "font-size": "20px", "padding": "15px" } },
+  { selector: "node[type='tabiee']", style: { "font-size": "20px", "padding": "15px" } },
+  { selector: "node[type='imam']", style: { "font-size": "20px", "padding": "15px" } },
+  { selector: "node[type='level4']", style: { "font-size": "20px", "padding": "15px" } },
   { selector: "node[type='reader']", style: { "font-size": "20px", "padding": "15px" } },
+  {selector: "node[type='khalaf_reader']", style: { "font-size": "20px", "padding": "15px" } },
   {
     selector: "edge",
     style: {
@@ -65,8 +68,8 @@ const NABI_STYLE = [
       "curve-style": "straight", "arrow-scale": 1.2
     }
   },
-  { selector: "node.highlighted", style: { "border-width": 5, "border-color": "#ffd700", "overlay-color": "#ffd700", "overlay-opacity": 0.2 } },
-  { selector: "edge.highlighted-edge", style: { "line-color": "#ffd700", "target-arrow-color": "#ffd700", "width": 4, "z-index": 10 } }
+  { selector: "node.highlighted", style: { "border-width": 2, "border-color": "#ffd700", "overlay-color": "#ffd700", "overlay-opacity": 0.2 } },
+  { selector: "edge.highlighted-edge", style: { "line-color": "#ffd700", "target-arrow-color": "#ffd700", "width": 2, "z-index": 10 } }
 ];
 
 function initNabiCytoscape() {
@@ -86,17 +89,17 @@ function initNabiCytoscape() {
     // 🌟 إعدادات المسافات (تشمل كل الطبقات بما فيها طبقات خلف العاشر)
     // ============================================================
     const layerSettings = {
-        "khalaf_reader": { v: 150, h: 240 }, // خلف العاشر (الأسفل)
-        "khalaf_t1":     { v: 120, h: 180 }, // شيوخ خلف
-        "reader":        { v: 300, h: 240 }, // القراء التسعة
-        "khalaf_t2":     { v: 120, h: 180 }, // شيوخ شيوخ خلف
-        "level4":        { v: 120, h: 180 }, 
-        "imam":          { v: 250, h: 160 }, 
-        "tabiee":        { v: 180, h: 160 }, 
-        "rawi":          { v: 220, h: 200 }, 
+        "khalaf_reader": { v: 120, h: 180 }, // خلف العاشر (الأسفل)
+        "khalaf_t1":     { v: 120, h: 130 }, // شيوخ خلف
+        "khalaf_t2":     { v: 120, h: 130 }, // شيوخ شيوخ خلف
+         "reader":       { v: 200, h: 340 }, // القراء التسعة
+        "level4":        { v: 200, h: 180 }, 
+        "imam":          { v: 200, h: 160 }, 
+        "tabiee":        { v: 200, h: 160 }, 
+        "rawi":          { v: 200, h: 200 }, 
         "prophet":       { v: 100, h: 0   }, 
         "jibril":        { v: 100, h: 0   }, 
-        "allah":         { v: 0,   h: 0   }  
+        "allah":         { v: 10,   h: 0   }  
     };
 
     const startX = 0; 
@@ -133,7 +136,7 @@ function initNabiCytoscape() {
             // إزاحة خاصة للطبقة الرابعة
             let offsetX = 0;
             if (layerName === "level4") {
-                offsetX = 100;
+                offsetX = 700;
             }
 
             if (layerNodes.length === 1) {
@@ -165,21 +168,22 @@ function initNabiCytoscape() {
     // ============================================================
     // أحداث النقر والتلوين
     // ============================================================
-     // إضافة حدث النقر (لحفظ العقدة، إضاءتها، وتلوين جميع أسهمها)
-    cyNabi.on("tap", "node", function(evt) {
+     cyNabi.on("tap", "node", function(evt) {
       const node = evt.target; 
-      lastNabiClickedNode = node; // لحفظ العقدة ليعمل بها زر الزوم
+      lastNabiClickedNode = node; 
       
-      // 1. إزالة الإضاءة من العقد الأخرى
       cyNabi.nodes().removeClass("highlighted");
-      // 2. إضافة الإضاءة للعقدة التي تم النقر عليها
       node.addClass("highlighted");
 
-      // 3. إعادة جميع الأسهم إلى لونها الأصلي
       cyNabi.edges().removeClass("highlighted-edge");
-
-      // 4. تلوين جميع الأسهم المتصلة بالعقدة (الداخلة والخارجة)
       node.connectedEdges().addClass("highlighted-edge");
+
+      // 🌟 الزوم بنفس طريقة الشجرة الأولى (تقريب ثابت)
+      cyNabi.animate({
+          center: { eles: node }, // نركز الكاميرا على العقدة
+          zoom: 0.5,              // نكبر الشاشة بمقدار ثابت (1.2 أو 1.5)
+          duration: 600
+      });
     });
 
 
@@ -198,7 +202,7 @@ function initNabiCytoscape() {
     });
 
     setTimeout(() => {
-        cyNabi.fit(cyNabi.nodes(":visible"), 100);
+        cyNabi.fit(cyNabi.nodes(":visible"), 10);
     }, 300);
 }
 
@@ -406,8 +410,8 @@ if (nabiSearchInput) {
                             // زوم ليشمل المسار
                             const elementsToFit = [...pathNodes, ...pathEdges];
                             cyNabi.animate({
-                                fit: { eles: elementsToFit, padding: 100 },
-                                duration: 600
+                                fit: { eles: elementsToFit, padding: 10 },
+                                duration: 400
                             });
 
                             // 8. توليد السند النصي
@@ -440,8 +444,8 @@ if (nabiSearchInput) {
                     if (targetNodes.length > 0) {
                         cyNabi.animate({
                             center: { eles: targetNodes.first() },
-                            zoom: 1.2,
-                            duration: 600
+                            zoom: 1.5,
+                            duration: 400
                         });
                     }
                 });
@@ -481,6 +485,39 @@ if (nabiBtnResetSearch) {
         const isnadBox = document.getElementById("isnad-text-box");
         if (isnadBox) isnadBox.style.display = "none";
         
-        cyNabi.fit(cyNabi.nodes(":visible"), 100);
+        cyNabi.fit(cyNabi.nodes(":visible"), 10);
+    });
+}
+
+
+// ============================================================
+// زر إعادة ضبط الشجرة الثانية (شجرة النبي)
+// ============================================================
+const resetAllBtnNabi = document.getElementById("btn-reset-all");
+if (resetAllBtnNabi) {
+    resetAllBtnNabi.addEventListener("click", () => {
+        // 1. إلغاء إضاءة العقد
+        if (typeof cyNabi !== 'undefined' && cyNabi) {
+            cyNabi.nodes().removeClass("highlighted");
+            cyNabi.edges().removeClass("highlighted-edge");
+            
+            // 2. إخفاء نتائج البحث
+            const searchResults2 = document.getElementById("searchResults2");
+            if (searchResults2) searchResults2.style.display = "none";
+            const btnResetSearch = document.getElementById("btn-reset-search");
+            if (btnResetSearch) btnResetSearch.style.display = "none";
+            
+            // 3. إخفاء شريط الأزرار وصندوق السند النصي
+            const pathButtonsContainer = document.getElementById("path-buttons-container");
+            if (pathButtonsContainer) {
+                pathButtonsContainer.style.display = "none";
+                pathButtonsContainer.innerHTML = "";
+            }
+            const isnadBox = document.getElementById("isnad-text-box");
+            if (isnadBox) isnadBox.style.display = "none";
+
+            // 4. عمل زوم ليشمل الشجرة كاملة
+            cyNabi.fit(cyNabi.nodes(":visible"), 10);
+        }
     });
 }
