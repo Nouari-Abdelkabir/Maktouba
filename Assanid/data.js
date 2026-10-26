@@ -39,7 +39,15 @@ function generateRealRoutes(parentId, prefix, routesArray) {
         let previousNode = routeId;
         route.forEach((person, pIndex) => {
             const personId = `${routeId}_p${pIndex}`;
-            const pType = (person.includes("كتاب") || person.includes("التذكرة") || person.includes("التبصرة") || person.includes("المنتهى") || person.includes("الجامع") || person.includes("النشر")) ? "book" : "other";
+            
+            // قائمة الكتب الذكية
+            const booksList = /التيسير|جامع البيان|الشاطبية|حرز الأماني|العنوان|الهادي|الكافي|الهداية|التبصرة|القاصد|الروضة|المجتبى|تلخيص العبارات|التذكرة|الجامع|التجريد|التلخيص|الإعلان|الإرشاد|الوجيز|السبعة|المستنير|المبهج|التذكار|الكفاية|المفتاح|الموضح|الكفاية الكبرى|غاية الاختصار|الغاية|المصباح|الكامل|المنتهى|المهذب|المفيد/i;
+            
+            // نعتبره كتاباً إذا كان آخر شخص في السند أو إذا احتوى اسمه على اسم كتاب
+            const isBook = (pIndex === route.length - 1) || booksList.test(person);
+            
+            const pType = isBook ? "book" : "other";
+            
             addNode(personId, person, pType);
             addEdge(previousNode, personId);
             previousNode = personId;
@@ -188,7 +196,7 @@ buildQari("q2", "ابن كثير المكي", [
         name: "البزي",
         turuq: [
             { name: "أبي ربيعة", count: 34 },
-            { name: "ابن فرح", count: 39 }
+            { name: "ابن الحباب", count: 39 }
         ]
     },
     {
@@ -205,15 +213,15 @@ buildQari("q3", "أبو عمرو البصري", [
     {
         name: "الدوري",
         turuq: [
-            { name: "أبي الزعراء", count: 81 },
-            { name: "ابن فرح", count: 34 }
+            { name: "أبي الزعراء", count: 82 },
+            { name: "أحمد بن فرح", count: 44 }
         ]
     },
     {
         name: "السوسي",
         turuq: [
-            { name: "ابن جمهور", count: 5 },
-            { name: "موسى بن جرير", count: 46 }
+            { name: "موسى بن جرير ", count: 23 },
+            { name: "ابن جمهور", count: 5 }
         ]
     }
 ]);
@@ -223,15 +231,15 @@ buildQari("q4", "ابن عامر الدمشقي", [
     {
         name: "هشام",
         turuq: [
-            { name: "الحلواني", count: 79 },
+            { name: "الحلواني", count: 28 },
             { name: "الداجوني", count: 23 }
         ]
     },
     {
         name: "ذكوان",
         turuq: [
-            { name: "الأخفش", count: 6 },
-            { name: "الصوري", count: 22 }
+            { name: "الأخفش", count: 37 },
+            { name: "الصوري", count: 42 }
         ]
     }
 ]);
@@ -241,8 +249,8 @@ buildQari("q5", "عاصم الكوفي", [
     {
         name: "شعبة",
         turuq: [
-            { name: "أبي حمدون", count: 12 },
-            { name: "اليحيوي", count: 15 }
+            { name: "يحيى بن آدم", count: 58 },
+            { name: "يحيى العليمي", count: 18 }
         ]
     },
     {
@@ -259,15 +267,17 @@ buildQari("q6", "حمزة الكوفي", [
     {
         name: "خلف",
         turuq: [
-            { name: "ابن بويان", count: 26 },
-            { name: "المطوعي", count: 27 }
+            { name: "إدريس", count: 26 },
+            { name: "إدريس", count: 25 }
         ]
     },
     {
         name: "خلاد",
         turuq: [
-            { name: "ابن شاذان", count: 33 },
-            { name: "الوزان", count: 35 }
+            { name: "الوزان", count: 38 },
+            { name: "محمد ابن الهيثم", count: 10 },
+            { name: "سليمان بن عبد الرحمن الطلحي", count: 2 },
+            { name: "محمد بن شاذان", count: 18 }
         ]
     }
 ]);
@@ -277,15 +287,15 @@ buildQari("q7", "الكسائي الكوفي", [
     {
         name: "أبو الحارث",
         turuq: [
-            { name: "محمد بن يحيى", count: 26 },
-            { name: "سلمة بن عاصم", count: 26 }
+            { name: "محمد بن يحيى", count: 31 },
+            { name: "سلمة بن عاصم", count: 9 }
         ]
     },
     {
         name: "الدوري",
         turuq: [
-            { name: "جعفر بن محمد", count: 12 },
-            { name: "النهرواني", count: 12 }
+            { name: "جعفر النصيبي", count: 6 },
+            { name: "الضرير", count: 18 }
         ]
     }
 ]);
@@ -295,15 +305,15 @@ buildQari("q8", "أبو جعفر المدني", [
     {
         name: "ابن وردان",
         turuq: [
-            { name: "الفضل بن شاذان", count: 6 },
-            { name: "ابن هارون", count: 6 }
+            { name: "الفضل بن شاذان", count: 31 },
+            { name: "هبة الله ابن جعفر", count: 9 }
         ]
     },
     {
         name: "ابن جماز",
         turuq: [
-            { name: "الدوري عن إسماعيل", count: 6 },
-            { name: "ابن رزق الله", count: 6 }
+            { name: "الهاشمي", count: 9 },
+            { name: "الدوري", count: 3 }
         ]
     }
 ]);
@@ -313,15 +323,15 @@ buildQari("q9", "يعقوب الحضرمي", [
     {
         name: "رويس",
         turuq: [
-            { name: "النخاس", count: 20 },
-            { name: "التمار", count: 21 }
+            { name: "التمار", count: 10 },
+            { name: "التمار", count: 11 }
         ]
     },
     {
         name: "روح",
         turuq: [
-            { name: "ابن وهب", count: 4 },
-            { name: "الزبيري", count: 4 }
+            { name: "محمد بن وهب", count: 41 },
+            { name: "الزبيري", count: 3 }
         ]
     }
 ]);
@@ -331,15 +341,18 @@ buildQari("q10", "خلف العاشر", [
     {
         name: "إسحاق",
         turuq: [
-            { name: "ابن أبي عمر", count: 15 },
-            { name: "بكار", count: 16 }
+            { name: "محمد بن إسحاق", count: 1 },
+            { name: "أبي الحسن النجار", count: 4 },
+            { name: "ابن أبي عمر", count: 17 }
         ]
     },
     {
         name: "إدريس",
         turuq: [
-            { name: "الشطي", count: 29 },
-            { name: "المطوعي", count: 28 }
+            { name: "الشطي", count: 3 },
+            { name: "المطوعي", count: 3 },
+            { name: "القطيعي", count: 2 },
+            { name: "بن بويان", count: 1 }
         ]
     }
 ]);
