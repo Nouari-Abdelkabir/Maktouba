@@ -6,7 +6,7 @@ let lastNabiClickedNode = null;
 
 // دالة الألوان
 function getNabiNodeColor(node) {
-  if (node.type === "qari") return "#c0392b"; 
+  if (node.type === "qari") return "#e67e22"; 
   if (node.type === "tariq") return "#f0a020"; 
   if (node.type === "rawi") return "#27ae60"; // الصحابة (أخضر)
   if (node.type === "tabiee") return "#2980b9"; // التابعون (أزرق)
@@ -69,7 +69,20 @@ const NABI_STYLE = [
     }
   },
   { selector: "node.highlighted", style: { "border-width": 2, "border-color": "#ffd700", "overlay-color": "#ffd700", "overlay-opacity": 0.2 } },
-  { selector: "edge.highlighted-edge", style: { "line-color": "#ffd700", "target-arrow-color": "#ffd700", "width": 2, "z-index": 10 } }
+  { selector: "edge.highlighted-edge", style: { "line-color": "#ffd700", "target-arrow-color": "#ffd700", "width": 2, "z-index": 10 } },
+  
+  { 
+  selector: "node[type='prophet']", 
+  style: { 
+    "background-color": "#c0392b", // بنفسجي
+    "color": "#ffffff",
+    "font-size": "18px",
+    "width": 200, 
+    "height": 20,
+    "border-width": 4, 
+    "shape": "round-rectangle"
+  } 
+}
 ];
 
 function initNabiCytoscape() {
@@ -83,6 +96,7 @@ function initNabiCytoscape() {
       style: NABI_STYLE,
       layout: { name: 'preset' },
       wheelSensitivity: 0.1
+      
     });
 
     // ============================================================
@@ -114,10 +128,22 @@ function initNabiCytoscape() {
     cyNabi.nodes().forEach(node => {
         const label = node.data("label");
         const type = node.data("type");
+        // 🌟 إجبار أبو جعفر المدني على البقاء في طبقة القراء
+        if (label === "أبو جعفر المدني") {
+            layers.reader.push(node);
+            return; // نوقف باقي الشروط لهذه العقدة
+        }
 
-        if (label === "الله سبحانه وتعالى") layers.allah.push(node);
-        else if (label === "جبريل عليه السلام") layers.jibril.push(node);
-        else if (label.includes("رسول الله")) layers.prophet.push(node);
+        // 🌟 الشرط الأول: النبي (حتى لو كان نوعه qari، سيضعه في الأعلى)
+        if (label === "محمد صلى الله عليه وسلم") {
+            layers.prophet.push(node);
+        }
+        else if (label === "الله سبحانه وتعالى") {
+            layers.allah.push(node);
+        }
+        else if (label === "جبريل عليه السلام") {
+            layers.jibril.push(node);
+        }
         else if (type === "rawi") layers.rawi.push(node);
         else if (type === "tabiee") layers.tabiee.push(node);
         else if (type === "imam") layers.imam.push(node);
@@ -149,6 +175,15 @@ function initNabiCytoscape() {
                 });
             }
             currentY -= settings.v; 
+        }
+         // 🌟 رفع "أبو جعفر المدني" قليلاً فوق بقية القراء
+        const abuJafarNode = cyNabi.nodes().filter(n => n.data('label') === "أبو جعفر المدني");
+        if (abuJafarNode.length > 0) {
+            const currentPos = abuJafarNode.position();
+            abuJafarNode.position({ 
+                x: currentPos.x - 10, 
+                y: currentPos.y - 10 // رفعه 40 بكسل للأعلى (يمكنك تغيير الرقم)
+            });
         }
     };
 
@@ -371,8 +406,8 @@ if (nabiSearchInput) {
                             
                             // 6. تلوين النبي (إذا لم يكن العمود لخلف العاشر)
                             if (!colData.isKhalaf) {
-                                getNodeByLabel("رسول الله صلى الله عليه وسلم").addClass("highlighted");
-                                pathNodes.add(getNodeByLabel("رسول الله صلى الله عليه وسلم"));
+                                getNodeByLabel("محمد صلى الله عليه وسلم").addClass("highlighted");
+                                pathNodes.add(getNodeByLabel("محمد صلى الله عليه وسلم"));
                             }
 
                             // 7. تلوين الأسهم بين هذه العقد
@@ -386,7 +421,7 @@ if (nabiSearchInput) {
 
                             // إذا لم يكن العمود لخلف العاشر، نضيف النبي
                             if (!colData.isKhalaf) {
-                                orderedNodes.push("رسول الله صلى الله عليه وسلم");
+                                orderedNodes.push("محمد صلى الله عليه وسلم");
                             }
 
                             for (let i = 0; i < orderedNodes.length - 1; i++) {
@@ -521,3 +556,4 @@ if (resetAllBtnNabi) {
         }
     });
 }
+

@@ -12,6 +12,7 @@ function getNodeColor(node) {
   if (node.type === "qari") return "#e96f69"; 
   if (node.type === "rawi") return "#7ec8ff"; 
   if (node.type === "book") return "#d4af37"; 
+  if (node.type === "book_author") return "#ff8c00"; // لون برتقالي مميز لصاحب الكتاب
   if (node.type === "count_box") return "#1abc9c";
   if (node.type === "root") return "#ffd700"; 
   if (node.type === "tariq") return "#f0a020"; 
@@ -90,6 +91,17 @@ const STYLE = [
       "border-width": 2, 
       "border-color": "#ffffff", 
       "shape": "round-rectangle" 
+    } 
+  },
+   { 
+    selector: "node[type='book_author']", 
+    style: { 
+      "background-color": "#ff8c00", // نفس اللون البرتقالي
+      "color": "#ffffff", 
+      "font-weight": "bold",
+      "border-width": 2, 
+      "border-color": "#ffffff",
+      "shape": "round-rectangle" // يمكنك تغييرها إلى round-rectangle إن أردت
     } 
   },
   {
@@ -300,6 +312,7 @@ cy.on("tap", "node", function(evt) {
           cy.animate({ center: { eles: node }, zoom: 1.5, duration: 400 });
       }
   }, 450); 
+  
 
   const infoBox = document.getElementById("info");
   if (infoBox) {
@@ -314,6 +327,7 @@ cy.on("tap", function(evt) {
         cy.nodes().removeClass("highlighted");
     }
 });
+
 
 });
 
@@ -551,3 +565,45 @@ if (resetAllBtn) {
         // لأن الكود الخاص بها موجود في nabi_app.js وسيعمل تلقائياً.
     });
 }
+
+
+
+// ============================================================
+// نظام إظهار المعلومات للشجرة الثانية (نسخة DOM)
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+    // ننتظر حتى يتم رسم الشجرة
+    setTimeout(() => {
+        // نحاول الوصول إلى مكتبة الرسم من خلال عنصر الـ div
+        const cyContainer = document.getElementById("cy-nabi");
+        
+        if (cyContainer && cyContainer._cyreg) {
+            // الوصول إلى نسخة Cytoscape المرتبطة بهذا العنصر
+            const cyInstance = cyContainer._cyreg.cy;
+            
+            if (cyInstance) {
+                // إضافة حدث النقر لإظهار المعلومات
+                cyInstance.on("tap", "node", function(evt) {
+                    const node = evt.target;
+                    const infoBox = document.getElementById("info");
+                    if (infoBox) {
+                        infoBox.style.display = "block";
+                        infoBox.innerHTML = `<b>${node.data("label")}</b>`;
+                    }
+                });
+
+                // إخفاء الصندوق عند النقر على الخلفية
+                cyInstance.on("tap", function(e) {
+                    if (e.target === cyInstance) {
+                        const infoBox = document.getElementById("info");
+                        if (infoBox) infoBox.style.display = "none";
+                    }
+                });
+                
+                console.log("✅ تم تفعيل صندوق المعلومات للشجرة الثانية بنجاح!");
+            }
+        } else {
+            console.log("❌ لم يتم العثور على نسخة Cytoscape للشجرة الثانية");
+        }
+    }, 1500); // ننتظر 1.5 ثانية لضمان رسم الشجرة
+});
