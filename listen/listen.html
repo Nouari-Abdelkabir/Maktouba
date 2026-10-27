@@ -11,16 +11,29 @@
     <!-- ============================
          الشريط العلوي
          ============================ -->
-    <header class="main-header">
+  <header class="main-header">
         <div class="header-container">
             
-            <nav class="main-nav">
+            <!-- 🎨 الشريط المتحرك (في المنتصف) -->
+            <div class="symbols-ticker" id="symbolsTicker">
+                <div class="symbols-track" id="symbolsTrack"></div>
+            </div>
+
+            <!-- القائمة (على اليمين) -->
+           <nav class="main-nav">
                 <ul>
-                    <li><a href="../index.html">🏠 الرئيسية</a></li>
-                    <li><a href="#" id="openSelectorBtn">📖 اختر السورة</a></li>
-                    <li><a href="#" id="fullscreenBtn" title="ملء الشاشة">⛶</a></li>
+                    <li>
+                        <a href="../index.html" data-tooltip="الرئيسية">🏠 <span class="nav-text">الرئيسية</span></a>
+                    </li>
+                    <li>
+                        <a href="#" id="openSelectorBtn" data-tooltip="اختر السورة والقارئ">📜 <span class="nav-text">اختر السورة</span></a>
+                    </li>
+                    <li>
+                        <a href="#" id="fullscreenBtn" data-tooltip="ملء الشاشة">⛶ <span class="nav-text">ملء الشاشة</a>
+                    </li>
                 </ul>
             </nav>
+
         </div>
     </header>
 
@@ -35,13 +48,15 @@
             <!-- المحتوى -->
             <div class="content-overlay">
 
-                <!-- شريط المعلومات (المصحف | القارئ | السورة) -->
+               
+
                 <!-- شريط المعلومات (المصحف | القارئ) -->
                 <div class="info-bar">
                     <span class="info-value" id="riwayaDisplay">شعبة</span>
                     <span class="info-divider"></span>
                     <span class="info-value" id="qariDisplay">محمود خليل الحصري</span>
                 </div>
+             
 
                 <!-- عنوان السورة -->
                 <h2 class="surah-title" id="surahTitle">سُورَةُ الفَاتِحَةِ</h2>
@@ -50,6 +65,7 @@
                 <div class="ayah-box" id="ayahBox">
                     <span class="ayah-text" id="ayahText">ﵳ بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ ﵲ</span>
                 </div>
+                
 
             </div>
         </div>

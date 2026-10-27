@@ -197,7 +197,41 @@ let _isRecalculating = false;
 // 🎯 وضع المزامنة
 // ============================================================
 let syncMode = 'auto'; // 'auto' = الصوت+النص | 'manual' = النص فقط
+let symbolsData = {};
+let positionsData = {};
 
+
+// ============================================================
+// 🎨 أسماء الألوان (احتياطي إذا لم يوجد رمز في symbols.json)
+// ============================================================
+const colorNames = {
+    'c1': 'كلمة فرشية',
+    'c2': 'عد الايات',
+    'c3': 'الإدغام الكبير',
+    'c4': 'الإمالة أوالتقليل',
+    'c5': 'حذف البسملة بين السورتين',
+    'c6': 'ربع',
+    'c7': 'الهمز المفرد أوالمزدوج',
+    'c8': 'تغليظ اللام',
+    'c9': 'النقل أوالسكت',
+    'c10': 'مد البدل لورش',
+    'c11': 'ترقيق الراء',
+    'c12': 'صلة ميم الجمع',
+    'c13': 'مد اللين المهموز',
+    'c14': 'إسكان ياء الإضافة',
+    'c15': 'الإدغام الصغير',
+    'c16': 'تحريك الساكن لالتقاء الساكنين',
+    'c17': 'انفرادة',
+    'c18': 'هاء الكناية',
+    'c19': 'الوقف على الهمز',
+    'c20': 'الإشمام أوالاختلاس',
+    'c21': 'ٱلوقف على أواخر الكلم',
+    'c22': 'العطف',
+    'c23': 'التكبير',
+    'c24': 'الياءات الزوائد',
+    'c25': 'الهمز المزدوج',
+    'c26': 'سجدة',
+};
 
 // ============================================================
 // 6. التهيئة
@@ -206,11 +240,16 @@ document.addEventListener('DOMContentLoaded', () => {
     initializePage();
 });
 
-function initializePage() {
+async function initializePage() {
     loadBackgroundImages();
     buildSurahGrid();
     populateRiwayaSelects();
     bindEvents();
+    
+    // ✅ حمّل الرموز أولاً
+    await loadSymbolsData();
+    await loadPositionsData();  // ← أضف هذا السطر
+    
     loadSavedSettings();
     
     // ✅ مراقبة تغيير حجم النافذة (لتبديل مجلد الصور)
@@ -837,6 +876,12 @@ function loadAndPlayAudio(audioUrl) {
 // ============================================================
 async function playAudio() {
     console.log('▶️ زر Play تم الضغط عليه');
+
+    // ✅ استئناف حركة الشريط إذا كان متوقفاً
+    const track = document.getElementById('symbolsTrack');
+    if (track) {
+        track.style.animationPlayState = 'running';
+    }
     
     // ✅ 1. تحقق من الإعدادات
     if (!selectedQari || !selectedSurah) {
@@ -913,6 +958,13 @@ function pauseAudio() {
         audioPlayer.pause();
         isPlaying = false;
         updatePlayPauseButtons();
+
+         // ✅ إيقاف حركة الشريط (تجميده)
+        const track = document.getElementById('symbolsTrack');
+        if (track) {
+            track.style.animationPlayState = 'paused';
+            console.log('⏸️ تم تجميد الشريط');
+        }
     }
 }
 
@@ -923,6 +975,12 @@ function stopAudio() {
         isPlaying = false;
         updatePlayPauseButtons();
         updateProgress();
+
+        // ✅ إيقاف حركة الشريط وإعادته للبداية
+        const track = document.getElementById('symbolsTrack');
+        if (track) {
+            track.style.animationPlayState = 'paused';
+        }
     }
 }
 
@@ -1142,7 +1200,6 @@ function displayAyah(ayahIndex, ayahText) {
     const titleEl = document.getElementById('surahTitle');
     if (!ayahTextEl) return;
 
-    // ✅ حساب رقم الآية الحقيقي
     let ayahNumber;
     if (selectedSurah === 1) {
         ayahNumber = ayahIndex + 1;
@@ -1152,7 +1209,6 @@ function displayAyah(ayahIndex, ayahText) {
     
     const arabicNum = ayahNumber > 0 ? toArabicNumber(ayahNumber) : '';
 
-    // ✅ تحديث عنوان السورة + رقم الآية
     if (titleEl) {
         const surahName = surahNames[selectedSurah - 1] || '';
         if (arabicNum) {
@@ -1162,7 +1218,6 @@ function displayAyah(ayahIndex, ayahText) {
         }
     }
 
-    // ✅ عرض الآية بدون رقم (لأن الرقم في العنوان)
     ayahTextEl.style.opacity = '0';
     setTimeout(() => {
         let content = ayahText && ayahText.trim() 
@@ -1171,8 +1226,11 @@ function displayAyah(ayahIndex, ayahText) {
         
         ayahTextEl.innerHTML = `ﵳ ${content} ﵲ`;
         ayahTextEl.style.opacity = '1';
+        
+        // ✅ استخرج الرموز من النص الأصلي (قبل الإضافة)
+        updateSymbolsTicker(ayahText, selectedSurah, ayahNumber, content);
     }, 120);
-    // ✅ تمرير تلقائي إلى الأعلى عند عرض آية جديدة
+    
     const overlay = document.querySelector('.content-overlay');
     if (overlay && overlay.scrollHeight > overlay.clientHeight) {
         overlay.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1395,6 +1453,42 @@ async function loadSavedSettings() {
             btn.style.background = '#7AE2CF';
         }
     }
+}
+
+// ============================================================
+// 🎨 تحميل بيانات الرموز من symbols.json
+// ============================================================
+async function loadSymbolsData() {
+    if (Object.keys(symbolsData).length > 0) return symbolsData;
+    
+    try {
+        const response = await fetch('alignments/symbols.json');
+        if (response.ok) {
+            symbolsData = await response.json();
+            console.log(`✅ تم تحميل ${Object.keys(symbolsData).length} رمز`);
+        }
+    } catch (e) {
+        console.warn('⚠️ لا يوجد ملف symbols.json');
+    }
+    return symbolsData;
+}
+
+// ============================================================
+// 📍 تحميل بيانات المواضع (positions.json)
+// ============================================================
+async function loadPositionsData() {
+    if (Object.keys(positionsData).length > 0) return positionsData;
+    
+    try {
+        const response = await fetch('alignments/positions.json');
+        if (response.ok) {
+            positionsData = await response.json();
+            console.log(`✅ تم تحميل ${Object.keys(positionsData).length} موضع`);
+        }
+    } catch (e) {
+        console.warn('⚠️ لا يوجد ملف positions.json');
+    }
+    return positionsData;
 }
 
 // ============================================================
@@ -2084,4 +2178,229 @@ function cycleSpeed() {
     }
     
     showToast(`⏩ السرعة: ${currentPlaybackSpeed}x`);
+}
+
+
+// ============================================================
+// 🎨 استخراج الرموز من الآية (نسخة نهائية: دقيقة + متعددة + positions)
+// ============================================================
+// ============================================================
+// 🎨 استخراج الرموز من الآية (نسخة نهائية: دقيقة + بدون تكرار + تجاهل المسافات)
+// ============================================================
+function extractSymbolsFromAyah(ayahHTML, suraNum, ayahNum) {
+    if (!ayahHTML) return [];
+    
+    const found = [];
+    const foundMeanings = new Set(); 
+    const positionKey = `${suraNum}:${ayahNum}`;
+    
+    let currentMushafKey = "";
+    if (typeof selectedQari !== 'undefined' && selectedQari) {
+        currentMushafKey = selectedQari.replace('mushaf_', '');
+    }
+    
+    const spanRegex = /<span[^>]*class=['"]([^'"]*c[0-9]+[^'"]*)['"][^>]*>([\s\S]*?)<\/span>/gi;
+    
+    let match;
+    while ((match = spanRegex.exec(ayahHTML)) !== null) {
+        const classes = match[1];
+        let content = match[2].replace(/<[^>]*>/g, '').trim();
+        
+        // ✅ 1. تجاهل المسافات الفارغة تماماً
+        // إذا كان النص (بعد إزالة المسافات) فارغاً، فهذا مجرد خطأ في الملف، نتجاهله
+        if (!content || content.trim() === "") {
+            continue;
+        }
+        
+        const classMatch = classes.match(/\bc[0-9]+\b/);
+        if (!classMatch) continue;
+        
+        const className = classMatch[0];
+        let symbolEntry = null;
+        
+        // 2. البحث في المواضع المخصصة
+        if (typeof positionsData !== 'undefined' && positionsData[className] && positionsData[className][positionKey]) {
+            const positionInfo = positionsData[className][positionKey];
+            if (positionInfo.visible !== false) {
+                let realSymbol = '●';
+                for (const key in symbolsData) {
+                    if (symbolsData[key].class === className) {
+                        realSymbol = symbolsData[key].symbol;
+                        break;
+                    }
+                }
+                symbolEntry = { symbol: realSymbol, meaning: positionInfo.meaning, class: className };
+            }
+        }
+        
+        // 3. البحث في symbols.json
+        if (!symbolEntry) {
+            const sortedKeys = Object.keys(symbolsData).sort((a, b) => {
+                const symbolA = symbolsData[a].symbol || a;
+                const symbolB = symbolsData[b].symbol || b;
+                return symbolB.length - symbolA.length;
+            });
+
+            for (let key of sortedKeys) {
+                const entry = symbolsData[key];
+                if (!entry.symbol) continue;
+
+                const symbolFound = content.includes(entry.symbol) || content.includes(entry.symbol.trim());
+                
+                if (symbolFound) {
+                    if (entry.class && entry.class !== className) continue;
+                    if (entry.mushaf && entry.mushaf !== currentMushafKey && !currentMushafKey.startsWith(entry.mushaf)) continue;
+
+                    symbolEntry = { symbol: entry.symbol, meaning: entry.meaning, class: entry.class || className };
+                    break;
+                }
+            }
+        }
+        
+        // 4. الاحتياط (colorNames)
+        if (!symbolEntry && colorNames[className]) {
+            symbolEntry = { symbol: '●', meaning: colorNames[className], class: className };
+        }
+        
+        // 5. منع التكرار وإضافة الرمز
+        if (symbolEntry) {
+            const uniqueKey = `${className}-${symbolEntry.meaning}`;
+            if (!foundMeanings.has(uniqueKey)) {
+                foundMeanings.add(uniqueKey);
+                found.push(symbolEntry);
+            }
+        }
+    }
+    
+    return found;
+}
+
+
+// ============================================================
+// 🔍 البحث عن معنى الرمز حسب الكلاس والمحتوى
+// ============================================================
+function findSymbolByClass(className, content) {
+    // ✅ 1. ابحث عن رمز مطابق (نفس الكلاس + الرمز في المحتوى)
+    for (const [key, entry] of Object.entries(symbolsData)) {
+        if (!entry.class || entry.class !== className) continue;
+        if (!entry.symbol || !entry.symbol.trim()) continue;
+        
+        if (content.includes(entry.symbol)) {
+            return {
+                symbol: entry.symbol,
+                meaning: entry.meaning,
+                class: entry.class,
+                key: key
+            };
+        }
+    }
+    
+    // ✅ 2. إذا لم نجد، خذ أول رمز لهذا الكلاس
+    for (const [key, entry] of Object.entries(symbolsData)) {
+        if (entry.class === className && entry.symbol && entry.symbol.trim()) {
+            return {
+                symbol: entry.symbol,
+                meaning: entry.meaning,
+                class: entry.class,
+                key: key
+            };
+        }
+    }
+    
+    // ✅ 3. إذا لم نجد، ارجع null (سيستخدم colorNames)
+    return null;
+}
+
+
+// ============================================================
+// 🎨 تحديث شريط الرموز (مع مدة ديناميكية حسب طول الآية)
+// ============================================================
+function updateSymbolsTicker(ayahHTML, suraNum, ayahNum, cleanAyahText) {
+    const ticker = document.getElementById('symbolsTicker');
+    const track = document.getElementById('symbolsTrack');
+    
+    if (!ticker || !track) return;
+    
+    // ✅ 1. استخرج الرموز
+    const symbols = extractSymbolsFromAyah(ayahHTML, suraNum, ayahNum);
+    
+    console.log(`🎨 الرموز: ${symbols.length}`);
+    symbols.forEach(s => console.log(`   ${s.symbol} (${s.class}) → ${s.meaning}`));
+    
+    // ✅ 2. إذا لا يوجد رموز → اخفِ الشريط
+    if (symbols.length === 0) {
+        ticker.classList.remove('active');
+        console.log('ℹ️ لا رموز → الشريط مخفي');
+        return;
+    }
+    
+    // ✅ 3. أظهر الشريط وأضف الرموز
+    ticker.classList.add('active');
+    track.innerHTML = '';
+    
+    symbols.forEach((s, index) => {
+        const item = document.createElement('span');
+        
+        // الرمز بين قوسين
+        const icon = document.createElement('span');
+        icon.className = `symbol-icon ${s.class || ''}`;
+        icon.textContent = ` ( ${s.symbol} ) `; 
+        
+        // نقطتان قبل المعنى
+        const meaning = document.createElement('span');
+        meaning.className = 'symbol-meaning';
+        meaning.textContent = `: ${s.meaning}`;
+        
+        item.appendChild(icon);
+        item.appendChild(meaning);
+        track.appendChild(item);
+        
+        // فاصل بين الرموز
+        if (index < symbols.length - 1) {
+            const sep = document.createElement('span');
+            sep.className = 'symbol-separator';
+            sep.textContent = ' • ';
+            track.appendChild(sep);
+        }
+    });
+    
+    // ✅ 4. حساب المدة الديناميكية بناءً على طول الآية
+    let textLength = 0;
+    if (cleanAyahText) {
+        // إزالة وسوم HTML والمسافات لحساب الأحرف الفعلية
+        textLength = cleanAyahText.replace(/<[^>]*>/g, '').trim().length;
+    } else {
+        // احتياط: حساب الطول من ayahHTML
+        textLength = ayahHTML.replace(/<[^>]*>/g, '').trim().length;
+    }
+    
+    // المعامل: كم ثانية لكل حرف (0.15 = 15 ثانية لكل 100 حرف)
+    const SPEED_FACTOR = 0.15;
+    
+    // حساب المدة (بحد أدنى 3 ثوانٍ، وحد أقصى 30 ثانية)
+    let duration = textLength * SPEED_FACTOR;
+    if (duration < 3) duration = 3;
+    if (duration > 30) duration = 30;
+    
+    console.log(`⏱️ طول النص: ${textLength} حرف → مدة الحركة: ${duration.toFixed(1)} ثانية`);
+    
+    // ✅ 5. إعادة تشغيل الحركة بالمدة الجديدة
+    track.style.animation = 'none';
+    void track.offsetWidth; // trigger reflow
+    track.style.animation = `scrollSymbols ${duration}s linear forwards`;
+    
+    // ✅ 6. إخفاء الشريط عند انتهاء الحركة
+    track.onanimationend = () => {
+        ticker.classList.remove('active');
+        console.log('🎬 انتهت الحركة → إخفاء الشريط');
+    };
+    
+    // ✅ 7. احتياط: إخفاء تلقائي بعد (المدة + ثانية)
+    clearTimeout(window._tickerTimeout);
+    window._tickerTimeout = setTimeout(() => {
+        ticker.classList.remove('active');
+        console.log('⏱️ إخفاء الشريط (احتياط)');
+    }, (duration * 1000) + 1000);
+
+    console.log(`✅ تم عرض ${symbols.length} رمز`);
 }

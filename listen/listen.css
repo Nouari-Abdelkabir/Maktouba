@@ -52,21 +52,36 @@ body {
 /* ============================================================
    🖥️ القسم 2: الحاسوب (Desktop)
    ============================================================ */
-
-/* ============ 2.1 الشريط العلوي ============ */
+/* ============================================================
+   الشريط العلوي (Header)
+   ============================================================ */
 .main-header {
-    padding: 2px 2px;
+    padding: 5px 20px;
     position: sticky;
     top: 0;
     z-index: 100;
+  
+    /* ✅ جعل الشريط العلوي حاوية مرجعية */
+    position: relative; 
+    height: 50px; /* ✅ ارتفاع ثابت لمنع التداخل */
+    display: flex;
+    align-items: center;
 }
 
 .header-container {
+    width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    position: relative;
+}
+
+/* ✅ تثبيت القائمة على اليمين دائماً */
+.main-nav {
+    position: absolute;
+    right: 0;      /* يلتصق باليمين */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
 }
 
 .logo h1 {
@@ -178,7 +193,7 @@ body {
     border: 2px solid rgba(201, 168, 107, 0.6);
     color: #1a1a1a;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-     font-size: clamp(1.5em, 2.5vw + 1rem, 2.7em);
+     font-size: clamp(1.3em, 2.5vw + 1rem, 2.7em);
     transition: opacity 0.15s ease;
      word-wrap: break-word; 
      overflow-wrap: break-word;
@@ -758,7 +773,7 @@ body.fullscreen-mode .content-overlay {
 /* ============ 6.1 للشاشات المتوسطة (تابلت) ============ */
 @media (max-width: 1024px) {
     .surah-title { font-size: 3em; }
-    .ayah-text { font-size: 1.9em; }
+    .ayah-text { font-size: 1.5em; }
     .info-value { font-size: 1.2em; }
 }
 
@@ -1072,7 +1087,7 @@ body.fullscreen-mode .content-overlay {
     .main-nav ul li a { font-size: 1em; padding: 6px 10px; }
     
     .surah-title { font-size: 3em; margin-bottom: 30px; }
-    .ayah-text { font-size: 1.9em; padding: 5px 5px; line-height: 1.9; }
+    .ayah-text { font-size: 1.5em; padding: 5px 5px; line-height: 1.9; }
     
     .info-bar {  bottom: clamp(55px, 9vh, 75px);  /* ← أعلى قليلاً في الهاتف */ left: 10px; right: 10px; }
     .info-value { font-size: 1em; }
@@ -1154,7 +1169,7 @@ body.fullscreen-mode .content-overlay {
 /* ============ 6.4 للهواتف الصغيرة جداً (360px) ============ */
 @media (max-width: 360px) {
     .surah-title { font-size: 3em; }
-    .ayah-text { font-size: 1.5em; padding: 5px 5px; }
+    .ayah-text { font-size: 1.3em; padding: 5px 5px; }
     .info-value { font-size: 01em; }
     .surah-btn { font-size: 0.65em; }
     
@@ -1189,4 +1204,181 @@ body.fullscreen-mode .content-overlay {
     font-weight: 700;
     color: #ffe603;                        /* ← لون الرقم الحالي (تركوازي) */
     transition: all 0.3s ease;
+}
+
+
+/* ============================================================
+   🎨 شريط الرموز المتحرك (Ticker) - في منتصف الشريط العلوي
+   ============================================================ */
+/* ✅ الحاوية: ثابتة على اليسار */
+.symbols-ticker {
+    position: absolute;
+    left: 20px;             /* يلتصق باليسار */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 55%;             /* يأخذ مساحة من اليسار */
+    max-width: 600px;
+    height: 32px;
+    background: rgba(6, 32, 43, 0.6);
+    border: 1px solid rgba(253, 235, 158, 0.4);
+    border-radius: 20px;
+    overflow: hidden;
+    display: none;
+    z-index: 1;
+}
+
+.symbols-ticker.active {
+    display: block;
+}
+
+/* ✅ المسار الذي يتحرك */
+.symbols-track {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    white-space: nowrap;
+    /* ✅ نبدأ من اليسار (خارج الشاشة) */
+    margin-left: -100%;
+    animation: scrollSymbols 10s linear forwards;
+}
+
+/* ✅ الحركة: من اليسار إلى اليمين */
+@keyframes scrollSymbols {
+    0% {
+        transform: translateX(-100%);   /* يبدأ من اليسار (خارج الشاشة) */
+    }
+    50% {
+        transform: translateX(0%);      /* يمر في المنتصف (داخل الحاوية) */
+    }
+    100% {
+        transform: translateX(100%);    /* يخرج من اليمين */
+    }
+}
+
+/* ✅ للهاتف */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 5px 10px;
+    }
+    .symbols-ticker {
+        width: 50%; /* الشريط يصغر في الهاتف */
+        height: 28px;
+    }
+}
+
+/* ✅ تنسيق الرمز داخل الشريط */
+.symbol-item {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 10px; /* ✅ زيادة المسافة بين كل مجموعة */
+    font-size: 0.95em;
+    color: #fff;
+}
+
+.symbol-item .symbol-icon {
+    font-weight: bold;
+    margin-left: 4px; /* مسافة بين الرمز والمعنى */
+    color: #FDEB9E;
+}
+
+.symbol-item .symbol-meaning {
+    color: #e0e0e0;
+}
+
+.symbol-separator {
+    color: #ffffff;
+    margin: 0 11px;
+    font-weight: bold;
+}
+
+/* ============================================================
+   📱 تحسينات الهاتف: إخفاء نصوص الأزرار وتوفير مساحة للشريط
+   ============================================================ */
+@media (max-width: 768px) {
+    /* ✅ إخفاء النص وإظهار الأيقونة فقط */
+    .nav-text {
+        display: none;
+    }
+
+    /* ✅ تصغير حجم الأزرار لتوفير مساحة أكبر */
+    .main-nav ul li a {
+        padding: 4px 4px;
+        font-size: 1.2em; /* تكبير الأيقونة قليلاً لأنها أصبحت وحيدة */
+    }
+
+    /* ✅ تعديل الشريط العلوي ليستوعب العناصر في سطر واحد */
+    .main-header {
+        padding: 4px 4px;
+    }
+
+    /* ✅ التأكد من أن الشريط المتحرك يأخذ المساحة المتبقية بجانب الأزرار */
+    .symbols-ticker {
+        width: calc(100% - 140px); /* يطرح عرض الأزرار (تقريباً) */
+        max-width: none;
+        left: 2px;
+    }
+}
+
+/* ============================================================
+   💬 فقاعات الإرشاد (Tooltips) للأزرار
+   ============================================================ */
+.main-nav ul li a {
+    position: relative; /* ضروري لتحديد مكان الفقاعة */
+}
+
+/* ✅ تصميم الفقاعة */
+.main-nav ul li a::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 120%; /* تظهر أسفل الزر */
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(6, 32, 43, 0.98);
+    color: #FDEB9E;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(253, 235, 158, 0.5);
+    font-size: 0.75rem;
+    font-family: 'NouariAbdelkabir', 'Amiri', serif;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 999;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+/* ✅ سهم صغير للفقاعة */
+.main-nav ul li a::before {
+    content: '';
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent rgba(253, 235, 158, 0.5) transparent;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+/* ✅ إظهار الفقاعة عند الاقتراب (حاسوب) أو اللمس (هاتف) */
+.main-nav ul li a:hover::after,
+.main-nav ul li a:hover::before,
+.main-nav ul li a:focus::after,
+.main-nav ul li a:focus::before,
+.main-nav ul li a:active::after,
+.main-nav ul li a:active::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ✅ إخفاء الفقاعة في الحاسوب إذا كان النص الأصلي ظاهراً (لتجنب التكرار) */
+@media (min-width: 769px) {
+    .main-nav ul li a::after,
+    .main-nav ul li a::before {
+        display: none; 
+    }
 }
