@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>شجرة السند - القراء العشرة</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape-elk@2.2.0/dist/cytoscape-elk.js"></script>
+  <link rel="stylesheet" href="shajara3.css">
+</head>
+<body>
+
+  <header>
+    <h1>شجرة السند المتصل إلى النبي ﷺ</h1>
+    <div class="controls">
+      <button id="btn-fit" style="padding: 8px 15px; cursor: pointer; background: #3d8bfd; color: white; border: none; border-radius: 4px;">🔍 عرض الكل</button>
+    </div>
+    <div style="position: relative;">
+        <input type="text" id="nabi-search" placeholder="🔍 ابحث عن شيخ أو كتاب..." 
+            style="padding: 8px 12px; border-radius: 6px; border: 1px solid #24313f; background: #0f1720; color: white; width: 250px; font-family: inherit;">
+        <div id="nabi-search-results" style="position: absolute; top: 100%; right: 0; left: 0; background: #16212c; border: 1px solid #24313f; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 1000; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- الشريط الجانبي -->
+    <aside id="sidebar">
+     
+        <!-- نافع -->
+        <button class="qari-btn active" data-qari="nafi" data-rawi="all">نافع المدني</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-qari="nafi" data-rawi="warsh">ورش</button>
+            <button class="rawi-btn" data-qari="nafi" data-rawi="qalun">قالون</button>
+        </div>
+
+        <!-- ابن كثير -->
+        <button class="qari-btn" data-qari="ibn_kathir" data-rawi="all">ابن كثير المكي (الكل)</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-qari="ibn_kathir" data-rawi="bazzi">↳ البزي</button>
+            <button class="rawi-btn" data-qari="ibn_kathir" data-rawi="qunbul">↳ قنبل</button>
+        </div>
+
+        <!-- أبو عمرو -->
+        <button class="qari-btn" data-qari="abu_amr" data-rawi="all">أبو عمرو البصري (الكل)</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-qari="abu_amr" data-rawi="duri">↳ الدوري</button>
+            <button class="rawi-btn" data-qari="abu_amr" data-rawi="susi">↳ السوسي</button>
+        </div>
+      <button class="qari-btn" data-qari="ibn_amir">ابن عامر الشامي</button>
+      <button class="qari-btn" data-qari="asim">عاصم الكوفي</button>
+      <button class="qari-btn" data-qari="hamza">حمزة الكوفي</button>
+      <button class="qari-btn" data-qari="kisai">الكسائي</button>
+      <button class="qari-btn" data-qari="abu_jafar">أبو جعفر المدني</button>
+      <button class="qari-btn" data-qari="yaqub">يعقوب الحضرمي</button>
+      <button class="qari-btn" data-qari="khalaf">خلف العاشر</button>
+    </aside>
+
+    <!-- منطقة الرسم -->
+    <div id="cy-container">
+        <div id="cy"></div>
+    
+    <!-- 🌟 شريط الأزرار الدائرية للبحث -->
+    <div id="path-buttons-container" style="position: absolute; top: 10px; right: 50%; transform: translateX(50%); display: none; background: #16212c; padding: 10px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 100; gap: 10px; align-items: center; border: 1px solid #24313f;">
+        <!-- الأزرار ستولد هنا ديناميكياً -->
+    </div>
+
+    <!-- 🌟 صندوق النص للسند -->
+    <div id="isnad-text-box" style="position: absolute; bottom: 10px; left: 20px; background: #16212c; border: 1px solid #24313f; border-radius: 8px; padding: 2px; display: none; z-index: 100; color: #e8eef5; line-height: 1.8; box-shadow: 0 4px 12px rgba(0,0,0,0.5); max-width: 90vw; min-width: 200px;">
+            <!-- النص سيولد هنا -->
+    </div>
+    </div>
+  </main>
+
+  <script src="shajara3_data.js"></script>
+  <script src="shajara3_app.js"></script>
+</body>
+</html>
