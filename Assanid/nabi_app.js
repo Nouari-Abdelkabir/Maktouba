@@ -40,6 +40,7 @@ const NABI_STYLE = [
       "background-color": "data(color)",
       "label": "data(label)",
       "color": "#ffffff",
+    "font-family": "NouariAbdelkabir", // 🌟 أضف هذا
       "font-size": "14px",
       "text-valign": "center",
       "text-halign": "center",

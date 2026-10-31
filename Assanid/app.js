@@ -53,6 +53,7 @@ const STYLE = [
       "background-color": "data(color)",
       "label": "data(label)",
       "color": "#ffffff",
+        "font-family": "NouariAbdelkabir", // 🌟 أضف هذا
       "font-size": "12px",
       "text-valign": "center",
       "text-halign": "center",
@@ -606,4 +607,30 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("❌ لم يتم العثور على نسخة Cytoscape للشجرة الثانية");
         }
     }, 1500); // ننتظر 1.5 ثانية لضمان رسم الشجرة
+});
+
+// ============================================================
+// 🌟 الانتقال إلى الشجرة الثالثة
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const btnGoToTree3 = document.getElementById("btn-go-to-tree3");
+    if (btnGoToTree3) {
+        btnGoToTree3.addEventListener("click", () => {
+            // المسار إلى الشجرة الثالثة
+            window.location.href = "shajara3.html"; 
+        });
+    }
+});
+
+// ============================================================
+// 🌟 الانتقال إلى الصفحة الرئيسية
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const btnGoHome = document.getElementById("btn-go-home");
+    if (btnGoHome) {
+        btnGoHome.addEventListener("click", () => {
+            // المسار إلى الصفحة الرئيسية (خارج مجلد Assanid)
+            window.location.href = "../index.html"; 
+        });
+    }
 });

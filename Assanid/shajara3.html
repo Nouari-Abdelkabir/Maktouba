@@ -15,6 +15,7 @@
     <h1>شجرة السند المتصل إلى النبي ﷺ</h1>
     <div class="controls">
       <button id="btn-fit" style="padding: 8px 15px; cursor: pointer; background: #3d8bfd; color: white; border: none; border-radius: 4px;">🔍 عرض الكل</button>
+      <button id="btn-go-to-tree1" style="padding: 8px 15px; cursor: pointer; background: #1abc9c; color: white; border: none; border-radius: 4px; margin-right: 10px;">↩️ رجوع</button>
     </div>
     <div style="position: relative;">
         <input type="text" id="nabi-search" placeholder="🔍 ابحث عن شيخ أو كتاب..." 
@@ -26,49 +27,120 @@
   <main>
     <!-- الشريط الجانبي -->
     <aside id="sidebar">
-     
         <!-- نافع -->
-        <button class="qari-btn active" data-qari="nafi" data-rawi="all">نافع المدني</button>
-        <div class="rawi-group">
-            <button class="rawi-btn" data-qari="nafi" data-rawi="warsh">ورش</button>
-            <button class="rawi-btn" data-qari="nafi" data-rawi="qalun">قالون</button>
+        <div class="qari-section">
+            <button class="qari-btn active" data-qari="nafi" data-rawi="all">الإمام نافع المدني</button>
+            <div class="rawi-group">
+                    <button class="rawi-btn" data-qari="nafi" data-rawi="قالون">الإمام قالون</button>
+                    <button class="rawi-btn" data-qari="nafi" data-rawi="ورش">الإمام ورش</button>
+            </div>
         </div>
 
         <!-- ابن كثير -->
-        <button class="qari-btn" data-qari="ibn_kathir" data-rawi="all">ابن كثير المكي (الكل)</button>
-        <div class="rawi-group">
-            <button class="rawi-btn" data-qari="ibn_kathir" data-rawi="bazzi">↳ البزي</button>
-            <button class="rawi-btn" data-qari="ibn_kathir" data-rawi="qunbul">↳ قنبل</button>
+        <div class="qari-section">
+            <button class="qari-btn" data-qari="ibn_kathir" data-rawi="all">الإمام ابن كثير المكي</button>
+            <div class="rawi-group">
+                <button class="rawi-btn" data-qari="ibn_kathir" data-rawi="البزي">الإمام البزي</button>
+                <button class="rawi-btn" data-qari="ibn_kathir" data-rawi="قنبل">الإمام قنبل</button>
+            </div>
         </div>
 
         <!-- أبو عمرو -->
-        <button class="qari-btn" data-qari="abu_amr" data-rawi="all">أبو عمرو البصري (الكل)</button>
-        <div class="rawi-group">
-            <button class="rawi-btn" data-qari="abu_amr" data-rawi="duri">↳ الدوري</button>
-            <button class="rawi-btn" data-qari="abu_amr" data-rawi="susi">↳ السوسي</button>
+        <div class="qari-section">
+            <button class="qari-btn" data-qari="abu_amr" data-rawi="all">الإمام أبو عمرو البصري</button>
+            <div class="rawi-group">
+                <button class="rawi-btn" data-qari="abu_amr" data-rawi="الدوري">الإمام الدوري</button>
+                <button class="rawi-btn" data-qari="abu_amr" data-rawi="السوسي">الإمام السوسي</button>
+            </div>
         </div>
-      <button class="qari-btn" data-qari="ibn_amir">ابن عامر الشامي</button>
-      <button class="qari-btn" data-qari="asim">عاصم الكوفي</button>
-      <button class="qari-btn" data-qari="hamza">حمزة الكوفي</button>
-      <button class="qari-btn" data-qari="kisai">الكسائي</button>
-      <button class="qari-btn" data-qari="abu_jafar">أبو جعفر المدني</button>
-      <button class="qari-btn" data-qari="yaqub">يعقوب الحضرمي</button>
-      <button class="qari-btn" data-qari="khalaf">خلف العاشر</button>
+
+        <!-- ابن عامر -->
+        <div class="qari-section">
+            <button class="qari-btn" data-qari="ibn_amir" data-rawi="all">الإمام ابن عامر الشامي</button>
+            <div class="rawi-group">
+                <button class="rawi-btn" data-qari="ibn_amir" data-rawi="هشام">الإمام هشام</button>
+                <button class="rawi-btn" data-qari="ibn_amir" data-rawi="ابن ذكوان">الإمام ابن ذكوان</button>
+            </div>
+        </div>
+
+        <!-- عاصم -->
+        <div class="qari-section">
+            <button class="qari-btn" data-qari="asim" data-rawi="all">الإمام عاصم الكوفي</button>
+            <div class="rawi-group">
+                <button class="rawi-btn" data-qari="asim" data-rawi="شعبة">الإمام شعبة</button>
+                <button class="rawi-btn" data-qari="asim" data-rawi="حفص">الإمام حفص</button>
+            </div>
+        </div>
+
+        <!-- حمزة -->
+        <div class="qari-section">
+            <button class="qari-btn" data-qari="hamza" data-rawi="all">الإمام حمزة الكوفي</button>
+            <div class="rawi-group">
+                <button class="rawi-btn" data-qari="hamza" data-rawi="خلف">الإمام خلف</button>
+                <button class="rawi-btn" data-qari="hamza" data-rawi="خلاد">الإمام خلاد</button>
+            </div>
+        </div>
+
+        <!-- الكسائي -->
+        <div class="qari-section">
+            <button class="qari-btn" data-qari="kisai" data-rawi="all">الإمام الكسائي</button>
+            <div class="rawi-group">
+                <button class="rawi-btn" data-qari="kisai" data-rawi="أبو الحارث">الإمام أبو الحارث</button>
+                <button class="rawi-btn" data-qari="kisai" data-rawi="الدوري">الإمام الدوري</button>
+            </div>
+        </div>
+
+        <!-- أبو جعفر -->
+        <div class="qari-section">
+            <button class="qari-btn" data-qari="abu_jafar" data-rawi="all">الإمام أبو جعفر المدني</button>
+            <div class="rawi-group">
+                <button class="rawi-btn" data-qari="abu_jafar" data-rawi="ابن وردان">الإمام ابن وردان</button>
+                <button class="rawi-btn" data-qari="abu_jafar" data-rawi="ابن جماز">الإمام ابن جماز</button>
+            </div>
+        </div>
+
+        <!-- يعقوب -->
+        <div class="qari-section">
+            <button class="qari-btn" data-qari="yaqub" data-rawi="all">الإمام يعقوب الحضرمي</button>
+            <div class="rawi-group">
+                <button class="rawi-btn" data-qari="yaqub" data-rawi="رويس">الإمام رويس</button>
+                <button class="rawi-btn" data-qari="yaqub" data-rawi="روح">الإمام روح</button>
+            </div>
+        </div>
+
+        <!-- خلف العاشر -->
+        <div class="qari-section">
+            <button class="qari-btn" data-qari="khalaf" data-rawi="all">الإمام خلف البزار</button>
+            <div class="rawi-group">
+                <button class="rawi-btn" data-qari="khalaf" data-rawi="إسحاق">الإمام إسحاق</button>
+                <button class="rawi-btn" data-qari="khalaf" data-rawi="إدريس">الإمام إدريس</button>
+            </div>
+        </div>
     </aside>
 
     <!-- منطقة الرسم -->
     <div id="cy-container">
         <div id="cy"></div>
-    
-    <!-- 🌟 شريط الأزرار الدائرية للبحث -->
-    <div id="path-buttons-container" style="position: absolute; top: 10px; right: 50%; transform: translateX(50%); display: none; background: #16212c; padding: 10px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 100; gap: 10px; align-items: center; border: 1px solid #24313f;">
-        <!-- الأزرار ستولد هنا ديناميكياً -->
-    </div>
 
-    <!-- 🌟 صندوق النص للسند -->
-    <div id="isnad-text-box" style="position: absolute; bottom: 10px; left: 20px; background: #16212c; border: 1px solid #24313f; border-radius: 8px; padding: 2px; display: none; z-index: 100; color: #e8eef5; line-height: 1.8; box-shadow: 0 4px 12px rgba(0,0,0,0.5); max-width: 90vw; min-width: 200px;">
+        <!-- 🌟 شريط الزوم العمودي -->
+        <div id="zoom-slider-container" style="position: absolute; top: 20px; left: 20px; height: 200px; width: 50px; background: #16212c; border: 1px solid #24313f; border-radius: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+            <span style="color: #8fa3b8; font-size: 18px; margin-bottom: 5px;">-</span>
+            <div style="height: 150px; display: flex; align-items: center; justify-content: center;">
+                <input type="range" id="zoom-range" min="0.1" max="3" step="0.1" value="1" 
+                    style="width: 150px; transform: rotate(-90deg); cursor: pointer;">
+            </div>
+            <span style="color: #8fa3b8; font-size: 18px; margin-top: 5px;">+</span>
+        </div>
+
+        <!-- 🌟 شريط الأزرار الدائرية للبحث -->
+        <div id="path-buttons-container" style="position: absolute; top: 10px; right: 50%; transform: translateX(50%); display: none; background: #16212c; padding: 10px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 100; gap: 10px; align-items: center; border: 1px solid #24313f;">
+            <!-- الأزرار ستولد هنا ديناميكياً -->
+        </div>
+
+        <!-- 🌟 صندوق النص للسند -->
+        <div id="isnad-text-box" style="position: absolute; bottom: 10px; left: 20px; background: #16212c; border: 1px solid #24313f; border-radius: 8px; padding: 2px; display: none; z-index: 100; color: #e8eef5; line-height: 1.8; box-shadow: 0 4px 12px rgba(0,0,0,0.5); max-width: 90vw; min-width: 200px;">
             <!-- النص سيولد هنا -->
-    </div>
+        </div>
     </div>
   </main>
 

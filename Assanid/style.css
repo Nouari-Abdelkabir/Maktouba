@@ -1,3 +1,16 @@
+/* تعريف الخط */
+@font-face {
+    font-family: 'NouariAbdelkabir';
+    src: url('font/nouariabdelkabir.woff2') format('woff2'),
+         url('font/nouariabdelkabir.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+body, button, input {
+    font-family: 'NouariAbdelkabir', "Segoe UI", Tahoma, sans-serif !important;
+}
+
 :root {
   --bg: #0f1720;
   --panel: #16212c;
@@ -14,7 +27,7 @@ html, body {
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, "Noto Naskh Arabic", sans-serif;
+  font-family: 'NouariAbdelkabir', "Segoe UI", Tahoma, sans-serif !important;
   background: var(--bg);
   color: var(--text);
   display: flex;
@@ -112,3 +125,4 @@ main {
 #searchResults div:hover {
   background: #2a3a4c;
 }
+

@@ -15,28 +15,27 @@ const colors = {
     layer9_rawi: "#7ec8ff",         
     layer10_tariq: "#f0a020",       
     layer11_man1: "#e67e22",        
-    layer12_man2: "#1abc9c",        
+    layer12_man2: "#1abc9c", 
+     layer13_man3: "#2dbb40",         
     layer13_others: "#95a5a6",      
     layer14_book_author: "#c0392b", 
     layer15_book: "#d4af37"         
 };
 
 // ============================================================
-// 2. بناء الشجرة (مع الفلترة)
+// 2. بناء الشجرة
 // ============================================================
 function buildElements(qariId, rawiFilter = "all") {
-    if (qariId !== 'nafi') return []; 
+    const qariData = ALL_QURRA_DATA[qariId];
+    if (!qariData) return [];
 
     const nodes = [], edges = [], addedNodes = new Map();
 
     function addNode(id, label, type) {
         let key = id;
-          // دمج الصحابة والتابعين والشيوخ والرجل الأول والثاني
         if (["layer4_sahabi", "layer5_tabiee", "layer6_sheikhs", "layer11_man1", "layer12_man2"].includes(type)) {
             key = `${label}_${type}`;
-        }
-        // 🌟 دمج الرجل الثالث فقط
-        else if (type === "layer13_others_2") {
+        } else if (type === "layer13_others_2" || type === "layer13_man3") { // 🌟 أضفنا layer13_man3
             key = `${label}_${type}`;
         }
         if (addedNodes.has(key)) return addedNodes.get(key);
@@ -52,18 +51,15 @@ function buildElements(qariId, rawiFilter = "all") {
         }
     }
 
-    // 1. الوحي
     const allahId = addNode("allah", PROPHET_DATA.allah, "layer1_allah");
     const jibrilId = addNode("jibril", PROPHET_DATA.jibril, "layer2_jibril");
     const prophetId = addNode("prophet", PROPHET_DATA.prophet, "layer3_prophet");
     addEdge(allahId, jibrilId);
     addEdge(jibrilId, prophetId);
 
-    // 2. القارئ (نافع)
-    const qariNodeId = addNode('nafi', "نافع المدني", "layer7_qari");
+    const qariNodeId = addNode(qariId, qariData.name, "layer7_qari");
 
-    // 3. السند الأعلى
-    nafiUpperIsnads.forEach((isnad, idx) => {
+    qariData.upperIsnads.forEach((isnad, idx) => {
         let prevNodeId = prophetId; 
         const levels = [isnad.l1, isnad.l2, isnad.l3].filter(n => n);
         levels.forEach((person, pIdx) => {
@@ -78,53 +74,87 @@ function buildElements(qariId, rawiFilter = "all") {
         addEdge(prevNodeId, qariNodeId);
     });
 
-    // 4. بناء الطريق
-    function buildRouteTree(rawiName, tariqName, routeArray) {
-        if (rawiFilter !== "all" && rawiFilter !== rawiName) return; 
+    qariData.rawis.forEach(rawiData => {
+        if (rawiFilter !== "all" && rawiFilter !== rawiData.name) return;
 
-        const rawiId = addNode(`rawi_${rawiName}`, rawiName, "layer9_rawi");
+        const rawiId = addNode(`rawi_${rawiData.name}`, rawiData.name, "layer9_rawi");
         addEdge(qariNodeId, rawiId); 
 
-        const tariqId = addNode(`tariq_${tariqName}`, tariqName, "layer10_tariq");
-        addEdge(rawiId, tariqId); 
+        rawiData.turuq.forEach(tariqData => {
+            const tariqId = addNode(`tariq_${tariqData.name}`, tariqData.name, "layer10_tariq");
+            addEdge(rawiId, tariqId); 
 
-        routeArray.forEach((isnad, idx) => {
-            let prevNodeId = tariqId;
-            isnad.forEach((person, pIdx) => {
+            tariqData.routes.forEach((isnad, idx) => {
+                let prevNodeId = tariqId;
+                isnad.forEach((person, pIdx) => {
+
                 let personType = "layer13_others";
-                if (pIdx === 0) personType = "layer11_man1";
-                else if (pIdx === 1) personType = "layer12_man2";
-                else if (pIdx === isnad.length - 2) personType = "layer14_book_author";
-                else if (pIdx === isnad.length - 1) personType = "layer15_book";
-                else personType = `layer13_others_${pIdx}`;
 
-                const personId = addNode(`node_${tariqName}_${idx}_${pIdx}`, person, personType);
+                // 1. هل هذا العنصر هو "كتاب"؟ (نفحصه أولاً لكي لا يتأثر برقمه)
+                const isCurrentItemBook = /كتاب|التذكرة|التبصرة|المنتهى|الجامع|النشر|الكامل|التيسير|الشاطبية|التجريد|الإرشاد|الغاية|المبهج|المصباح|الهداية|المجتبي|الكافي|العنوان|الروضة|روضةالحفاظ|الكفاية|المستنير|التذكار|المفتاح|الإعلان|غاية|تلخيص|السبع|جامع/.test(person);
+
+                // 2. هل العنصر التالي هو "كتاب"؟ (لكي نعرف أن هذا الشخص هو صاحب الكتاب)
+                const nextPerson = isnad[pIdx + 1];
+                const isNextItemBook = nextPerson && /كتاب|التذكرة|التبصرة|المنتهى|الجامع|النشر|الكامل|التيسير|الشاطبية|التجريد|الإرشاد|الغاية|المبهج|المصباح|الهداية|المجتبي|الكافي|العنوان|الروضة|روضةالحفاظ|الكفاية|المستنير|التذكار|المفتاح|الإعلان|غاية|تلخيص|السبع|جامع/.test(nextPerson);
+
+                if (isCurrentItemBook) {
+                    personType = "layer15_book"; // 🌟 كتاب: يأخذ طبقة الكتب فوراً
+                } 
+                else if (isNextItemBook) {
+                    personType = "layer14_book_author"; // 🌟 صاحب الكتاب: يأخذ طبقة صاحب الكتاب
+                } 
+                else {
+                    // 3. إذا لم يكن كتاباً ولا صاحب كتاب، نوزع باقي الرجال حسب ترتيبهم
+                    if (pIdx === 0) {
+                        personType = "layer11_man1";
+                    } 
+                    else if (pIdx === 1) {
+                        personType = "layer12_man2";
+                    } 
+                    else if (pIdx === 2) {
+                        personType = "layer13_man3"; 
+                    } 
+                    else {
+                        // التحقق مما إذا كان العنصر الأخير في السند كتاباً (لأننا قد نحتاج لتلوين الشيخ الأخير إذا لم يكن هناك كتاب)
+                        const lastPerson = isnad[isnad.length - 1];
+                        const isLastItemBook = /كتاب|التذكرة|التبصرة|المنتهى|الجامع|النشر|الكامل|التيسير|الشاطبية|التجريد|الإرشاد|الغاية|المبهج|المصباح|الهداية|المجتبي|الكافي|العنوان|الروضة|روضةالحفاظ|الكفاية|المستنير|التذكار|المفتاح|الإعلان|غاية|تلخيص|السبع|جامع/.test(lastPerson);
+
+                        if (!isLastItemBook && pIdx === isnad.length - 1) {
+                            // 🌟 إذا لم يكن هناك كتاب في السند، نجعل الشيخ الأخير يأخذ لون الكتاب (الذهبي) لكي تظهر نهاية الطريق
+                            personType = "layer15_book"; 
+                        } else {
+                            personType = `layer13_others_${pIdx}`;
+                        }
+                    }
+                }
+
+                const personId = addNode(`node_${tariqData.name}_${idx}_${pIdx}`, person, personType);
                 addEdge(prevNodeId, personId); 
                 prevNodeId = personId;
+                });
             });
         });
-    }
-
-    buildRouteTree("ورش", "الأزرق", azrakRoutes);
-    buildRouteTree("ورش", "الأصبهاني", asbahaniRoutes);
-    buildRouteTree("قالون", "أبي نشيط", abinachitRoutes);
-    buildRouteTree("قالون", "الحلواني", halaouaniRoutes);
+    });
 
     return [...nodes, ...edges];
 }
 
 // دالة بناء مستقلة للراوي
-function buildRawiElements(rawiName, routeArrays) {
+// دالة بناء مستقلة للراوي
+function buildRawiElements(qariId, rawiName) {
+    const qariData = ALL_QURRA_DATA[qariId];
+    if (!qariData) return [];
+
+    const rawiData = qariData.rawis.find(r => r.name === rawiName);
+    if (!rawiData) return [];
+
     const nodes = [], edges = [], addedNodes = new Map();
 
     function addNode(id, label, type) {
         let key = id;
-         // دمج الصحابة والتابعين والشيوخ والرجل الأول والثاني
         if (["layer4_sahabi", "layer5_tabiee", "layer6_sheikhs", "layer11_man1", "layer12_man2"].includes(type)) {
             key = `${label}_${type}`;
-        }
-        // 🌟 دمج الرجل الثالث فقط
-        else if (type === "layer13_others_2") {
+        } else if (type === "layer13_others_2" || type === "layer13_man3") { // 🌟 أضفنا layer13_man3
             key = `${label}_${type}`;
         }
         if (addedNodes.has(key)) return addedNodes.get(key);
@@ -140,15 +170,18 @@ function buildRawiElements(rawiName, routeArrays) {
         }
     }
 
+    // الوحي
     const allahId = addNode("allah", PROPHET_DATA.allah, "layer1_allah");
     const jibrilId = addNode("jibril", PROPHET_DATA.jibril, "layer2_jibril");
     const prophetId = addNode("prophet", PROPHET_DATA.prophet, "layer3_prophet");
     addEdge(allahId, jibrilId);
     addEdge(jibrilId, prophetId);
 
-    const qariNodeId = addNode('nafi', "نافع المدني", "layer7_qari");
+    // القارئ
+    const qariNodeId = addNode(qariId, qariData.name, "layer7_qari");
 
-    nafiUpperIsnads.forEach((isnad, idx) => {
+    // السند الأعلى
+    qariData.upperIsnads.forEach((isnad, idx) => {
         let prevNodeId = prophetId; 
         const levels = [isnad.l1, isnad.l2, isnad.l3].filter(n => n);
         levels.forEach((person, pIdx) => {
@@ -163,24 +196,59 @@ function buildRawiElements(rawiName, routeArrays) {
         addEdge(prevNodeId, qariNodeId);
     });
 
+    // الراوي والطرق
     const rawiId = addNode(`rawi_${rawiName}`, rawiName, "layer9_rawi");
     addEdge(qariNodeId, rawiId); 
 
-    routeArrays.forEach(route => {
-        const tariqId = addNode(`tariq_${route.tariqName}`, route.tariqName, "layer10_tariq");
+    rawiData.turuq.forEach(tariqData => {
+        const tariqId = addNode(`tariq_${tariqData.name}`, tariqData.name, "layer10_tariq");
         addEdge(rawiId, tariqId); 
 
-        route.array.forEach((isnad, idx) => {
+        tariqData.routes.forEach((isnad, idx) => {
             let prevNodeId = tariqId;
             isnad.forEach((person, pIdx) => {
-                let personType = "layer13_others";
-                if (pIdx === 0) personType = "layer11_man1";
-                else if (pIdx === 1) personType = "layer12_man2";
-                else if (pIdx === isnad.length - 2) personType = "layer14_book_author";
-                else if (pIdx === isnad.length - 1) personType = "layer15_book";
-                else personType = `layer13_others_${pIdx}`;
 
-                const personId = addNode(`node_${route.tariqName}_${idx}_${pIdx}`, person, personType);
+            let personType = "layer13_others";
+
+                // 1. هل هذا العنصر هو "كتاب"؟ (نفحصه أولاً لكي لا يتأثر برقمه)
+                const isCurrentItemBook = /كتاب|التذكرة|التبصرة|المنتهى|الجامع|النشر|الكامل|التيسير|الشاطبية|التجريد|الإرشاد|الغاية|المبهج|المصباح|الهداية|المجتبي|الكافي|العنوان|الروضة|روضةالحفاظ|الكفاية|المستنير|التذكار|المفتاح|الإعلان|غاية|تلخيص|السبع|جامع/.test(person);
+
+                // 2. هل العنصر التالي هو "كتاب"؟ (لكي نعرف أن هذا الشخص هو صاحب الكتاب)
+                const nextPerson = isnad[pIdx + 1];
+                const isNextItemBook = nextPerson && /كتاب|التذكرة|التبصرة|المنتهى|الجامع|النشر|الكامل|التيسير|الشاطبية|التجريد|الإرشاد|الغاية|المبهج|المصباح|الهداية|المجتبي|الكافي|العنوان|الروضة|روضةالحفاظ|الكفاية|المستنير|التذكار|المفتاح|الإعلان|غاية|تلخيص|السبع|جامع/.test(nextPerson);
+
+                if (isCurrentItemBook) {
+                    personType = "layer15_book"; // 🌟 كتاب: يأخذ طبقة الكتب فوراً
+                } 
+                else if (isNextItemBook) {
+                    personType = "layer14_book_author"; // 🌟 صاحب الكتاب: يأخذ طبقة صاحب الكتاب
+                } 
+                else {
+                    // 3. إذا لم يكن كتاباً ولا صاحب كتاب، نوزع باقي الرجال حسب ترتيبهم
+                    if (pIdx === 0) {
+                        personType = "layer11_man1";
+                    } 
+                    else if (pIdx === 1) {
+                        personType = "layer12_man2";
+                    } 
+                    else if (pIdx === 2) {
+                        personType = "layer13_man3"; 
+                    } 
+                    else {
+                        // التحقق مما إذا كان العنصر الأخير في السند كتاباً (لأننا قد نحتاج لتلوين الشيخ الأخير إذا لم يكن هناك كتاب)
+                        const lastPerson = isnad[isnad.length - 1];
+                        const isLastItemBook = /كتاب|التذكرة|التبصرة|المنتهى|الجامع|النشر|الكامل|التيسير|الشاطبية|التجريد|الإرشاد|الغاية|المبهج|المصباح|الهداية|المجتبي|الكافي|العنوان|الروضة|روضةالحفاظ|الكفاية|المستنير|التذكار|المفتاح|الإعلان|غاية|تلخيص|السبع|جامع/.test(lastPerson);
+
+                        if (!isLastItemBook && pIdx === isnad.length - 1) {
+                            // 🌟 إذا لم يكن هناك كتاب في السند، نجعل الشيخ الأخير يأخذ لون الكتاب (الذهبي) لكي تظهر نهاية الطريق
+                            personType = "layer15_book"; 
+                        } else {
+                            personType = `layer13_others_${pIdx}`;
+                        }
+                    }
+                }
+
+                const personId = addNode(`node_${tariqData.name}_${idx}_${pIdx}`, person, personType);
                 addEdge(prevNodeId, personId); 
                 prevNodeId = personId;
             });
@@ -189,53 +257,60 @@ function buildRawiElements(rawiName, routeArrays) {
 
     return [...nodes, ...edges];
 }
-
-
-//{ selector: 'node[type="layer1_allah"]', style: { 'shape': 'round-rectangle', 'width': 100, 'height': 20, 'font-size': '16px', 'font-weight': 'bold' } },
-//{ selector: 'node[type="layer2_jibril"]', style: { 'shape': 'round-rectangle', 'width': 90, 'height': 20, 'font-size': '15px', 'font-weight': 'bold' } },
-//{ selector: 'node[type="layer3_prophet"]', style: { 'shape': 'round-rectangle', 'width': 120, 'height': 20, 'font-size': '14px', 'font-weight': 'bold' } },
 // ============================================================
-// 3. دالة التهيئة الموحدة (لكل الشجرات: نافع، ورش، قالون)
+// 3. دالة التهيئة
 // ============================================================
 function initTree(elements) {
     if (cy) cy.destroy();
-
-    // ============================================================
-    // 🌟 التحكم في المسافات العامة للشجرة (Dagre)
-    // rankSep: المسافة العمودية (بين الطبقات)
-    // nodeSep: المسافة الأفقية (بين العقد في نفس الطبقة)
-    // ============================================================
-    const RANK_SEP = 60; // التحكم في المسافة العمودية (كلما زاد الرقم، زادت المسافة بين الطبقات)
-    const NODE_SEP = 10;  // التحكم في المسافة الأفقية (كلما زاد الرقم، زادت المسافة بين العقد)
 
     cy = cytoscape({
         container: document.getElementById('cy'),
         elements: elements,
         style: [
-            { selector: 'node', style: { 'background-color': 'data(color)', 'label': 'data(label)', 'color': '#fff', 'font-size': '12px', 'text-valign': 'center', 'text-halign': 'center', 'text-wrap': 'wrap', 'text-max-width': '140px', 'width': 'label', 'height': 'label', 'padding': '10px', 'shape': 'round-rectangle', 'border-width': 2, 'border-color': '#0f1720' } },
-            { selector: 'node[type="layer1_allah"]', style: { 'shape': 'round-rectangle', 'width': 100, 'height': 20, 'font-size': '16px', 'font-weight': 'bold' } },
-            { selector: 'node[type="layer2_jibril"]', style: { 'shape': 'round-rectangle', 'width': 90, 'height': 20, 'font-size': '15px', 'font-weight': 'bold' } },
-            { selector: 'node[type="layer3_prophet"]', style: { 'shape': 'round-rectangle', 'width': 120, 'height': 20, 'font-size': '14px', 'font-weight': 'bold' } },
+            
+            { 
+                selector: 'node', 
+                style: { 
+                    'background-color': 'data(color)', 
+                    'label': 'data(label)', 
+                    'color': '#fff', 
+                    'font-size': '12px', 
+                    'text-valign': 'center', 
+                    'text-halign': 'center', 
+                    'text-wrap': 'wrap',              // 🌟 يسمح بالنزول لسطر جديد
+                    'text-max-width': '120px',        // 🌟 أقصى عرض للنص (كما طلبت)
+                    'width': 'label',                 // 🌟 العرض يتحدد حسب النص (أو 120 كحد أقصى)
+                    'height': 'label',                // الارتفاع يتحدد حسب النص
+                    'padding': '8px', 
+                    'shape': 'round-rectangle', 
+                    'border-width': 2, 
+                    'border-color': '#0f1720',
+                    'font-family': 'NouariAbdelkabir'
+                } 
+            },            
+            { selector: 'node[type="layer1_allah"]', style: { 'shape': 'round-rectangle', 'width': 100, 'height': 20, 'font-size': '16px' } },
+            { selector: 'node[type="layer2_jibril"]', style: { 'shape': 'round-rectangle', 'width': 90, 'height': 20, 'font-size': '15px' } },
+            { selector: 'node[type="layer3_prophet"]', style: { 'shape': 'round-rectangle', 'width': 120, 'height': 20, 'font-size': '14px', } },
             { selector: 'node[type="layer9_rawi"]', style: { 'shape': 'round-rectangle', 'width': 60, 'height': 20} },
-            { selector: 'node[type="layer10_tariq"]', style: { 'shape': 'round-rectangle', 'width': 100, 'height': 40 } },
-            { selector: 'node[type="layer15_book"]', style: { 'color': '#000', 'font-weight': 'bold', 'border-width': 3, 'border-color': '#fff' } },
+            { selector: 'node[type="layer10_tariq"]', style: { 'shape': 'round-rectangle', 'width': 60, 'height': 20 } },
+            { selector: 'node[type="layer15_book"]', style: { 'color': '#000',  'border-width': 2, 'border-color': '#fff' } },
             { selector: 'edge', style: { 'width': 1.5, 'line-color': '#3a4a5a', 'target-arrow-color': '#3a4a5a', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier', 'arrow-scale': 0.8 } },
-            { selector: 'node.highlighted', style: { 'border-width': 4, 'border-color': '#ffd700', 'overlay-color': '#ffd700', 'overlay-opacity': 0.2 } },
-            { selector: 'edge.highlighted-edge', style: { 'line-color': '#ffd700', 'target-arrow-color': '#ffd700', 'width': 3, 'z-index': 10 } }
+            { selector: 'node.highlighted', style: { 'border-width': 2, 'border-color': '#ffd700', 'overlay-color': '#ffd700', 'overlay-opacity': 0.2 } },
+            { selector: 'edge.highlighted-edge', style: { 'line-color': '#ffd700', 'target-arrow-color': '#ffd700', 'width': 3, 'z-index': 10 } },
+            { selector: 'node[type="layer13_man3"]', style: { 'background-color': '#2dbb40' } }
         ],
         layout: {
             name: 'dagre',
             rankDir: 'TB',
-            nodeSep: 1, // استخدام المتغير
-            rankSep: 50, // استخدام المتغير
+            nodeSep: 1,
+            rankSep: 50,
             edgeSep: 20,
             ranker: 'network-simplex',
             fit: true,
-            padding: 50
+            padding: 10
         }
     });
 
-    // 🌟 ربط حدث النقر (كما هو)
     cy.on("tap", "node", function(evt) {
         const node = evt.target;
         cy.elements().removeClass("highlighted-edge");
@@ -245,22 +320,11 @@ function initTree(elements) {
         const childNodes = node.outgoers('node');
         let elementsToFit = cy.collection().union(node).union(parentNodes).union(childNodes);
 
-        cy.animate({ fit: { eles: elementsToFit, padding: 100 }, duration: 600 });
+        cy.animate({ fit: { eles: elementsToFit, padding: 10 }, duration: 600 });
     });
-        // ============================================================
-    // 🌟 محاذاة الطبقات العليا (الله، جبريل، النبي، نافع) على نفس المحور X
-    // ============================================================
-    const allahNode = cy.nodes('[type="layer1_allah"]');
-    const jibrilNode = cy.nodes('[type="layer2_jibril"]');
-    const prophetNode = cy.nodes('[type="layer3_prophet"]');
-    const qariNode = cy.nodes('[type="layer7_qari"]');
 
- 
-
-    // إعادة تحديث الشاشة لضمان تطبيق التغيير
     cy.fit(cy.nodes(), 50);
 
-    // 🌟 ربط حدث الخلفية (كما هو)
     cy.on("tap", function(evt) {
         if (evt.target === cy) {
             const pathContainer = document.getElementById("path-buttons-container");
@@ -276,12 +340,10 @@ function initTree(elements) {
         }
     });
 
-     setTimeout(() => {
+    setTimeout(() => {
         centerLayers();
     }, 100);
 }
-
-
 
 // ============================================================
 // 4. أحداث الأزرار
@@ -294,16 +356,10 @@ document.querySelectorAll('.qari-btn, .rawi-btn').forEach(btn => {
         const qari = btn.getAttribute('data-qari');
         const rawi = btn.getAttribute('data-rawi') || 'all';
         
-        if (rawi === 'warsh') {
-            const warshRoutes = [{ tariqName: "الأزرق", array: azrakRoutes }, { tariqName: "الأصبهاني", array: asbahaniRoutes }];
-            initTree(buildRawiElements("ورش", warshRoutes));
-        } 
-        else if (rawi === 'qalun') {
-            const qalunRoutes = [{ tariqName: "أبي نشيط", array: abinachitRoutes }, { tariqName: "الحلواني", array: halaouaniRoutes }];
-            initTree(buildRawiElements("قالون", qalunRoutes));
-        } 
-        else {
-            initTree(buildElements(qari, rawi));
+        if (rawi === 'all') {
+            initTree(buildElements(qari, 'all'));
+        } else {
+            initTree(buildRawiElements(qari, rawi));
         }
     });
 });
@@ -311,9 +367,8 @@ document.querySelectorAll('.qari-btn, .rawi-btn').forEach(btn => {
 // التشغيل الأولي
 initTree(buildElements('nafi', 'all'));
 
-
 // ============================================================
-// 5. نظام البحث (خارج دالة التهيئة)
+// 5. نظام البحث
 // ============================================================
 const searchInput = document.getElementById("nabi-search");
 const searchResults = document.getElementById("nabi-search-results");
@@ -344,7 +399,7 @@ function highlightPathToProphet(targetNode) {
     const orderedNodes = pathNodes.reverse(); 
     orderedNodes.forEach((node, index) => {
         if (node.id() === targetNode.id()) {
-            text += `<span style="color: #ffd700; font-weight: bold;">${node.data("label")}</span>`;
+            text += `<span style="color: #ffd700;">${node.data("label")}</span>`;
         } else {
             text += node.data("label");
         }
@@ -456,42 +511,37 @@ document.addEventListener("click", function(e) {
     }
 });
 
-
-
-
+// ============================================================
+// 6. التحكم في الطبقات (المسافات والتوسيط)
+// ============================================================
 function centerLayers() {
     if (!cy) return;
 
-    // ============================================================
-    // 🌟 1. التحكم في المسافة العمودية (Y) لكل طبقة
-    // قم بتعديل الأرقام كما تشاء (كلما زاد الرقم، نزلت الطبقة للأسفل)
-    // ============================================================
     const layerHeights = {
-        "layer1_allah":     0,    // الله
-        "layer2_jibril":   80,   // جبريل
-        "layer3_prophet": 160,  // النبي
-        "layer4_sahabi":  260,  // الصحابة
-        "layer5_tabiee":  360,  // التابعين
-        "layer6_sheikhs": 460,  // الشيوخ
-        "layer7_qari":    580,  // القارئ
-        "layer9_rawi":    680, // الرواة
-        "layer10_tariq":  700, // الطرق
-        "layer11_man1":   860, // الرجل الأول
-        "layer12_man2":   1000, // الرجل الثاني
-        "layer14_book_author": 1600, // صاحب الكتاب
-        "layer15_book":   1690  // الكتاب
+        "layer1_allah":     -100,
+        "layer2_jibril":   -40,
+        "layer3_prophet": 20,
+        "layer4_sahabi":  160,
+        "layer5_tabiee":  260,
+        "layer6_sheikhs": 360,
+        "layer7_qari":    460,
+        "layer9_rawi":    560,
+        "layer10_tariq":  660,
+        "layer11_man1":   760,
+        "layer12_man2":   860,
+        "layer13_man3":   1100, // 🌟 الرجل الثالث (بين الثاني والرابع)
+        "layer14_book_author": 1600,
+        "layer15_book":   1660
     };
 
-    // تطبيق الارتفاع (Y) مع الحفاظ على التوزيع الأفقي (X) الحالي
     cy.nodes().forEach(node => {
         const type = node.data("type");
         let targetY = layerHeights[type];
 
-        // التعامل مع "باقي الرجال"
         if (!targetY && type.startsWith("layer13_others_")) {
             const parts = type.split("_");
             const num = parseInt(parts[2]);
-            targetY = 1000 + (num * 60); // كل رجل ينزل مسافة إضافية
+            targetY = 1000 + (num * 60);
         } 
 
         if (targetY !== undefined) {
@@ -500,22 +550,17 @@ function centerLayers() {
         }
     });
 
-    // ============================================================
-    // 🌟 2. التوسيط الأفقي (X) للطبقات تحت النبي
-    // ============================================================
     const qariNode = cy.nodes('[type="layer7_qari"]');
     let referenceX = 0;
     if (qariNode.length > 0) {
         referenceX = qariNode.position('x');
     }
 
-    // توسيط الطبقات العليا (النبي، جبريل، الله)
     ["layer3_prophet", "layer2_jibril", "layer1_allah"].forEach(type => {
         const nodes = cy.nodes(`[type="${type}"]`);
         if (nodes.length > 0) nodes.position('x', referenceX);
     });
 
-    // دالة مساعدة لتوسيط أي طبقة
     const centerLayer = (type) => {
         const nodes = cy.nodes(`[type="${type}"]`);
         if (nodes.length > 0) {
@@ -527,11 +572,76 @@ function centerLayers() {
         }
     };
 
-    // تطبيق التوسيط على الطبقات
     centerLayer("layer4_sahabi");
     centerLayer("layer5_tabiee");
     centerLayer("layer6_sheikhs");
 
-    // إعادة ضبط الزوم
     cy.fit(cy.nodes(), 50);
 }
+
+
+// ============================================================
+// 🌟 دالة التحكم في الزوم (شريط عمودي)
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const zoomRange = document.getElementById("zoom-range");
+    
+    if (zoomRange) {
+        // عند تحريك الشريط
+        zoomRange.addEventListener("input", function() {
+            if (cy) {
+                const newZoom = parseFloat(this.value);
+                cy.zoom({
+                    level: newZoom,
+                    renderedPosition: { x: cy.width() / 2, y: cy.height() / 2 }
+                });
+            }
+        });
+    }
+});
+
+// ============================================================
+// 🌟 ربط زر عرض الكل (Fit) ليعمل مع جميع الشجرات (القارئ والراوي)
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+    // ننتظر قليلاً حتى يتم إنشاء الشجرة الأولى
+    setTimeout(() => {
+        const btnFit = document.getElementById("btn-fit");
+        
+        if (btnFit) {
+            // إزالة أي مستمعين قدامى (لتجنب التكرار)
+            const newBtnFit = btnFit.cloneNode(true);
+            btnFit.parentNode.replaceChild(newBtnFit, btnFit);
+
+            // إضافة المستمع الجديد
+            newBtnFit.addEventListener("click", () => {
+                if (cy) {
+                    // عمل زوم ليشمل فقط العقد المرئية (التي لا تحمل كلاس hidden)
+                    const visibleNodes = cy.nodes(":visible");
+                    if (visibleNodes.length > 0) {
+                        cy.animate({
+                            fit: { eles: visibleNodes, padding: 10 }, // 50 هو الهامش
+                            duration: 600
+                        });
+                    } else {
+                        // إذا لم تكن هناك عقد مرئية، نعرض الشجرة كاملة
+                        cy.fit(cy.nodes(), 50);
+                    }
+                }
+            });
+        }
+    }, 500); // ننتظر نصف ثانية لضمان تحميل الشجرة
+});
+
+// ============================================================
+// 🌟 الانتقال إلى الشجرة الأولى
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const btnGoToTree1 = document.getElementById("btn-go-to-tree1");
+    if (btnGoToTree1) {
+        btnGoToTree1.addEventListener("click", () => {
+            // غير المسار حسب مكان ملف الشجرة الأولى عندك
+            window.location.href = "../Assanid/index.html"; 
+        });
+    }
+});

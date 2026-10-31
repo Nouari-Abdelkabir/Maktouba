@@ -1,3 +1,19 @@
+
+/* تعريف الخط */
+@font-face {
+    font-family: 'NouariAbdelkabir';
+    src: url('font/nouariabdelkabir.woff2') format('woff2'),
+         url('font/nouariabdelkabir.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body, button, input {
+    font-family: 'NouariAbdelkabir', "Segoe UI", Tahoma, sans-serif !important;
+}
+
+
 :root {
   --bg: #0f1720;
   --panel: #16212c;
@@ -73,13 +89,55 @@ main {
   background: radial-gradient(circle at 30% 20%, #1a2735 0%, #0f1720 70%);
 }
 
+/* تنسيق الشريط الجانبي */
+#sidebar {
+    width: 250px;
+    background: var(--panel);
+    border-left: 1px solid var(--border);
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* مسافة بين كل قارئ والقارئ الذي يليه */
+}
+
+/* حاوية القارئ ورواته */
+.qari-section {
+    display: flex;
+    flex-direction: row; /* الزر على اليمين والرواة على اليسار */
+    gap: 10px;
+    align-items: stretch; /* لجعل زر القارئ يأخذ ارتفاع الرواة */
+}
+
+/* زر القارئ */
+.qari-btn {
+    flex: 1; /* يأخذ نصف المساحة */
+    padding: 12px 10px;
+    background: #1a2735;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: right;
+    font-size: 14px;
+    transition: 0.2s;
+    display: flex;
+    align-items: center; /* محاذاة النص عمودياً */
+}
+
+.qari-btn:hover { background: #2a3a4c; }
+.qari-btn.active { background: #3d8bfd; border-color: #3d8bfd; font-weight: bold; }
+
+/* حاوية الرواة */
 .rawi-group {
     display: flex;
-    flex-direction: row; /* بدلاً من column */
+    flex-direction: column; /* الرواة فوق بعضهم البعض */
     gap: 5px;
-    margin-bottom: 10px;
-    padding-right: 10px;
+    flex: 1; /* يأخذ نصف المساحة */
+    justify-content: center; /* توسيط الرواة عمودياً */
 }
+
+/* زر الراوي */
 .rawi-btn {
     padding: 6px 10px;
     background: #24313f;
@@ -88,8 +146,12 @@ main {
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
-    flex: 1; /* لكي يتوزعا بالتساوي */
     text-align: center;
+    flex: 1; /* لكي يتوزعا بالتساوي في الارتفاع */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 .rawi-btn:hover { background: #2a3a4c; color: white; }
 .rawi-btn.active { background: #1abc9c; color: white; border-color: #1abc9c; }
