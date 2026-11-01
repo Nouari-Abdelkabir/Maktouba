@@ -707,11 +707,12 @@ function centerLayers() {
         "layer5_tabiee":  100,
         "layer6_sheikhs": 180,
         "layer8_intermediates1": 260, // 🌟 طبقة l4 (فوق الشيخ، تحت القارئ)
+        "layer13_others_1": 220, // شيخ شيوخ خلف
+         "layer13_others_2": 300, // شيخ خلف المباشر
         "layer7_qari":    360,
         "layer9_rawi":    560,
         "layer10_tariq":  660,
-        "layer13_others_1": 310, // شيخ شيوخ خلف
-         "layer13_others_2": 370, // شيخ خلف المباشر
+        
         "layer11_man1":   760,
        "layer12_man2":   860,
         "layer13_man3":   1100, // 🌟 الرجل الثالث (بين الثاني والرابع)
