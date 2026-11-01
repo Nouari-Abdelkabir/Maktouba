@@ -9,7 +9,8 @@ const colors = {
     layer3_prophet: "#8e44ad",      
     layer4_sahabi: "#27ae60",       
     layer5_tabiee: "#2980b9",       
-    layer6_sheikhs: "#20595e",      
+    layer6_sheikhs: "#20595e",
+    layer8_intermediates1: "#d35400", // 🌟 لون l4 (الطبقة الرابعة)
     layer7_qari: "#e8453c",         
     layer8_intermediates: "#d35400",
     layer9_rawi: "#7ec8ff",         
@@ -17,7 +18,9 @@ const colors = {
     layer11_man1: "#e67e22",        
     layer12_man2: "#1abc9c", 
      layer13_man3: "#2dbb40",         
-    layer13_others: "#95a5a6",      
+    layer13_others: "#95a5a6", 
+    layer13_others_1: "#175820", // شيخ شيوخ خلف (أحمر غامق)
+    layer13_others_2: "#563ce7", // شيخ خلف المباشر (بنفسجي)
     layer14_book_author: "#c0392b", 
     layer15_book: "#d4af37"         
 };
@@ -33,13 +36,16 @@ function buildElements(qariId, rawiFilter = "all") {
 
     function addNode(id, label, type) {
         let key = id;
-        if (["layer4_sahabi", "layer5_tabiee", "layer6_sheikhs", "layer11_man1", "layer12_man2"].includes(type)) {
+        
+        // 🌟 دمج الطبقات (بما فيها layer13_others_1)
+        if (["layer4_sahabi", "layer5_tabiee", "layer6_sheikhs", "layer8_intermediates1", "layer11_man1", "layer12_man2", "layer13_man3", "layer13_others_1", "layer13_others_2"].includes(type)) {
             key = `${label}_${type}`;
+
         } else if (type === "layer13_others_2" || type === "layer13_man3") { // 🌟 أضفنا layer13_man3
             key = `${label}_${type}`;
         }
-        if (addedNodes.has(key)) return addedNodes.get(key);
-        nodes.push({ data: { id: id, label: label, type: type, color: colors[type] || "#5b6b7c" } });
+    if (addedNodes.has(key)) return addedNodes.get(key);
+        nodes.push({ data: { id: id, label: label, type: type, color: colors[type] || "#5b6b7c", } });
         addedNodes.set(key, id);
         return id;
     }
@@ -59,19 +65,77 @@ function buildElements(qariId, rawiFilter = "all") {
 
     const qariNodeId = addNode(qariId, qariData.name, "layer7_qari");
 
-    qariData.upperIsnads.forEach((isnad, idx) => {
+        // ============================================================
+    // 🌟 بناء السند الأعلى (مع معاملة خاصة لخلف العاشر)
+    // ============================================================
+     qariData.upperIsnads.forEach((isnad, idx) => {
         let prevNodeId = prophetId; 
-        const levels = [isnad.l1, isnad.l2, isnad.l3].filter(n => n);
-        levels.forEach((person, pIdx) => {
-            let type = "layer5_tabiee";
-            if (pIdx === 0) type = "layer4_sahabi";
-            else if (pIdx === levels.length - 1) type = "layer6_sheikhs";
+        
+        if (qariId === "khalaf") {
+            // ============================================================
+            // 🌟 معاملة خاصة لخلف العاشر (3 طبقات + القراء الذين يقرأ عليهم)
+            // ============================================================
             
-            const personId = addNode(`upper_${idx}_${pIdx}`, person, type);
-            addEdge(prevNodeId, personId); 
-            prevNodeId = personId;
-        });
-        addEdge(prevNodeId, qariNodeId);
+            // 1. الطبقة الأولى: القارئ الذي يقرأ عليه خلف (نافع، عاصم...)
+            const readerName = isnad.l2; 
+            const cleanReaderName = readerName ? `(سند ${readerName.replace("سند ", "").trim()})` : "";
+            
+            if (cleanReaderName) {
+                // 🌟 نعطيه نوع "layer6_sheikhs" لكي يكون في طبقة أعلى من خلف
+                const readerId = addNode(`khalaf_reader_${idx}`, cleanReaderName, "layer5_tabiee"); // 🌟 طبقة التابعين
+                addEdge(prevNodeId, readerId); 
+                prevNodeId = readerId;
+            }
+            
+            // 2. الطبقة الثانية: شيخ شيوخ خلف (l3) أو (l4 إذا كان l3 فارغاً)
+            const t1 = isnad.l3 ? isnad.l3 : isnad.l4;
+            if (t1) {
+                const t1Id = addNode(`khalaf_t1_${idx}`, t1, "layer13_others_1"); 
+                addEdge(prevNodeId, t1Id);
+                prevNodeId = t1Id;
+            }
+            
+            // 3. الطبقة الثالثة: شيخ خلف المباشر (l4 إذا كان l3 موجوداً)
+            if (isnad.l3 && isnad.l4) {
+                const t2Id = addNode(`khalaf_t2_${idx}`, isnad.l4, "layer13_others_2"); 
+                addEdge(prevNodeId, t2Id);
+                prevNodeId = t2Id;
+            }
+            
+            // 4. الربط النهائي بخلف العاشر
+            addEdge(prevNodeId, qariNodeId);
+            
+          } else {
+            // ============================================================
+            // 🌟 المعاملة العادية لبقية القراء (مع دعم l4)
+            // ============================================================
+            const levels = [isnad.l1, isnad.l2, isnad.l3, isnad.l4].filter(n => n);
+            levels.forEach((person, pIdx) => {
+                let type = "layer5_tabiee";
+                
+                // 1. الصحابي (l1)
+                if (pIdx === 0) {
+                    type = "layer4_sahabi";
+                }
+                // 2. التابعي (l2)
+                else if (pIdx === 1) {
+                    type = "layer5_tabiee";
+                }
+                // 3. الشيخ (l3) - إذا كان موجوداً
+                else if (pIdx === 2) {
+                    type = "layer6_sheikhs";
+                }
+                // 4. الطبقة الرابعة (l4) - إذا كانت موجودة
+                else if (pIdx === 3) {
+                    type = "layer8_intermediates1";
+                }
+                
+                const personId = addNode(`upper_${idx}_${pIdx}`, person, type);
+                addEdge(prevNodeId, personId); 
+                prevNodeId = personId;
+            });
+            addEdge(prevNodeId, qariNodeId);
+        }
     });
 
     qariData.rawis.forEach(rawiData => {
@@ -140,7 +204,6 @@ function buildElements(qariId, rawiFilter = "all") {
 }
 
 // دالة بناء مستقلة للراوي
-// دالة بناء مستقلة للراوي
 function buildRawiElements(qariId, rawiName) {
     const qariData = ALL_QURRA_DATA[qariId];
     if (!qariData) return [];
@@ -152,8 +215,9 @@ function buildRawiElements(qariId, rawiName) {
 
     function addNode(id, label, type) {
         let key = id;
-        if (["layer4_sahabi", "layer5_tabiee", "layer6_sheikhs", "layer11_man1", "layer12_man2"].includes(type)) {
+        if (["layer4_sahabi", "layer5_tabiee", "layer6_sheikhs", "layer8_intermediates1", "layer11_man1", "layer12_man2", "layer13_man3", "layer13_others_1", "layer13_others_2"].includes(type)) {
             key = `${label}_${type}`;
+
         } else if (type === "layer13_others_2" || type === "layer13_man3") { // 🌟 أضفنا layer13_man3
             key = `${label}_${type}`;
         }
@@ -181,13 +245,15 @@ function buildRawiElements(qariId, rawiName) {
     const qariNodeId = addNode(qariId, qariData.name, "layer7_qari");
 
     // السند الأعلى
-    qariData.upperIsnads.forEach((isnad, idx) => {
+     qariData.upperIsnads.forEach((isnad, idx) => {
         let prevNodeId = prophetId; 
-        const levels = [isnad.l1, isnad.l2, isnad.l3].filter(n => n);
+        const levels = [isnad.l1, isnad.l2, isnad.l3, isnad.l4].filter(n => n);
         levels.forEach((person, pIdx) => {
             let type = "layer5_tabiee";
             if (pIdx === 0) type = "layer4_sahabi";
-            else if (pIdx === levels.length - 1) type = "layer6_sheikhs";
+            else if (pIdx === 1) type = "layer5_tabiee";
+            else if (pIdx === 2) type = "layer6_sheikhs";
+            else if (pIdx === 3) type = "layer8_intermediates1"; // 🌟 دعم l4
             
             const personId = addNode(`upper_${idx}_${pIdx}`, person, type);
             addEdge(prevNodeId, personId); 
@@ -375,35 +441,64 @@ const searchResults = document.getElementById("nabi-search-results");
 const pathButtonsContainer = document.getElementById("path-buttons-container");
 const isnadTextBox = document.getElementById("isnad-text-box");
 
-function highlightPathToProphet(targetNode) {
+function highlightPathToProphet(targetNode, forcedPath = null) {
     cy.elements().removeClass("highlighted");
     cy.elements().removeClass("highlighted-edge");
     if (!targetNode || targetNode.length === 0) return;
 
-    targetNode.addClass("highlighted");
-    let current = targetNode;
-    let pathNodes = [current];
+    let pathNodes = [];
 
-    while (current.length > 0) {
-        if (current.data("type") === "layer7_qari") break; 
-        const incomingEdges = current.incomers('edge');
-        if (incomingEdges.length === 0) break; 
-        const parent = incomingEdges[0].source();
-        parent.addClass("highlighted");
-        incomingEdges[0].addClass("highlighted-edge");
-        pathNodes.push(parent); 
-        current = parent;
+    if (forcedPath) {
+        pathNodes = forcedPath;
+    } else {
+        // المسار الطبيعي (إذا لم يتم تمرير مسار محدد)
+        let current = targetNode;
+        pathNodes = [current];
+        const isTargetAboveOrEqualQari = (
+            targetNode.data("type") === "layer7_qari" ||
+            targetNode.data("type") === "layer4_sahabi" ||
+            targetNode.data("type") === "layer5_tabiee" ||
+            targetNode.data("type") === "layer6_sheikhs" ||
+            targetNode.data("type") === "layer8_intermediates1" ||
+            targetNode.data("type") === "layer3_prophet" ||
+            targetNode.data("type") === "layer2_jibril" ||
+            targetNode.data("type") === "layer1_allah"
+        );
+
+        while (current.length > 0) {
+            if (!isTargetAboveOrEqualQari && current.data("type") === "layer7_qari") {
+                break;
+            }
+            const incomingEdges = current.incomers('edge');
+            if (incomingEdges.length === 0) break;
+            const parent = incomingEdges[0].source();
+            pathNodes.push(parent);
+            current = parent;
+        }
+        pathNodes.reverse();
     }
 
-    let text = "";
-    const orderedNodes = pathNodes.reverse(); 
-    orderedNodes.forEach((node, index) => {
-        if (node.id() === targetNode.id()) {
-            text += `<span style="color: #ffd700;">${node.data("label")}</span>`;
+    // تلوين المسار
+    pathNodes.forEach((node, i) => {
+        node.addClass("highlighted");
+        if (i > 0) {
+            const edge = node.incomers('edge').filter(e => e.source().id() === pathNodes[i - 1].id());
+            if (edge.length > 0) edge[0].addClass("highlighted-edge");
+        }
+    });
+
+    // بناء النص
+        let text = "";
+    pathNodes.forEach((node, index) => {
+        // 🌟 تلوين العقدة المبحوث عنها (سواء كانت هي targetNode أو آخر عقدة في المسار)
+        if (node.data("label") === targetNode.data("label")) {
+            text += `<span style="color: #ffd700; font-weight: bold;">${node.data("label")}</span>`;
         } else {
             text += node.data("label");
         }
-        if (index < orderedNodes.length - 1) text += " <span style='color:#8fa3b8;'>←</span> "; 
+        if (index < pathNodes.length - 1) {
+            text += " <span style='color:#8fa3b8;'>←</span> ";
+        }
     });
 
     isnadTextBox.innerHTML = text;
@@ -416,7 +511,7 @@ if (searchInput) {
         searchResults.innerHTML = "";
         pathButtonsContainer.style.display = "none";
         isnadTextBox.style.display = "none";
-        
+
         if (query.length === 0) {
             searchResults.style.display = "none";
             cy.elements().removeClass("highlighted");
@@ -437,7 +532,7 @@ if (searchInput) {
                 div.style.cursor = "pointer";
                 div.style.borderBottom = "1px solid #24313f";
                 div.style.color = "#e8eef5";
-                
+
                 div.addEventListener("mouseenter", () => div.style.background = "#1a2735");
                 div.addEventListener("mouseleave", () => div.style.background = "transparent");
 
@@ -448,13 +543,73 @@ if (searchInput) {
                     const targetNodes = cy.nodes().filter(n => n.data("label") === name);
                     
                     if (targetNodes.length > 0) {
-                        highlightPathToProphet(targetNodes[0]);
-                        cy.animate({ center: { eles: targetNodes[0] }, zoom: 1.0, duration: 600 });
+                        // 1. تحديد ما إذا كانت العقدة المبحوث عنها هي "نافع" أو فوقه
+                        const isTargetAboveOrEqualQari = (
+                            targetNodes[0].data("type") === "layer7_qari" ||
+                            targetNodes[0].data("type") === "layer4_sahabi" ||
+                            targetNodes[0].data("type") === "layer5_tabiee" ||
+                            targetNodes[0].data("type") === "layer6_sheikhs" ||
+                            targetNodes[0].data("type") === "layer8_intermediates1" ||
+                            targetNodes[0].data("type") === "layer3_prophet" ||
+                            targetNodes[0].data("type") === "layer2_jibril" ||
+                            targetNodes[0].data("type") === "layer1_allah"
+                        );
 
-                        if (targetNodes.length > 1) {
+                        // 2. البحث عن جميع المسارات الممكنة
+                        let allPaths = [];
+                        const visitedEdges = new Set();
+
+                        function findPaths(node, currentPath) {
+                            if (node.incomers('edge').length === 0) {
+                                allPaths.push([...currentPath]);
+                                return;
+                            }
+
+                            if (!isTargetAboveOrEqualQari && node.data("type") === "layer7_qari") {
+                                allPaths.push([...currentPath]);
+                                return;
+                            }
+
+                            const incomingEdges = node.incomers('edge');
+                            incomingEdges.forEach(edge => {
+                                const edgeId = edge.id();
+                                if (!visitedEdges.has(edgeId)) {
+                                    visitedEdges.add(edgeId);
+                                    const parent = edge.source();
+                                    findPaths(parent, [parent, ...currentPath]);
+                                    visitedEdges.delete(edgeId);
+                                }
+                            });
+                        }
+
+                        targetNodes.forEach(node => {
+                            findPaths(node, [node]);
+                        });
+
+                        // إزالة التكرارات
+                        const uniquePaths = [];
+                        const pathStrings = new Set();
+                        allPaths.forEach(path => {
+                            const pathStr = path.map(n => n.id()).join("->");
+                            if (!pathStrings.has(pathStr)) {
+                                pathStrings.add(pathStr);
+                                uniquePaths.push(path);
+                            }
+                        });
+
+                        // 3. عرض المسار الأول أو الأزرار الدائرية
+                        if (uniquePaths.length <= 1) {
+                            highlightPathToProphet(targetNodes[0]);
+                            cy.animate({ center: { eles: targetNodes[0] }, zoom: 1.0, duration: 600 });
+                        } else {
+                            cy.elements().removeClass("highlighted");
+                            cy.elements().removeClass("highlighted-edge");
+
+                            highlightPathToProphet(targetNodes[0], uniquePaths[0]);
+
                             pathButtonsContainer.innerHTML = "";
                             pathButtonsContainer.style.display = "flex";
-                            
+
                             const title = document.createElement("span");
                             title.innerText = "اختر السند :";
                             title.style.color = "#8fa3b8";
@@ -462,13 +617,13 @@ if (searchInput) {
                             title.style.marginLeft = "10px";
                             pathButtonsContainer.appendChild(title);
 
-                            targetNodes.forEach((node, index) => {
+                            uniquePaths.forEach((path, index) => {
                                 const btn = document.createElement("div");
                                 btn.innerText = index + 1;
                                 btn.style.width = "30px";
                                 btn.style.height = "30px";
                                 btn.style.borderRadius = "50%";
-                                btn.style.background = "#ffd700";
+                                btn.style.background = index === 0 ? "#e74c3c" : "#ffd700";
                                 btn.style.color = "#000";
                                 btn.style.fontWeight = "bold";
                                 btn.style.display = "flex";
@@ -481,12 +636,38 @@ if (searchInput) {
                                 btn.addEventListener("mouseleave", () => btn.style.transform = "scale(1)");
 
                                 btn.addEventListener("click", () => {
-                                    highlightPathToProphet(node);
-                                    cy.animate({ center: { eles: node }, zoom: 1.2, duration: 400 });
+                                    // 1. تلوين المسار المختار
+                                    highlightPathToProphet(targetNodes[0], path);
+                                    
+                                    // 2. تلوين الزر النشط
                                     Array.from(pathButtonsContainer.children).forEach(b => {
                                         if (b.innerText !== "اختر السند :") b.style.background = "#ffd700";
                                     });
                                     btn.style.background = "#e74c3c";
+
+                                    // 3. عمل زوم على 4 طبقات (العقدة المبحوث عنها + 3 فوقها)
+                                    const targetNodeInPath = path[path.length - 1];
+                                    
+                                    let elementsToFocus = cy.collection().union(targetNodeInPath);
+                                    let current = targetNodeInPath;
+                                    
+                                    for (let i = 0; i < 3; i++) {
+                                        const parentEdges = current.incomers('edge');
+                                        if (parentEdges.length === 0) break;
+                                        
+                                        const parent = parentEdges[0].source();
+                                        elementsToFocus = elementsToFocus.union(parent);
+                                        elementsToFocus = elementsToFocus.union(parentEdges[0]);
+                                        
+                                        current = parent;
+                                    }
+                                    
+                                    if (elementsToFocus.length > 0) {
+                                        cy.animate({
+                                            fit: { eles: elementsToFocus, padding: 50 },
+                                            duration: 600
+                                        });
+                                    }
                                 });
 
                                 pathButtonsContainer.appendChild(btn);
@@ -494,7 +675,7 @@ if (searchInput) {
                         }
                     }
                 });
-                
+
                 searchResults.appendChild(div);
             });
         } else {
@@ -514,21 +695,25 @@ document.addEventListener("click", function(e) {
 // ============================================================
 // 6. التحكم في الطبقات (المسافات والتوسيط)
 // ============================================================
+let isSearching = false; // 🌟 متغير للتحكم
 function centerLayers() {
     if (!cy) return;
 
     const layerHeights = {
-        "layer1_allah":     -100,
-        "layer2_jibril":   -40,
-        "layer3_prophet": 20,
-        "layer4_sahabi":  160,
-        "layer5_tabiee":  260,
-        "layer6_sheikhs": 360,
-        "layer7_qari":    460,
+        "layer1_allah":     -200,
+        "layer2_jibril":   -140,
+        "layer3_prophet": -80,
+        "layer4_sahabi":  0,
+        "layer5_tabiee":  100,
+        "layer6_sheikhs": 180,
+        "layer8_intermediates1": 260, // 🌟 طبقة l4 (فوق الشيخ، تحت القارئ)
+        "layer7_qari":    360,
         "layer9_rawi":    560,
         "layer10_tariq":  660,
+        "layer13_others_1": 310, // شيخ شيوخ خلف
+         "layer13_others_2": 370, // شيخ خلف المباشر
         "layer11_man1":   760,
-        "layer12_man2":   860,
+       "layer12_man2":   860,
         "layer13_man3":   1100, // 🌟 الرجل الثالث (بين الثاني والرابع)
         "layer14_book_author": 1600,
         "layer15_book":   1660
