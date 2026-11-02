@@ -17,7 +17,7 @@ const colors = {
     layer10_tariq: "#f0a020",       
     layer11_man1: "#e67e22",        
     layer12_man2: "#1abc9c", 
-     layer13_man3: "#2dbb40",         
+    layer13_man3: "#2dbb40",         
     layer13_others: "#95a5a6", 
     layer13_others_1: "#175820", // شيخ شيوخ خلف (أحمر غامق)
     layer13_others_2: "#563ce7", // شيخ خلف المباشر (بنفسجي)
@@ -368,12 +368,12 @@ function initTree(elements) {
         layout: {
             name: 'dagre',
             rankDir: 'TB',
-            nodeSep: 1,
+            nodeSep: 5,
             rankSep: 50,
             edgeSep: 20,
             ranker: 'network-simplex',
             fit: true,
-            padding: 10
+            padding: 20
         }
     });
 
@@ -406,8 +406,12 @@ function initTree(elements) {
         }
     });
 
-    setTimeout(() => {
+        setTimeout(() => {
         centerLayers();
+        // 🌟 ننتظر نصف ثانية إضافية لضمان استقرار الشجرة، ثم نطبق التعديل اليدوي
+        setTimeout(() => {
+            adjustHorizontalPositions();
+        }, 500);
     }, 100);
 }
 
@@ -427,6 +431,8 @@ document.querySelectorAll('.qari-btn, .rawi-btn').forEach(btn => {
         } else {
             initTree(buildRawiElements(qari, rawi));
         }
+        // 🌟 أضف هذا السطر بعد initTree
+         setTimeout(() => adjustHorizontalPositions(), 700);
     });
 });
 
@@ -700,24 +706,23 @@ function centerLayers() {
     if (!cy) return;
 
     const layerHeights = {
-        "layer1_allah":     -200,
-        "layer2_jibril":   -140,
+        "layer1_allah":   -200,
+        "layer2_jibril":  -140,
         "layer3_prophet": -80,
         "layer4_sahabi":  0,
         "layer5_tabiee":  100,
-        "layer6_sheikhs": 180,
+        "layer6_sheikhs": 200,
         "layer8_intermediates1": 260, // 🌟 طبقة l4 (فوق الشيخ، تحت القارئ)
-        "layer13_others_1": 220, // شيخ شيوخ خلف
-         "layer13_others_2": 300, // شيخ خلف المباشر
-        "layer7_qari":    360,
-        "layer9_rawi":    560,
-        "layer10_tariq":  660,
-        
-        "layer11_man1":   760,
-       "layer12_man2":   860,
+        "layer13_others_1": 300, // شيخ شيوخ خلف
+         "layer13_others_2": 400, // شيخ خلف المباشر
+        "layer7_qari":    500,
+        "layer9_rawi":    700,
+        "layer10_tariq":  800,
+        "layer11_man1":   900,
+       "layer12_man2":   1000,
         "layer13_man3":   1100, // 🌟 الرجل الثالث (بين الثاني والرابع)
-        "layer14_book_author": 1600,
-        "layer15_book":   1660
+        "layer14_book_author": 1540,
+        "layer15_book":   1600
     };
 
     cy.nodes().forEach(node => {
@@ -831,3 +836,126 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+
+
+// ============================================================
+// 🌟 إظهار وإخفاء الشريط الجانبي (Toggle)
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const btnToggle = document.getElementById("btn-toggle-sidebar");
+    const sidebar = document.getElementById("sidebar");
+    const cyContainer = document.getElementById("cy-container");
+
+    if (btnToggle && sidebar) {
+        let isSidebarVisible = true;
+
+        btnToggle.addEventListener("click", () => {
+            if (isSidebarVisible) {
+                // إخفاء الشريط
+                sidebar.style.display = "none";
+                // توسيع منطقة الرسم
+                if (cyContainer) cyContainer.style.width = "100%";
+                // تغيير نص الزر (اختياري)
+                btnToggle.innerText = "📋 عرض القراء";
+                isSidebarVisible = false;
+            } else {
+                // إظهار الشريط
+                sidebar.style.display = "flex";
+                // إعادة عرض منطقة الرسم
+                if (cyContainer) cyContainer.style.width = "calc(100% - 250px)";
+                // تغيير نص الزر (اختياري)
+                btnToggle.innerText = "📋 إخفاء القراء";
+                isSidebarVisible = true;
+            }
+
+            // 🌟 إعادة ضبط الشجرة (Fit) بعد إخفاء/إظهار الشريط
+            if (cy) {
+                setTimeout(() => {
+                    cy.resize(); // إخبار المكتبة بأن الحجم تغير
+                    cy.fit(cy.nodes(":visible"), 50); // إعادة الزوم
+                }, 350); // ننتظر انتهاء حركة الـ CSS
+            }
+        });
+    }
+}); 
+
+
+
+// ============================================================
+// 🌟 التحكم اليدوي في الإحداثيات الأفقية (X) لكل شجرة على حدة
+// ============================================================
+function adjustHorizontalPositions() {
+    if (!cy) return;
+
+    // 1. معرفة الشجرة الحالية (القارئ أو الراوي)
+    // نبحث عن العقدة التي تحمل نوع layer7_qari (القارئ)
+    const qariNode = cy.nodes().filter(n => n.data("type") === "layer7_qari");
+    let currentTreeName = "";
+    if (qariNode.length > 0) {
+        currentTreeName = qariNode.data("label"); // مثلاً "نافع المدني" أو "ورش" أو "قالون"
+    }
+
+    // 2. مركز الشجرة (نافع أو القارئ الحالي)
+    let centerX = 0;
+    if (qariNode.length > 0) {
+        centerX = qariNode.position('x');
+    } else {
+        let minX = Infinity, maxX = -Infinity;
+        cy.nodes().forEach(n => {
+            minX = Math.min(minX, n.position('x'));
+            maxX = Math.max(maxX, n.position('x'));
+        });
+        centerX = (minX + maxX) / 2;
+    }
+
+    // ============================================================
+    // 📝 لوحة التحكم: لكل شجرة إحداثياتها الخاصة
+    // المفتاح الأول هو اسم الشجرة (القارئ أو الراوي)
+    // المفتاح الثاني هو اسم العقدة، والقيمة هي المسافة من المركز (X)
+    // ============================================================
+    const horizontalPositions = {
+        // 🌟 شجرة نافع
+        "نافع المدني": {
+          
+            "سعيد بن المسيب": 50,
+             "صالح بن خوات الأنصاري": -240,
+             "محمد بن مسلم بن شهاب الزهري": 10,
+             // في شجرة نافع فقط
+              
+        },
+        // 🌟 شجرة ورش
+        "ورش": {
+           
+            "سعيد بن المسيب": 52,
+             "صالح بن خوات الأنصاري": -240, // في شجرة ورش فقط
+            "محمد بن مسلم بن شهاب الزهري": 10,
+            },
+        // 🌟 شجرة قالون
+        "قالون": {
+            
+             "سعيد بن المسيب": 52,
+             "صالح بن خوات الأنصاري": -240, // في شجرة قالون فقط
+             "محمد بن مسلم بن شهاب الزهري": 10,
+            },
+        // 🌟 شجرة ابن كثير
+        "ابن كثير المكي": {
+            "عبد الله بن السائب المخزومي": 0,
+        },
+        // أضف أي شجرة أخرى هنا...
+    };
+
+    // 3. تطبيق الإحداثيات للشجرة الحالية فقط
+    if (horizontalPositions[currentTreeName]) {
+        const treePositions = horizontalPositions[currentTreeName];
+        
+        cy.nodes().forEach(node => {
+            const label = node.data("label");
+            if (treePositions[label] !== undefined) {
+                const newX = centerX + treePositions[label];
+                const currentY = node.position('y');
+                node.position({ x: newX, y: currentY });
+            }
+        });
+    }
+}

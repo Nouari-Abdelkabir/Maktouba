@@ -61,6 +61,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  transition: width 0.3s ease, padding 0.3s ease; /* 🌟 أضف هذا السطر */
 }
 
 .qari-btn {
@@ -99,7 +100,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 10px; /* مسافة بين كل قارئ والقارئ الذي يليه */
-}
+    transition: width 0.3s ease, padding 0.3s ease; /* 🌟 أضف هذا السطر */
+  }
 
 /* حاوية القارئ ورواته */
 .qari-section {
