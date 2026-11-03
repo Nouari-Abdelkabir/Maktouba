@@ -431,8 +431,8 @@ document.querySelectorAll('.qari-btn, .rawi-btn').forEach(btn => {
         } else {
             initTree(buildRawiElements(qari, rawi));
         }
-        // 🌟 أضف هذا السطر بعد initTree
-         setTimeout(() => adjustHorizontalPositions(), 700);
+        
+        setTimeout(() => adjustHorizontalPositions(), 700);
     });
 });
 
@@ -940,7 +940,13 @@ function adjustHorizontalPositions() {
             },
         // 🌟 شجرة ابن كثير
         "ابن كثير المكي": {
-            "عبد الله بن السائب المخزومي": 0,
+            "عبد الله بن السائب المخزومي": -80,
+        },
+        "البزي": {
+            "عبد الله بن السائب المخزومي": -80,
+        },
+        "قنبل": {
+            "عبد الله بن السائب المخزومي": -80,
         },
         // أضف أي شجرة أخرى هنا...
     };
@@ -959,3 +965,17 @@ function adjustHorizontalPositions() {
         });
     }
 }
+
+// ============================================================
+// زر الانتقال إلى صفحة الإحصائيات
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const btnStats = document.getElementById("btn-stats");
+    if (btnStats) {
+        btnStats.addEventListener("click", () => {
+            window.location.href = "stats/stats.html";
+        });
+    }
+});
+
+

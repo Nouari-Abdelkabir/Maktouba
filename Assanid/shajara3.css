@@ -120,7 +120,7 @@ main {
     border: 1px solid var(--border);
     border-radius: 6px;
     cursor: pointer;
-    text-align: right;
+    text-align: center;
     font-size: 14px;
     transition: 0.2s;
     display: flex;
