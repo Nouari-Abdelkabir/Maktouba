@@ -281,7 +281,6 @@ const asbahaniRoutes = [
 
 ];
 
-
 // --- 2. طرق الإمام ابن كثير المكي ---
 
 const AbirabiaaRoutes = [
@@ -377,171 +376,225 @@ const IbnchanaboudRoutes = [
 
 ];
 
+// --- - 3. طرق الإمام أبو عمرو البصري   ---
+const abiAlZaraaRoutes = [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const ahmadBinFarahRoutes =   [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const musaBinJarirRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const ibnJamhourRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+
+// --- 4. طرق الإمام ابن عامر الدمشقي ---
+const hishamHalwaniRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const hishamDajouniRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const dhakwanAkhfashRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const dhakwanSuriRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+
+// --- 5. طرق الإمام عاصم الكوفي ---
+const shuabaYahyaAdamRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const shuabaYahyaAlimiRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const hafsUbaidSabahRoutes = [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const hafsAmrSabahRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+
+// --- 6. طرق الإمام حمزة الكوفي ---
+const khalafIdrisRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const khalladShadhanRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const khalladHaithamRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const khalladWazzanRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const khalladTalhiRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+
+// --- 7. طرق الإمام الكسائي الكوفي ---
+const harithYahyaRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const harithSalamaRoutes = [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const duriJafarRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const duriDarirRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+
+// --- 8. طرق الإمام أبو جعفر المدني ---
+const wardanFadlRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const wardanHibatullahRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const jammazHashimiRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const jammazDuriRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+
+// --- 9. طرق الإمام يعقوب الحضرمي ---
+const ruwaisTammarRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const rawhWahbRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const rawhZubairiRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+
+// --- 10. طرق الإمام خلف العاشر ---
+const ishaqIbnAbiOmarRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const ishaqMuhammadRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const ishaqNajjarRoutes = [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const idrisShattiRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const idrisMutawwiRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const idrisBuyanRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+const idrisQatiRoutes =  [
+    ["شيخ  1", "من كتاب "],
+    ["شيخ  2", "من كتاب "]
+];
+
+
+
 // --- 1. نافع المدني ---
 buildQari("q1", "نافع المدني", [
     {name: "قالون",turuq: [{ name: "أبي نشيط", count: 34, realRoutes: AbinachitRoutes },{ name: "الحلواني", count: 49, realRoutes: halaouaniRoutes }]},
     {name: "ورش", turuq: [{ name: "الأزرق", count: 35, realRoutes: azraqRoutes },{ name: "الأصبهاني", count: 26, realRoutes: asbahaniRoutes}] },
 ]);
 
-
-
 // --- 2. ابن كثير المكي ---
-
 buildQari("q2", "ابن كثير المكي",[
     {name: "البزي",turuq: [{ name: "أبي ربيعة", count: 35, realRoutes: AbirabiaaRoutes },{ name: "ابن الحباب", count: 6, realRoutes: IbnhabbabRoutes }]},
     {name: "قنبل", turuq: [{ name: "ابن مجاهد", count: 18, realRoutes: IbnmojahidRoutes },{ name: "ابن شنبوذ", count: 14, realRoutes: IbnchanaboudRoutes}] },
 ]); 
 
-
-
 // --- 3. أبو عمرو البصري ---
 buildQari("q3", "أبو عمرو البصري", [
-    {
-        name: "الدوري",
-        turuq: [
-            { name: "أبي الزعراء", count: 82 },
-            { name: "أحمد بن فرح", count: 44 }
-        ]
-    },
-    {
-        name: "السوسي",
-        turuq: [
-            { name: "موسى بن جرير ", count: 23 },
-            { name: "ابن جمهور", count: 5 }
-        ]
-    }
+    { name: "الدوري", turuq: [{ name: "أبي الزعراء", count: 82, realRoutes: abiAlZaraaRoutes }, { name: "أحمد بن فرح", count: 44, realRoutes: ahmadBinFarahRoutes }] },
+    { name: "السوسي", turuq: [{ name: "موسى بن جرير", count: 23, realRoutes: musaBinJarirRoutes }, { name: "ابن جمهور", count: 5, realRoutes: ibnJamhourRoutes }] }
 ]);
 
 // --- 4. ابن عامر الدمشقي ---
 buildQari("q4", "ابن عامر الدمشقي", [
-    {
-        name: "هشام",
-        turuq: [
-            { name: "الحلواني", count: 28 },
-            { name: "الداجوني", count: 23 }
-        ]
-    },
-    {
-        name: "ذكوان",
-        turuq: [
-            { name: "الأخفش", count: 37 },
-            { name: "الصوري", count: 42 }
-        ]
-    }
+    { name: "هشام", turuq: [{ name: "الحلواني", count: 28, realRoutes: hishamHalwaniRoutes }, { name: "الداجوني", count: 23, realRoutes: hishamDajouniRoutes }] },
+    { name: "ابن ذكوان", turuq: [{ name: "الأخفش", count: 57, realRoutes: dhakwanAkhfashRoutes }, { name: "الصوري", count: 22, realRoutes: dhakwanSuriRoutes }] }
 ]);
 
 // --- 5. عاصم الكوفي ---
 buildQari("q5", "عاصم الكوفي", [
-    {
-        name: "شعبة",
-        turuq: [
-            { name: "يحيى بن آدم", count: 58 },
-            { name: "يحيى العليمي", count: 18 }
-        ]
-    },
-    {
-        name: "حفص",
-        turuq: [
-            { name: "عبيد بن الصباح", count: 24 },
-            { name: "عمرو بن الصباح", count: 28 }
-        ]
-    }
+    { name: "شعبة", turuq: [{ name: "يحيى بن آدم", count: 58, realRoutes: shuabaYahyaAdamRoutes }, { name: "يحيى العليمي", count: 18, realRoutes: shuabaYahyaAlimiRoutes }] },
+    { name: "حفص", turuq: [{ name: "عبيد بن الصباح", count: 24, realRoutes: hafsUbaidSabahRoutes }, { name: "عمرو بن الصباح", count: 28, realRoutes: hafsAmrSabahRoutes }] }
 ]);
 
 // --- 6. حمزة الكوفي ---
 buildQari("q6", "حمزة الكوفي", [
-    {
-        name: "خلف",
-        turuq: [
-            { name: "إدريس", count: 26 },
-            { name: "إدريس", count: 25 }
-        ]
-    },
-    {
-        name: "خلاد",
-        turuq: [
-            { name: "الوزان", count: 38 },
-            { name: "محمد ابن الهيثم", count: 10 },
-            { name: "سليمان بن عبد الرحمن الطلحي", count: 2 },
-            { name: "محمد بن شاذان", count: 18 }
-        ]
-    }
+    { name: "خلف", turuq: [{ name: "إدريس", count: 53, realRoutes: khalafIdrisRoutes }] },
+    { name: "خلاد", turuq: [{ name: "محمد بن شاذان", count: 18, realRoutes: khalladShadhanRoutes }, { name: "محمد ابن الهيثم", count: 10, realRoutes: khalladHaithamRoutes }, { name: "الوزان", count: 38, realRoutes: khalladWazzanRoutes }, { name: "سليمان بن عبد الرحمن الطلحي", count: 2, realRoutes: khalladTalhiRoutes }] }
 ]);
 
 // --- 7. الكسائي الكوفي ---
 buildQari("q7", "الكسائي الكوفي", [
-    {
-        name: "أبو الحارث",
-        turuq: [
-            { name: "محمد بن يحيى", count: 31 },
-            { name: "سلمة بن عاصم", count: 9 }
-        ]
-    },
-    {
-        name: "الدوري",
-        turuq: [
-            { name: "جعفر النصيبي", count: 6 },
-            { name: "الضرير", count: 18 }
-        ]
-    }
+    { name: "أبو الحارث", turuq: [{ name: "محمد بن يحيى", count: 31, realRoutes: harithYahyaRoutes }, { name: "سلمة بن عاصم", count: 9, realRoutes: harithSalamaRoutes }] },
+    { name: "الدوري", turuq: [{ name: "جعفر النصيبي", count: 6, realRoutes: duriJafarRoutes }, { name: "أبو عثمان الضرير", count: 18, realRoutes: duriDarirRoutes }] }
 ]);
 
 // --- 8. أبو جعفر المدني ---
 buildQari("q8", "أبو جعفر المدني", [
-    {
-        name: "ابن وردان",
-        turuq: [
-            { name: "الفضل بن شاذان", count: 31 },
-            { name: "هبة الله ابن جعفر", count: 9 }
-        ]
-    },
-    {
-        name: "ابن جماز",
-        turuq: [
-            { name: "الهاشمي", count: 9 },
-            { name: "الدوري", count: 3 }
-        ]
-    }
+    { name: "ابن وردان", turuq: [{ name: "الفضل بن شاذان", count: 31, realRoutes: wardanFadlRoutes }, { name: "هبة الله ابن جعفر", count: 9, realRoutes: wardanHibatullahRoutes }] },
+    { name: "ابن جماز", turuq: [{ name: "الهاشمي", count: 9, realRoutes: jammazHashimiRoutes }, { name: "الدوري", count: 3, realRoutes: jammazDuriRoutes }] }
 ]);
 
 // --- 9. يعقوب الحضرمي ---
 buildQari("q9", "يعقوب الحضرمي", [
-    {
-        name: "رويس",
-        turuq: [
-            { name: "التمار", count: 10 },
-            { name: "التمار", count: 11 }
-        ]
-    },
-    {
-        name: "روح",
-        turuq: [
-            { name: "محمد بن وهب", count: 41 },
-            { name: "الزبيري", count: 3 }
-        ]
-    }
+    { name: "رويس", turuq: [{ name: "التمار", count: 41, realRoutes: ruwaisTammarRoutes }] },
+    { name: "روح", turuq: [{ name: "محمد بن وهب", count: 41, realRoutes: rawhWahbRoutes }, { name: "الزبيري", count: 3, realRoutes: rawhZubairiRoutes }] }
 ]);
 
 // --- 10. خلف العاشر ---
 buildQari("q10", "خلف العاشر", [
-    {
-        name: "إسحاق",
-        turuq: [
-            { name: "محمد بن إسحاق", count: 1 },
-            { name: "أبي الحسن النجار", count: 4 },
-            { name: "ابن أبي عمر", count: 17 }
-        ]
-    },
-    {
-        name: "إدريس",
-        turuq: [
-            { name: "الشطي", count: 3 },
-            { name: "المطوعي", count: 3 },
-            { name: "القطيعي", count: 2 },
-            { name: "بن بويان", count: 1 }
-        ]
-    }
+    { name: "إسحاق", turuq: [{ name: "ابن أبي عمر", count: 17, realRoutes: ishaqIbnAbiOmarRoutes }, { name: "محمد بن إسحاق", count: 1, realRoutes: ishaqMuhammadRoutes }, { name: "أبي الحسن النجار", count: 4, realRoutes: ishaqNajjarRoutes }] },
+    { name: "إدريس", turuq: [{ name: "الشطي", count: 3, realRoutes: idrisShattiRoutes }, { name: "المطوعي", count: 3, realRoutes: idrisMutawwiRoutes }, { name: "بن بويان", count: 1, realRoutes: idrisBuyanRoutes }, { name: "القطيعي", count: 2, realRoutes: idrisQatiRoutes }] }
 ]);
+
+
 
 // ============================================================
 // تصدير البيانات النهائية
