@@ -1,13 +1,16 @@
 
 /* تعريف الخط */
+
 @font-face {
     font-family: 'NouariAbdelkabir';
-    src: url('font/nouariabdelkabir.woff2') format('woff2'),
+    /* 🌟 لاحظ الأسماء: N كبيرة في woff2، و n صغيرة في ttf */
+    src: url('font/NouariAbdelkabir.woff2') format('woff2'),
          url('font/nouariabdelkabir.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
+
 
 body, button, input {
     font-family: 'NouariAbdelkabir', "Segoe UI", Tahoma, sans-serif !important;

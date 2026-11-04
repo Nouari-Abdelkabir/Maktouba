@@ -6,6 +6,16 @@
   --accent: #3d8bfd;
 }
 
+@font-face {
+    font-family: 'NouariAbdelkabir';
+    /* 🌟 لاحظ الأسماء: N كبيرة في woff2، و n صغيرة في ttf */
+    src: url('font/NouariAbdelkabir.woff2') format('woff2'),
+         url('font/nouariabdelkabir.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * { box-sizing: border-box; }
 
 body {
