@@ -1,0 +1,257 @@
+/* ============================================================
+   🌟 ملف الأنماط الخاص بصفحة شجرة الصحابة (يدعم الوضع الليلي والنهاري)
+   ============================================================ */
+
+/* 1. تعريف الخط */
+@font-face {
+    font-family: 'NouariAbdelkabir';
+    src: url('font/NouariAbdelkabir.woff2') format('woff2'),
+         url('font/nouariabdelkabir.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* الوضع الليلي (الافتراضي) */
+:root {
+    --bg: #0f1720;
+    --panel: #16212c;
+    --text: #e8eef5;
+    --border: #24313f;
+    --canvas-bg: radial-gradient(circle at 30% 20%, #1a2735 0%, #0f1720 70%);
+    
+    /* 🌟 ألوان الأزرار والخانات */
+    --btn-bg: #1a2735;
+    --btn-text: #ffffff;
+    --btn-hover: #2a3a4c;
+    --btn-active: #3d8bfd;
+    
+    --rawi-bg: #24313f;
+    --rawi-text: #8fa3b8;
+    --rawi-hover: #2a3a4c;
+    
+    --input-bg: #0f1720;
+    --input-border: #24313f;
+    --input-text: #ffffff;
+}
+
+/* 🌟 الوضع النهاري (ألوان منسجمة) */
+.light-mode {
+    --bg: #f4f6f8;
+    --panel: #ffffff;
+    --text: #2c3e50;
+    --border: #dce1e6;
+    --canvas-bg: radial-gradient(circle at 30% 20%, #ffffff 0%, #e9ecef 70%);
+    
+    /* 🌟 ألوان الأزرار والخانات في الوضع النهاري */
+    --btn-bg: #e9ecef;        /* رمادي فاتح */
+    --btn-text: #2c3e50;      /* نص داكن */
+    --btn-hover: #d1d8e0;     /* رمادي أغمق قليلاً */
+    --btn-active: #007bff;    /* أزرق */
+    
+    --rawi-bg: #f8f9fa;       /* أبيض مائل للرمادي */
+    --rawi-text: #6c757d;     /* نص رمادي */
+    --rawi-hover: #e2e6ea;    /* رمادي فاتح */
+    
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --input-text: #2c3e50;
+}
+
+/* إضافة انتقال ناعم لجميع العناصر */
+body, header, #sidebar, #cy, .qari-btn, .rawi-btn, .wasita-btn, input {
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+/* 4. التنسيقات الأساسية */
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "NouariAbdelkabir", "Segoe UI", Tahoma, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+header {
+    padding: 12px 20px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+header h1 { font-size: 18px; margin: 0; font-weight: 600; }
+.controls { display: flex; gap: 10px; align-items: center; }
+
+/* 5. الشريط الجانبي */
+/* 5. الشريط الجانبي */
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 250px; 
+    background: var(--panel);
+    border-left: 1px solid var(--border);
+    padding: 10px;
+    overflow-y: auto;
+    gap: 10px;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+/* 6. حاوية القارئ والرواة (أفقي: القارئ يميناً والرواة يساراً) */
+.qari-section {
+    display: flex;
+    flex-direction: row; 
+    gap: 6px; 
+    align-items: stretch; /* ليتساوى طول زر القارئ مع الرواة */
+}
+
+/* 7. زر القارئ (يأخذ النصف الأيمن) */
+/* 7. زر القارئ */
+.qari-btn {
+    flex: 1; 
+    padding: 12px 8px;
+    background: var(--btn-bg);    /* يتغير حسب الوضع */
+    color: var(--btn-text);       /* يتغير حسب الوضع */
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.4;
+}
+
+.qari-btn:hover { background: var(--btn-hover); }
+.qari-btn.active { background: var(--btn-active); color: #fff; border-color: var(--btn-active); }
+
+/* 9. زر الراوي */
+.rawi-btn {
+    padding: 6px 8px;
+    background: var(--btn-bg); /* سيتحول للرمادي الفاتح في النهاري */
+    color: var(--btn-text);    /* سيتحول للنص الداكن في النهاري */
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.rawi-btn:hover { background: var(--rawi-hover) }
+.rawi-btn.active { background: #1abc9c; color: white; border-color: #1abc9c; font-weight: bold; }
+/* 10. زر الواسطة */
+.wasita-btn {
+    padding: 6px;
+    background: #8e44ad;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    font-size: 12px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.wasita-btn:hover { background: #9b59b6; }
+
+/* 11. منطقة الرسم */
+main {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    position: relative;
+}
+
+#cy-container { flex: 1; position: relative; }
+
+#cy {
+    width: 100%;
+    height: 100%;
+    background: var(--canvas-bg);
+    transition: background 0.3s;
+}
+
+/* 12. شريط التمرير العمودي */
+#time-slider-container {
+    background: rgba(22, 33, 44, 0.7) !important;
+    border: 1px solid rgba(36, 49, 63, 0.5) !important;
+}
+
+.light-mode #time-slider-container {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+
+.wasita-btn {
+    padding: 6px;
+    background: #8e44ad; /* اللون البنفسجي ثابت في الوضعين */
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    font-size: 12px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+.wasita-btn:hover { background: #9b59b6; }
+
+/* 🌟 إجبار أزرار الرواة على استخدام المتغيرات (للتغلب على shajara3.css) */
+#sidebar .rawi-btn {
+    background: var(--btn-bg) !important;
+    color: var(--btn-text) !important;
+    border: 1px solid var(--border) !important;
+}
+#sidebar .rawi-btn:hover {
+    background: var(--btn-hover) !important;
+}
+#sidebar .rawi-btn.active {
+    background: var(--btn-active) !important;
+    color: #ffffff !important;
+    border-color: var(--btn-active) !important;
+    font-weight: bold !important;
+}
+
+/* 🌟 إجبار أزرار القراء على استخدام المتغيرات (للتغلب على shajara3.css) */
+#sidebar .qari-btn {
+    background: var(--btn-bg) !important;
+    color: var(--btn-text) !important;
+    border: 1px solid var(--border) !important;
+}
+
+#sidebar .qari-btn:hover {
+    background: var(--btn-hover) !important;
+}
+
+#sidebar .qari-btn.active {
+    background: var(--btn-active) !important;
+    color: #ffffff !important;
+    border-color: var(--btn-active) !important;
+    font-weight: bold !important;
+}

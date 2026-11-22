@@ -302,11 +302,19 @@ const abuAmrUpperIsnads = [
     { qari: "أبو عمرو البصري", l4: "", l3: "يحيى بن يعمر العدواني", l2: "ظالم بن عمرو أبو الأسود الدؤلي", l1: "عثمان بن عفان" },
 
 ];
-const duriRoutes = [
+const abiAlZaraaRoutes = [
     ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
     ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
 ];
-const susiRoutes = [
+const ahmadBinFarahRoutes = [
+    ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
+    ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
+];
+const musaBinJarirRoutes = [
+    ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
+    ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
+];
+const ibnJamhourRoutes = [
     ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
     ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
 ];
@@ -319,12 +327,20 @@ const ibnAmirUpperIsnads = [
     { qari: "ابن عامر الشامي", l4: "", l3: "", l2: "", l1: "أبو الدرداء عويمر بن زيد" },
 
 ];
-const hishamRoutes = [
+const hishamHalwaniRoutes = [
     ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
     ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
 
 ];
-const ibnDhakwanRoutes = [
+const hishamDajouniRoutes = [
+    ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
+    ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
+];
+const dhakwanAkhfashRoutes = [
+    ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
+    ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
+];
+const dhakwanSuriRoutes = [
     ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
     ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
 ];
@@ -345,11 +361,19 @@ const asimUpperIsnads = [
     { qari: "عاصم الكوفي", l4: "", l3: "", l2: "عبد الله بن حبيب السلمي", l1: "علي بن أبي طالب" },
 
 ];
-const shuabaRoutes = [
+const shuabaYahyaAdamRoutes = [
     ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
     ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
 ];
-const hafsRoutes = [
+const shuabaYahyaAlimiRoutes = [
+    ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
+    ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
+];
+const hafsUbaidSabahRoutes = [
+    ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
+    ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
+];
+const hafsAmrSabahRoutes = [
     ["شيخ 1", "صاحب الكتب 1", "من كتاب 1"],
     ["شيخ 2", "صاحب الكتب 2", "من كتاب 2"]
 ];
@@ -903,35 +927,38 @@ const ALL_QURRA_DATA = {
             { name: "(بواسطة) البزي", turuq: [{ name: "أبي ربيعة", routes: AbirabiaaRoutes }, { name: "ابن الحباب", routes: IbnhabbabRoutes }] },
             { name: "(بواسطة) قنبل", turuq: [{ name: "ابن مجاهد", routes: IbnmojahidRoutes }, { name: "ابن شنبوذ", routes: IbnchanaboudRoutes }] }
         ]
-    
-    
-    
-    
     },
+
+    // --- 3. أبو عمرو البصري ---
     "abu_amr": {
         name: "أبو عمرو البصري",
         upperIsnads: abuAmrUpperIsnads,
         rawis: [
-            { name: "(بواسطة) الدوري", turuq: [{ name: "طريق الدوري", routes: duriRoutes }] },
-            { name: "السوسي (بواسطة)", turuq: [{ name: "طريق السوسي", routes: susiRoutes }] }
+            { name: "الدوري", turuq: [{ name: "أبي الزعراء", routes: abiAlZaraaRoutes }, { name: "أحمد بن فرح", routes: ahmadBinFarahRoutes }] },
+            { name: "السوسي", turuq: [{ name: "موسى بن جرير", routes: musaBinJarirRoutes }, { name: "ابن جمهور", routes: ibnJamhourRoutes }] }
         ]
     },
+// --- 4. ابن عامر الدمشقي ---
     "ibn_amir": {
         name: "ابن عامر الشامي",
         upperIsnads: ibnAmirUpperIsnads,
         rawis: [
-            { name: "(بواسطة) هشام", turuq: [{ name: "طريق هشام", routes: hishamRoutes }] },
-            { name: "(بواسطة) ابن ذكوان", turuq: [{ name: "طريق ابن ذكوان", routes: ibnDhakwanRoutes }] }
+            { name: "هشام", turuq: [{ name: "الحلواني", routes: hishamHalwaniRoutes }, { name: "الداجوني", routes: hishamDajouniRoutes }] },
+            { name: "ابن ذكوان", turuq: [{ name: "الأخفش", routes: dhakwanAkhfashRoutes }, { name: "الصوري", routes: dhakwanSuriRoutes }] }
         ]
     },
+
+    // --- 5. عاصم الكوفي ---
     "asim": {
         name: "عاصم الكوفي",
         upperIsnads: asimUpperIsnads,
         rawis: [
-            { name: "شعبة", turuq: [{ name: "طريق شعبة", routes: shuabaRoutes }] },
-            { name: "حفص", turuq: [{ name: "طريق حفص", routes: hafsRoutes }] }
+            { name: "شعبة", turuq: [{ name: "يحيى بن آدم", routes: shuabaYahyaAdamRoutes }, { name: "يحيى العليمي", routes: shuabaYahyaAlimiRoutes }] },
+            { name: "حفص", turuq: [{ name: "عبيد بن الصباح", routes: hafsUbaidSabahRoutes }, { name: "عمرو بن الصباح", routes: hafsAmrSabahRoutes }] }
         ]
     },
+
+
     "hamza": {
         name: "حمزة الكوفي",
         upperIsnads: hamzaUpperIsnads,
@@ -940,8 +967,6 @@ const ALL_QURRA_DATA = {
             { name: "(بواسطة) خلاد", turuq: [{ name: "محمد بن شاذان", routes: khalladShadhanRoutes }, { name: "محمد ابن الهيثم", routes: khalladHaithamRoutes }, { name: "الوزان", routes: khalladWazzanRoutes }, { name: "سليمان بن عبد الرحمن الطلحي", routes: khalladTalhiRoutes }] }
         ]
 
-    //{ name: "(بواسطة) خلف", turuq: [{ name: "إدريس", routes: khalafIdrisRoutes }] },
-    //{ name: "(بواسطة) خلاد", turuq: [{ name: "محمد بن شاذان", routes: khalladShadhanRoutes }, { name: "محمد ابن الهيثم", routes: khalladHaithamRoutes }, { name: "الوزان", routes: khalladWazzanRoutes }, { name: "سليمان بن عبد الرحمن الطلحي", routes: khalladTalhiRoutes }] }
 
     },
     "kisai": {
@@ -949,7 +974,7 @@ const ALL_QURRA_DATA = {
         upperIsnads: kisaiUpperIsnads,
         rawis: [
             { name: "أبو الحارث", turuq: [{ name: "محمد بن يحيى", routes: harithYahyaRoutes }, { name: "سلمة بن عاصم", routes: harithSalamaRoutes }] },
-    { name: "الدوري", turuq: [{ name: "جعفر النصيبي", routes: duriJafarRoutes }, { name: "أبو عثمان الضرير", routes: duriDarirRoutes }] }
+            { name: "الدوري", turuq: [{ name: "جعفر النصيبي", routes: duriJafarRoutes }, { name: "أبو عثمان الضرير", routes: duriDarirRoutes }] }
         ]
     },
 

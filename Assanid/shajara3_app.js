@@ -831,8 +831,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnGoToTree1 = document.getElementById("btn-go-to-tree1");
     if (btnGoToTree1) {
         btnGoToTree1.addEventListener("click", () => {
-            // غير المسار حسب مكان ملف الشجرة الأولى عندك
-            window.location.href = "../Assanid/index.html"; 
+            window.location.href = "index.html"; 
         });
     }
 });
@@ -977,5 +976,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
 

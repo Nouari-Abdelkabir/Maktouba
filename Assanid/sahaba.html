@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>شجرة أسانيد القراء العشرة</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="sahaba.css">
+  <link rel="stylesheet" href="shajara3.css">
+  <style>
+ 
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>شجرة أسانيد القراء المتصلة بالنبي ﷺ</h1>
+    <div class="controls">
+      <button id="btn-fit" style="padding: 8px 15px; cursor: pointer; background: #3d8bfd; color: white; border: none; border-radius: 4px;">🔍 عرض الكل</button>
+      <button id="btn-back" style="padding: 8px 15px; cursor: pointer; background: #e74c3c; color: white; border: none; border-radius: 4px;">↩️ العودة</button>
+      <button id="btn-theme-toggle" style="padding: 8px 15px; cursor: pointer; background: #f39c12; color: white; border: none; border-radius: 4px;">🌙 الوضع </button>
+      <button id="btn-export-pdf" style="padding: 8px 15px; cursor: pointer; background: #e67e22; color: white; border: none; border-radius: 4px;">📄 تصدير PDF</button>
+      <button id="btn-stats" style="padding: 8px 15px; cursor: pointer; background: #9b59b6; color: white; border: none; border-radius: 4px;">📊 إحصائيات</button>
+   </div>
+    <div style="position: relative; display: flex; align-items: center;">
+        <input type="text" id="nabi-search" placeholder="🔍 ابحث عن شيخ أو كتاب..." 
+    style="padding: 8px 30px 8px 12px; border-radius: 6px; border: 1px solid var(--input-border); 
+           background: var(--input-bg); color: var(--input-text); width: 250px; font-family: inherit; 
+           transition: all 0.3s ease;">
+        <span id="clear-search" style="position: absolute; left: 10px; cursor: pointer; color: #8fa3b8; font-size: 16px; font-weight: bold; display: none;">✕</span>
+        <div id="nabi-search-results" style="position: absolute; top: 100%; right: 0; left: 0; background: #16212c; border: 1px solid #24313f; border-radius: 6px; max-height: 200px; overflow-y: auto; z-index: 1000; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"></div>
+    </div>
+  </header>
+
+  <main>
+    <aside id="sidebar">
+    <div class="qari-section" style="margin-bottom: 15px;">
+        <button class="qari-btn active" data-action="all" >🌳عرض الأسانيد</button> 
+        <button class="qari-btn" data-action="mutawatir">🌳عرض الطرق</button>
+   </div>
+
+
+    <!-- نافع -->
+    <div class="qari-section">
+        <button class="qari-btn" data-action="qari" data-qari="نافع المدني">الإمام نافع المدني</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-action="rawi" data-qari="نافع المدني" data-rawi="قالون">الإمام قالون</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="نافع المدني" data-rawi="ورش">الإمام ورش</button>
+            <button class="wasita-btn" data-qari="نافع المدني" >الواسطة</button>
+        </div>
+    </div>
+
+    <!-- ابن كثير -->
+    <div class="qari-section">
+        <button class="qari-btn" data-action="qari" data-qari="ابن كثير المكي">الإمام ابن كثير المكي</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-action="rawi" data-qari="ابن كثير المكي" data-rawi="البزي">الإمام البزي</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="ابن كثير المكي" data-rawi="قنبل">الإمام قنبل</button>
+            <button class="wasita-btn" data-qari="ابن كثير المكي" >الواسطة</button>
+        </div>
+    </div>
+
+    <!-- أبو عمرو -->
+    <div class="qari-section">
+        <button class="qari-btn" data-action="qari" data-qari="أبو عمرو البصري">الإمام أبو عمرو البصري</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-action="rawi" data-qari="أبو عمرو البصري" data-rawi="الدوري">الإمام الدوري</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="أبو عمرو البصري" data-rawi="السوسي">الإمام السوسي</button>
+            <button class="wasita-btn" data-qari="أبو عمرو البصري" >الواسطة</button>
+        </div>
+    </div>
+
+    <!-- ابن عامر -->
+    <div class="qari-section">
+        <button class="qari-btn" data-action="qari" data-qari="ابن عامر الشامي">الإمام ابن عامر الشامي</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-action="rawi" data-qari="ابن عامر الشامي" data-rawi="هشام">الإمام هشام</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="ابن عامر الشامي" data-rawi="ابن ذكوان">الإمام ابن ذكوان</button>
+            <button class="wasita-btn" data-qari="ابن عامر الشامي" >الواسطة</button>
+        </div>
+    </div>
+
+    <!-- عاصم -->
+    <div class="qari-section">
+        <button class="qari-btn" data-action="qari" data-qari="عاصم الكوفي">الإمام عاصم الكوفي</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-action="rawi" data-qari="عاصم الكوفي" data-rawi="شعبة">الإمام شعبة</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="عاصم الكوفي" data-rawi="حفص">الإمام حفص</button>
+        </div>
+    </div>
+
+    <!-- حمزة -->
+    <div class="qari-section">
+        <button class="qari-btn" data-action="qari" data-qari="حمزة الكوفي">الإمام حمزة الكوفي</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-action="rawi" data-qari="حمزة الكوفي" data-rawi="خلف">الإمام خلف</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="حمزة الكوفي" data-rawi="خلاد">الإمام خلاد</button>
+            <button class="wasita-btn" data-qari="حمزة الكوفي" >الواسطة</button>
+        </div>
+    </div>
+
+    <!-- الكسائي -->
+    <div class="qari-section">
+        <button class="qari-btn" data-action="qari" data-qari="الكسائي الكوفي">الإمام الكسائي</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-action="rawi" data-qari="الكسائي الكوفي" data-rawi="أبو الحارث">الإمام أبو الحارث</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="الكسائي الكوفي" data-rawi="الدوري">الإمام الدوري</button>
+        </div>
+    </div>
+
+    <!-- أبو جعفر -->
+    <div class="qari-section">
+        <button class="qari-btn" data-action="qari" data-qari="أبو جعفر المدني">الإمام أبو جعفر المدني</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-action="rawi" data-qari="أبو جعفر المدني" data-rawi="ابن وردان">الإمام ابن وردان</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="أبو جعفر المدني" data-rawi="ابن جماز">الإمام ابن جماز</button>
+            <button class="wasita-btn" data-qari="أبو جعفر المدني" >الواسطة</button>
+
+        </div>
+    </div>
+
+    <!-- يعقوب -->
+    <div class="qari-section">
+        <button class="qari-btn" data-action="qari" data-qari="يعقوب الحضرمي">الإمام يعقوب الحضرمي</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-action="rawi" data-qari="يعقوب الحضرمي" data-rawi="رويس">الإمام رويس</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="يعقوب الحضرمي" data-rawi="روح">الإمام روح</button>
+        </div>
+    </div>
+
+    <!-- خلف العاشر -->
+    <div class="qari-section">
+        <button class="qari-btn" data-action="qari" data-qari="خلف العاشر">الإمام خلف البزار</button>
+        <div class="rawi-group">
+            <button class="rawi-btn" data-action="rawi" data-qari="خلف العاشر" data-rawi="إسحاق">الإمام إسحاق</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="خلف العاشر" data-rawi="إدريس">الإمام إدريس</button>
+        </div>
+    </div>
+</aside>
+
+    <div id="cy-container">
+        <div id="cy"></div>
+        <!-- 🌟 شريط التمرير العمودي للطبقات (في الأسفل وشفاف) -->
+        <div id="time-slider-container" style="position: absolute; bottom: 20px; left: 20px; height: 350px; width: 60px; background: rgba(22, 33, 44, 0.438); border: 1px solid rgba(36, 49, 63, 0.5); border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.3); backdrop-filter: blur(5px);">
+            <span id="layer-label" style="color: #ffd700; font-size: 12px; margin-bottom: 5px; font-weight: bold; text-align: center;">الكل</span>
+            <input type="range" id="layer-slider" min="0" max="7" step="1" value="0" 
+                style="width: 300px; transform: rotate(-90deg); cursor: pointer; direction: rtl;">
+            <span style="color: #8fa3b8; font-size: 18px; margin-top: 5px;">↓</span>
+        </div>
+    <div id="path-buttons-container" style="position: absolute; top: 10px; right: 50%; transform: translateX(50%); display: none; background: #16212c; padding: 10px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 100; gap: 8px; align-items: center; border: 1px solid #24313f; max-width: 90vw; overflow-x: auto; white-space: nowrap; justify-content: flex-start;"></div>
+
+
+    <!-- 🌟 نافذة معاينة التصدير -->
+    <div id="export-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;">
+        <div style="background: #16212c; border: 1px solid #24313f; border-radius: 10px; padding: 20px; width: 90%; max-width: 1000px; max-height: 90vh; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #24313f; padding-bottom: 10px;">
+                <h2 style="margin: 0; color: #ffd700;">معاينة التصدير</h2>
+                <button id="close-export-modal" style="background: #e74c3c; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 18px;">✕</button>
+            </div>
+
+            <!-- منطقة المعاينة -->
+            <div id="preview-container" style="flex: 1; overflow: auto; display: flex; justify-content: center; align-items: center; background: #0f1720; border-radius: 8px; padding: 10px; min-height: 300px;">
+                <img id="preview-image" src="" style="max-width: 100%; max-height: 50vh; border: 1px solid #24313f; display: none;" />
+                <span id="loading-preview" style="color: #8fa3b8;">جاري إنشاء المعاينة...</span>
+            </div>
+
+            <!-- خيارات التصدير -->
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center; justify-content: center; background: #0f1720; padding: 10px; border-radius: 8px;">
+                <label style="color: #e8eef5;">حجم الورق:
+                    <select id="pdf-size" style="padding: 5px; border-radius: 4px; background: #1a2735; color: white; border: 1px solid #24313f;">
+                        <option value="a4">A4</option>
+                        <option value="a3">A3</option>
+                    </select>
+                </label>
+                <label style="color: #e8eef5;">الاتجاه:
+                    <select id="pdf-orientation" style="padding: 5px; border-radius: 4px; background: #1a2735; color: white; border: 1px solid #24313f;">
+                        <option value="portrait">عمودي</option>
+                        <option value="landscape">أفقي</option>
+                    </select>
+                </label>
+                <button id="confirm-export" style="padding: 8px 20px; cursor: pointer; background: #27ae60; color: white; border: none; border-radius: 4px; font-weight: bold;">📥 تأكيد التصدير</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="isnad-text-box" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: #16212c; border: 1px solid #24313f; border-radius: 8px; padding: 10px 20px; display: none; z-index: 100; color: #e8eef5; box-shadow: 0 4px 12px rgba(0,0,0,0.5); max-width: 95vw; overflow-x: auto; white-space: nowrap; text-align: center; font-size: 14px; font-family: 'NouariAbdelkabir';"></div>
+    </div>
+    <div id="bio-bar" style="display: none; position: absolute; bottom: 20px; right: 270px; 
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px; 
+    padding: 10px 20px; z-index: 100; color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.5); 
+    max-width: calc(100vw - 300px); /* 🌟 العرض الأقصى = عرض الشاشة ناقص الشريط الجانبي */
+    overflow-x: auto; white-space: nowrap; text-align: right; font-size: 20px; 
+    font-family: 'NouariAbdelkabir'; line-height: 1.6;">
+</div>
+  </main>
+
+  <script src="shajara3_data.js"></script>
+  <script src="sahabaTree.js"></script>
+  <script src="coord-tool.js"></script>
+  <script src="rawis_positions.js"></script>
+  <script src="rawis_module.js"></script>
+  <script src="wasita.js"></script>
+  <script src="biographies_data.js"></script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const themeBtn = document.getElementById("btn-theme-toggle");
+        const cyElement = document.getElementById("cy");
+
+        if (themeBtn) {
+            themeBtn.addEventListener("click", () => {
+                document.body.classList.toggle("light-mode");
+                
+                if (document.body.classList.contains("light-mode")) {
+                    themeBtn.innerText = "☀️ الوضع النهاري";
+                    // 🌟 تغيير خلفية الشجرة إلى اللون الفاتح
+                    if (cyElement) {
+                        cyElement.style.background = "radial-gradient(circle at 30% 20%, #fff 100%, #fff 100%)";
+                    }
+                } else {
+                    themeBtn.innerText = "🌙 الوضع الليلي";
+                    // 🌟 إعادة الخلفية الداكنة
+                    if (cyElement) {
+                        cyElement.style.background = "radial-gradient(circle at 30% 20%, #1a2735 0%, #0f1720 70%)";
+                    }
+                }
+            });
+        }
+    });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const exportBtn = document.getElementById("btn-export-pdf");
+    const modal = document.getElementById("export-modal");
+    const closeModal = document.getElementById("close-export-modal");
+    const previewImg = document.getElementById("preview-image");
+    const loadingPreview = document.getElementById("loading-preview");
+    const confirmBtn = document.getElementById("confirm-export");
+
+    if (!exportBtn) return;
+
+    // 1. فتح نافذة المعاينة
+    exportBtn.addEventListener("click", () => {
+        modal.style.display = "flex";
+        previewImg.style.display = "none";
+        loadingPreview.style.display = "block";
+        loadingPreview.innerText = "جاري إنشاء المعاينة...";
+
+        const slider = document.getElementById("time-slider-container");
+        if (slider) slider.style.display = "none";
+
+        cy.fit(cy.nodes(":visible"), 50);
+
+        setTimeout(() => {
+            try {
+                // 🌟 تحديد لون الخلفية بناءً على الوضع
+                const isLight = document.body.classList.contains("light-mode");
+                const bgColor = isLight ? "#ffffff" : "#0f1720";
+
+                // 🌟 استخدام JPEG بدلاً من PNG لتقليل الحجم
+                const jpgData = cy.jpg({ 
+                    full: true, 
+                    scale: 1,       // دقة منخفضة للمعاينة
+                    bg: bgColor,
+                    quality: 0.8
+                });
+
+                previewImg.src = jpgData;
+                previewImg.style.display = "block";
+                loadingPreview.style.display = "none";
+            } catch (err) {
+                loadingPreview.innerText = "خطأ في المعاينة: " + err.message;
+            }
+        }, 300);
+    });
+
+    // 2. إغلاق النافذة
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+        const slider = document.getElementById("time-slider-container");
+        if (slider) slider.style.display = "flex";
+    });
+
+    // 3. تأكيد التصدير
+    confirmBtn.addEventListener("click", () => {
+        confirmBtn.innerText = "جاري التصدير...";
+        confirmBtn.disabled = true;
+
+        setTimeout(() => {
+            try {
+                const slider = document.getElementById("time-slider-container");
+                if (slider) slider.style.display = "none";
+
+                cy.fit(cy.nodes(":visible"), 50);
+
+                // 🌟 تحديد لون الخلفية بناءً على الوضع
+                const isLight = document.body.classList.contains("light-mode");
+                const bgColor = isLight ? "#ffffff" : "#0f1720";
+
+                // 🌟 استخدام JPEG بجودة عالية (حجم أصغر)
+                const jpgData = cy.jpg({ 
+                    full: true, 
+                    scale: 2,       // دقة أعلى (2x) ولكن JPEG
+                    bg: bgColor,
+                    quality: 0.9    // جودة عالية
+                });
+
+                const { jsPDF } = window.jspdf;
+                const size = document.getElementById("pdf-size").value;
+                const orientation = document.getElementById("pdf-orientation").value;
+
+                const pdf = new jsPDF({
+                    orientation: orientation,
+                    unit: "mm",
+                    format: size
+                });
+
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgProps = pdf.getImageProperties(jpgData);
+                
+                const ratio = Math.min(pdfWidth / imgProps.width, pdfHeight / imgProps.height);
+                const imgWidth = imgProps.width * ratio;
+                const imgHeight = imgProps.height * ratio;
+
+                const x = (pdfWidth - imgWidth) / 2;
+                const y = (pdfHeight - imgHeight) / 2;
+
+                pdf.addImage(jpgData, "JPEG", x, y, imgWidth, imgHeight);
+                pdf.save("شجرة_الأسانيد.pdf");
+
+                modal.style.display = "none";
+                if (slider) slider.style.display = "flex";
+
+            } catch (err) {
+                alert("حدث خطأ أثناء التصدير: " + err.message);
+                console.error(err);
+            } finally {
+                confirmBtn.innerText = "📥 تأكيد التصدير";
+                confirmBtn.disabled = false;
+            }
+        }, 300);
+    });
+});
+
+
+    
+  </script>
+
+<!-- 🌟 نافذة المصفوفات المستقلة -->
+<div id="routes-list-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; justify-content: center; align-items: center;">
+    <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 10px; width: 90%; height: 90%; display: flex; flex-direction: column;">
+        <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid var(--border);">
+            <h2 style="margin: 0; color: var(--text);">المصفوفات المتاحة</h2>
+            <button id="close-routes-list" style="background: #e74c3c; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer;">✕</button>
+        </div>
+        <div id="routes-list-buttons" style="padding: 15px; display: flex; flex-wrap: wrap; gap: 10px; overflow-y: auto;">
+            <!-- الأزرار ستولد هنا -->
+        </div>
+    </div>
+</div>
+  
+</body>
+</html>

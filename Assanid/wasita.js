@@ -4,6 +4,12 @@
 // ============================================================
 // 🌟 دالة ديناميكية لرسم شجرة الوسطاء لأي قارئ
 // ============================================================
+
+// تأكد من وجود ALL_WASITA_DATA
+if (typeof ALL_WASITA_DATA === 'undefined') {
+    console.error("⚠️ ALL_WASITA_DATA غير موجود! تأكد من تحميل ملف البيانات.");
+}
+
 function showWasitaTree(qariId) {
     // 1. التحقق من وجود البيانات
     if (typeof ALL_WASITA_DATA === 'undefined' || !ALL_WASITA_DATA[qariId]) {
@@ -116,24 +122,66 @@ function showWasitaTree(qariId) {
     cy.fit(cy.nodes(), 50);
 }
 
+
+
 // ============================================================
-// ربط أزرار الوسطاء (مستقل تماماً عن الشجرة الرئيسية)
+// 🌟 دالة مساعدة لتحويل الاسم العربي إلى مفتاح إنجليزي
 // ============================================================
-document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-        const wasitaButtons = document.querySelectorAll('.wasita-btn');
-        wasitaButtons.forEach(btn => {
-            // إزالة أي مستمعين قدامى (إن وجدت)
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
-            
-            // إضافة المستمع الجديد
-            newBtn.addEventListener("click", (e) => {
-                e.preventDefault();
-                e.stopPropagation(); // 🌟 منع أي حدث آخر من التدخل
-                const qariId = newBtn.getAttribute("data-qari");
-                showWasitaTree(qariId);
-            });
-        });
-    }, 1000); // ننتظر ثانية لضمان تحميل كل شيء
-});
+// ============================================================
+// 🌟 دالة مساعدة لتحويل الاسم العربي إلى مفتاح إنجليزي
+// ============================================================
+function showWasitaByArabicName(qariNameAr) {
+    if (typeof ALL_WASITA_DATA === 'undefined') {
+        alert("ملف بيانات الوسطاء غير محمل!");
+        return;
+    }
+
+    const qariLink = {
+        "ابن كثير المكي": "ibn_kathir",
+        "نافع المدني": "nafi",
+        "أبو عمرو البصري": "abu_amr",
+        "ابن عامر الشامي": "ibn_amir",
+        "عاصم الكوفي": "asim",
+        "حمزة الكوفي": "hamza",
+        "الكسائي الكوفي": "kisai",
+        "أبو جعفر المدني": "abu_jafar",
+        "يعقوب الحضرمي": "yaqub",
+        "خلف العاشر": "khalaf"
+    };
+
+    let qariId = null;
+    
+    // 1. البحث عن المفتاح المطابق لاسم القارئ
+    for (let arName in qariLink) {
+        if (qariNameAr.includes(arName) || arName.includes(qariNameAr)) {
+            qariId = qariLink[arName];
+            break;
+        }
+    }
+
+    // 2. إذا لم نجد مفتاحاً محدداً، نستخدم "al_asbahani" كافتراضي (مثل شجرة 3)
+    if (!qariId || !ALL_WASITA_DATA[qariId]) {
+        // جرب البحث المباشر عن أي مفتاح
+        let foundKey = null;
+        for (let key in ALL_WASITA_DATA) {
+            if (qariNameAr.includes(key) || key.includes(qariNameAr)) {
+                foundKey = key;
+                break;
+            }
+        }
+        
+        if (foundKey) {
+            qariId = foundKey;
+        } else {
+            // استخدام الأصبهاني كحل أخير (كما في شجرة 3)
+            qariId = "al_asbahani";
+        }
+    }
+
+    // 3. تنفيذ العرض
+    if (ALL_WASITA_DATA[qariId]) {
+        showWasitaTree(qariId);
+    } else {
+        alert("لا توجد بيانات وسطاء متاحة على الإطلاق.");
+    }
+}
