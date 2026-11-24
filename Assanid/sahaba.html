@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link rel="stylesheet" href="sahaba.css">
-  <link rel="stylesheet" href="shajara3.css">
+
   <style>
  
 
@@ -37,10 +37,10 @@
 
   <main>
     <aside id="sidebar">
-    <div class="qari-section" style="margin-bottom: 15px;">
-        <button class="qari-btn active" data-action="all" >🌳عرض الأسانيد</button> 
+    <div class="top-actions" style="margin-bottom: 15px;">
+        <button class="qari-btn active" data-action="all">🌳عرض الأسانيد</button> 
         <button class="qari-btn" data-action="mutawatir">🌳عرض الطرق</button>
-   </div>
+    </div>
 
 
     <!-- نافع -->
@@ -107,7 +107,7 @@
         <button class="qari-btn" data-action="qari" data-qari="الكسائي الكوفي">الإمام الكسائي</button>
         <div class="rawi-group">
             <button class="rawi-btn" data-action="rawi" data-qari="الكسائي الكوفي" data-rawi="أبو الحارث">الإمام أبو الحارث</button>
-            <button class="rawi-btn" data-action="rawi" data-qari="الكسائي الكوفي" data-rawi="الدوري">الإمام الدوري</button>
+            <button class="rawi-btn" data-action="rawi" data-qari="الكسائي الكوفي" data-rawi="دوري الكسائي">الإمام الدوري</button>
         </div>
     </div>
 
@@ -150,7 +150,7 @@
                 style="width: 300px; transform: rotate(-90deg); cursor: pointer; direction: rtl;">
             <span style="color: #8fa3b8; font-size: 18px; margin-top: 5px;">↓</span>
         </div>
-    <div id="path-buttons-container" style="position: absolute; top: 10px; right: 50%; transform: translateX(50%); display: none; background: #16212c; padding: 10px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 100; gap: 8px; align-items: center; border: 1px solid #24313f; max-width: 90vw; overflow-x: auto; white-space: nowrap; justify-content: flex-start;"></div>
+    <div id="path-buttons-container" style="position: absolute; top: 10px; right: 50%; transform: translateX(50%); display: none; background: #16212c; padding: 1px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 100; gap: 8px; align-items: center; border: 1px solid #24313f; max-width: 90vw; overflow-x: auto; white-space: nowrap; justify-content: flex-start;"></div>
 
 
     <!-- 🌟 نافذة معاينة التصدير -->
@@ -188,7 +188,7 @@
 
     <div id="isnad-text-box" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: #16212c; border: 1px solid #24313f; border-radius: 8px; padding: 10px 20px; display: none; z-index: 100; color: #e8eef5; box-shadow: 0 4px 12px rgba(0,0,0,0.5); max-width: 95vw; overflow-x: auto; white-space: nowrap; text-align: center; font-size: 14px; font-family: 'NouariAbdelkabir';"></div>
     </div>
-    <div id="bio-bar" style="display: none; position: absolute; bottom: 20px; right: 270px; 
+    <div id="bio-bar" style="display: none; position: absolute; bottom: 20px; right: 340px; 
     background: var(--panel); border: 1px solid var(--border); border-radius: 8px; 
     padding: 10px 20px; z-index: 100; color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.5); 
     max-width: calc(100vw - 300px); /* 🌟 العرض الأقصى = عرض الشاشة ناقص الشريط الجانبي */
@@ -200,7 +200,7 @@
   <script src="shajara3_data.js"></script>
   <script src="sahabaTree.js"></script>
   <script src="coord-tool.js"></script>
-  <script src="rawis_positions.js"></script>
+  
   <script src="rawis_module.js"></script>
   <script src="wasita.js"></script>
   <script src="biographies_data.js"></script>

@@ -1,5 +1,6 @@
 /* ============================================================
-   🌟 ملف الأنماط الخاص بصفحة شجرة الصحابة (يدعم الوضع الليلي والنهاري)
+   🌟 ملف الأنماط الخاص بصفحة شجرة القراء والأسانيد
+   (ملف موحد - تصميم Grid دقيق ومتساوي الارتفاعات)
    ============================================================ */
 
 /* 1. تعريف الخط */
@@ -11,247 +12,221 @@
     font-style: normal;
     font-display: swap;
 }
+body, button, input {
+    font-family: 'NouariAbdelkabir', "Segoe UI", Tahoma, sans-serif !important;
+}
 
-/* الوضع الليلي (الافتراضي) */
+/* 2. المتغيرات */
 :root {
-    --bg: #0f1720;
-    --panel: #16212c;
-    --text: #e8eef5;
-    --border: #24313f;
+    --bg: #0f1720; --panel: #16212c; --text: #e8eef5; --border: #24313f;
     --canvas-bg: radial-gradient(circle at 30% 20%, #1a2735 0%, #0f1720 70%);
-    
-    /* 🌟 ألوان الأزرار والخانات */
-    --btn-bg: #1a2735;
-    --btn-text: #ffffff;
-    --btn-hover: #2a3a4c;
-    --btn-active: #3d8bfd;
-    
-    --rawi-bg: #24313f;
-    --rawi-text: #8fa3b8;
-    --rawi-hover: #2a3a4c;
-    
-    --input-bg: #0f1720;
-    --input-border: #24313f;
-    --input-text: #ffffff;
+    --btn-bg: #1a2735; --btn-text: #ffffff; --btn-hover: #2a3a4c; --btn-active: #3d8bfd;
+    --rawi-bg: #24313f; --rawi-text: #8fa3b8; --rawi-hover: #2a3a4c;
+    --input-bg: #0f1720; --input-border: #24313f; --input-text: #ffffff;
 }
-
-/* 🌟 الوضع النهاري (ألوان منسجمة) */
 .light-mode {
-    --bg: #f4f6f8;
-    --panel: #ffffff;
-    --text: #2c3e50;
-    --border: #dce1e6;
+    --bg: #f4f6f8; --panel: #ffffff; --text: #2c3e50; --border: #dce1e6;
     --canvas-bg: radial-gradient(circle at 30% 20%, #ffffff 0%, #e9ecef 70%);
-    
-    /* 🌟 ألوان الأزرار والخانات في الوضع النهاري */
-    --btn-bg: #e9ecef;        /* رمادي فاتح */
-    --btn-text: #2c3e50;      /* نص داكن */
-    --btn-hover: #d1d8e0;     /* رمادي أغمق قليلاً */
-    --btn-active: #007bff;    /* أزرق */
-    
-    --rawi-bg: #f8f9fa;       /* أبيض مائل للرمادي */
-    --rawi-text: #6c757d;     /* نص رمادي */
-    --rawi-hover: #e2e6ea;    /* رمادي فاتح */
-    
-    --input-bg: #ffffff;
-    --input-border: #ced4da;
-    --input-text: #2c3e50;
+    --btn-bg: #e9ecef; --btn-text: #2c3e50; --btn-hover: #d1d8e0; --btn-active: #007bff;
+    --rawi-bg: #f8f9fa; --rawi-text: #6c757d; --rawi-hover: #e2e6ea;
+    --input-bg: #ffffff; --input-border: #ced4da; --input-text: #2c3e50;
 }
 
-/* إضافة انتقال ناعم لجميع العناصر */
-body, header, #sidebar, #cy, .qari-btn, .rawi-btn, .wasita-btn, input {
-    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
-}
-
-/* 4. التنسيقات الأساسية */
+/* 3. التنسيقات الأساسية */
 * { box-sizing: border-box; }
-
 body {
-    margin: 0;
-    font-family: "NouariAbdelkabir", "Segoe UI", Tahoma, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    margin: 0; font-family: "NouariAbdelkabir", sans-serif;
+    background: var(--bg); color: var(--text);
     transition: background 0.3s, color 0.3s;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
+    display: flex; flex-direction: column; height: 100vh; overflow: hidden;
 }
+body, header, #sidebar, #cy, button, input { transition: all 0.4s ease; }
 
+/* 4. الهيدر */
 header {
-    padding: 12px 20px;
-    background: var(--panel);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    transition: background 0.3s, border-color 0.3s;
+    padding: 8px 15px; background: var(--panel); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
 }
-
 header h1 { font-size: 18px; margin: 0; font-weight: 600; }
-.controls { display: flex; gap: 10px; align-items: center; }
+.controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
-/* 5. الشريط الجانبي */
 /* 5. الشريط الجانبي */
 #sidebar {
-    display: flex;
-    flex-direction: column;
-    width: 250px; 
-    background: var(--panel);
-    border-left: 1px solid var(--border);
-    padding: 10px;
-    overflow-y: auto;
-    gap: 10px;
-    transition: background 0.3s, border-color 0.3s;
+    display: flex; flex-direction: column; width: 320px;
+    background: var(--panel); border-left: 1px solid var(--border);
+    padding: 8px; overflow-y: auto; overflow-x: hidden; gap: 8px;
 }
 
-/* 6. حاوية القارئ والرواة (أفقي: القارئ يميناً والرواة يساراً) */
-.qari-section {
+/* 🌟 تنسيق زرّي عرض الأسانيد وعرض الطرق في الأعلى */
+.top-actions {
     display: flex;
-    flex-direction: row; 
-    gap: 6px; 
-    align-items: stretch; /* ليتساوى طول زر القارئ مع الرواة */
-}
-
-/* 7. زر القارئ (يأخذ النصف الأيمن) */
-/* 7. زر القارئ */
-.qari-btn {
-    flex: 1; 
-    padding: 12px 8px;
-    background: var(--btn-bg);    /* يتغير حسب الوضع */
-    color: var(--btn-text);       /* يتغير حسب الوضع */
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: center;
-    font-size: 14px;
-    font-family: inherit;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.4;
-}
-
-.qari-btn:hover { background: var(--btn-hover); }
-.qari-btn.active { background: var(--btn-active); color: #fff; border-color: var(--btn-active); }
-
-/* 9. زر الراوي */
-.rawi-btn {
-    padding: 6px 8px;
-    background: var(--btn-bg); /* سيتحول للرمادي الفاتح في النهاري */
-    color: var(--btn-text);    /* سيتحول للنص الداكن في النهاري */
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    text-align: center;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: inherit;
-    transition: all 0.3s ease;
-}
-
-.rawi-btn:hover { background: var(--rawi-hover) }
-.rawi-btn.active { background: #1abc9c; color: white; border-color: #1abc9c; font-weight: bold; }
-/* 10. زر الواسطة */
-.wasita-btn {
-    padding: 6px;
-    background: #8e44ad;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-    font-family: inherit;
-    font-size: 12px;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-
-.wasita-btn:hover { background: #9b59b6; }
-
-/* 11. منطقة الرسم */
-main {
-    flex: 1;
-    display: flex;
-    min-height: 0;
-    position: relative;
-}
-
-#cy-container { flex: 1; position: relative; }
-
-#cy {
+    flex-direction: row;
+    gap: 6px;
     width: 100%;
-    height: 100%;
-    background: var(--canvas-bg);
-    transition: background 0.3s;
+    margin-bottom: 4px;
+}
+.top-actions .qari-btn {
+    flex: 1 !important;
+    height: 40px !important;
+    padding: 0 6px !important;
 }
 
-/* 12. شريط التمرير العمودي */
-#time-slider-container {
-    background: rgba(22, 33, 44, 0.7) !important;
-    border: 1px solid rgba(36, 49, 63, 0.5) !important;
+/* ------------------------------------------------------------
+   6. حاوية القارئ (تصميم Grid متساوي الارتفاعات بدقة)
+   ------------------------------------------------------------ */
+.qari-section {
+    display: grid !important;
+    grid-template-columns: minmax(auto, 1.25fr) minmax(auto, 1fr) minmax(auto, 1.45fr) !important; /* 👈 يمنع تمدد الأعمدة مهما كبر الخط */    gap: 4px !important;
+    height: 200px !important; /* ارتفاع مريح يستوعب القارئ والرواة وحتى 5 طرق */
+    margin-bottom: 2px !important;
+    padding-bottom: 2px !important;
+    border-bottom: 2px solid var(--border) !important;
+    align-items: stretch !important;
 }
 
-.light-mode #time-slider-container {
-    background: rgba(255, 255, 255, 0.8) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+/* 6.1 العمود الأول: زر القارئ */
+.qari-btn {
+    grid-column: 1 !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 4px !important;
+    font-size: 16px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    line-height: 1.3 !important;
+}
+#sidebar .qari-btn { background: var(--btn-bg) !important; color: var(--btn-text) !important; border-color: var(--border) !important; }
+#sidebar .qari-btn:hover { background: var(--btn-hover) !important; }
+#sidebar .qari-btn.active { background: var(--btn-active) !important; color: #fff !important; border-color: var(--btn-active) !important; font-weight: bold !important; }
+
+/* 6.2 العمود الثاني: حاوية الرواة والواسطة */
+.rawi-group {
+    grid-column: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    gap: 4px !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
+.rawi-btn {
+    flex: 1 1 0% !important; /* تقسيم الارتفاع بالتساوي */
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 8px 4px !important;
+    font-size: 14px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+}
+#sidebar .rawi-btn { background: var(--btn-bg) !important; color: var(--btn-text) !important; border-color: var(--border) !important; }
+#sidebar .rawi-btn:hover { background: var(--btn-hover) !important; }
+#sidebar .rawi-btn.active { background: #1abc9c !important; color: #fff !important; border-color: #1abc9c !important; font-weight: bold !important; }
 
 .wasita-btn {
-    padding: 6px;
-    background: #8e44ad; /* اللون البنفسجي ثابت في الوضعين */
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-    font-family: inherit;
-    font-size: 12px;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-.wasita-btn:hover { background: #9b59b6; }
-
-/* 🌟 إجبار أزرار الرواة على استخدام المتغيرات (للتغلب على shajara3.css) */
-#sidebar .rawi-btn {
-    background: var(--btn-bg) !important;
-    color: var(--btn-text) !important;
-    border: 1px solid var(--border) !important;
-}
-#sidebar .rawi-btn:hover {
-    background: var(--btn-hover) !important;
-}
-#sidebar .rawi-btn.active {
-    background: var(--btn-active) !important;
+    flex: 1 1 0% !important; /* يأخذ نفس ارتفاع الراوي تماماً */
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 2px 4px !important;
+    background: #8e44ad !important;
     color: #ffffff !important;
-    border-color: var(--btn-active) !important;
-    font-weight: bold !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+}
+.wasita-btn:hover { background: #c97de7 !important; }
+
+/* 6.3 العمود الثالث: حاوية الطرق الفرعية */
+.tariq-group {
+    grid-column: 3 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    gap: 2px !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-/* 🌟 إجبار أزرار القراء على استخدام المتغيرات (للتغلب على shajara3.css) */
-#sidebar .qari-btn {
-    background: var(--btn-bg) !important;
-    color: var(--btn-text) !important;
-    border: 1px solid var(--border) !important;
+.tariq-btn {
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    width: 100% !important; /* تثبيت العرض على 100% من العمود */
+    margin: 0 !important;
+    padding: 2px 4px !important;
+    background: #2c3e50 !important;
+    color: #a8c5e0 !important;
+    border: 1px solid #3498db !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 12px !important; /* 👈 يمكنك الآن تكبير الخط كما تشاء */
+    line-height: 1.15 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    
+    /* 🌟 السماح بنزول النص لسطر جديد ومنع تمدد العرض */
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow: hidden !important;
+    pointer-events: auto !important;
+}
+.tariq-btn:hover { background: #3498db !important; color: #ffffff !important; }
+.tariq-btn.active { background: #3498db !important; color: #ffffff !important; font-weight: bold !important; }
+
+.light-mode .tariq-btn { background: #e9ecef !important; color: #2980b9 !important; border-color: #3498db !important; }
+.light-mode .tariq-btn:hover { background: #3498db !important; color: #ffffff !important; }
+
+/* 7. منطقة الرسم */
+main { flex: 1; display: flex; min-height: 0; position: relative; }
+#cy-container { flex: 1; position: relative; }
+#cy { width: 100%; height: 100%; background: var(--canvas-bg); transition: background 0.3s; }
+
+/* 8. شريط التمرير */
+#time-slider-container { background: rgba(22, 33, 44, 0.7) !important; border: 1px solid rgba(36, 49, 63, 0.5) !important; }
+.light-mode #time-slider-container { background: rgba(255, 255, 255, 0.8) !important; border: 1px solid rgba(0, 0, 0, 0.1) !important; }
+
+/* ============================================================
+   🌟 تنسيق الهيدر: الأزرار في الوسط وحقل البحث في أقصى اليسار
+   ============================================================ */
+header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important; /* توزيع العناصر على كامل عرض الشريط */
+    width: 100% !important;
+    padding: 8px 15px !important;
 }
 
-#sidebar .qari-btn:hover {
-    background: var(--btn-hover) !important;
+/* جعل حاوية الأزرار تتمدد وتضع الأزرار في المنتصف تماماً */
+.controls {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important; /* توسيط الأزرار */
+    gap: 8px !important;
+    flex-wrap: wrap !important;
 }
 
-#sidebar .qari-btn.active {
-    background: var(--btn-active) !important;
-    color: #ffffff !important;
-    border-color: var(--btn-active) !important;
-    font-weight: bold !important;
+/* دفع حقل البحث إلى أقصى يسار الشاشة */
+#nabi-search, .nabi-search {
+    margin-right: auto !important; /* في الصفحات العربية RTL يدفع العنصر لأقصى اليسار */
+    margin-left: 0 !important;
+    order: 99 !important; /* يضمن ظهوره كآخر عنصر في اليسار مهما كان ترتيبه في HTML */
 }
