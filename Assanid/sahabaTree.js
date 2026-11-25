@@ -629,13 +629,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 2. زر العودة
-    const btnBack = document.getElementById('btn-back');
-    if (btnBack) {
-        btnBack.addEventListener('click', () => {
-            window.location.href = "shajara3.html";
-        });
-    }
+    // ============================================================
+    // 🌟 الانتقال إلى الصفحة الرئيسية
+    // ============================================================
+    document.addEventListener("DOMContentLoaded", () => {
+        const btnGoHome = document.getElementById("btn-go-home");
+        if (btnGoHome) {
+            btnGoHome.addEventListener("click", () => {
+                // المسار إلى الصفحة الرئيسية (خارج مجلد Assanid)
+                window.location.href = "../../index.html"; 
+            });
+        }
+    });
 
     // 3. زر عرض الكل (زوم)
     const btnFit = document.getElementById('btn-fit');
