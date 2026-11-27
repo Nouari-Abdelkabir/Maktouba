@@ -1,0 +1,127 @@
+{
+  "surah_id": 49,
+  "mushaf_id": "mushaf_warsh1",
+  "reciter_id": "qari",
+  "reciter_code": "qari",
+  "reciter_name": "ياسين الجزائري",
+  "audio_url": "https://server11.mp3quran.net/qari/049.mp3",
+  "audio_duration": 491.02,
+  "generated_at": "2026-11-26T05:47:28.351Z",
+  "ayahs": [
+    {
+      "ayah_number": 0,
+      "start": 0,
+      "end": 5.62,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 1,
+      "start": 5.62,
+      "end": 23.05,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 2,
+      "start": 23.05,
+      "end": 53.23,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 3,
+      "start": 53.23,
+      "end": 75.11,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 4,
+      "start": 75.11,
+      "end": 87.89,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 5,
+      "start": 87.89,
+      "end": 99.62,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 6,
+      "start": 99.62,
+      "end": 145.52,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 7,
+      "start": 145.52,
+      "end": 180.29,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 8,
+      "start": 180.29,
+      "end": 187.89,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 9,
+      "start": 187.89,
+      "end": 237.21,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 10,
+      "start": 237.21,
+      "end": 249.45,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 11,
+      "start": 249.45,
+      "end": 309.74,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 12,
+      "start": 309.74,
+      "end": 349.29,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 13,
+      "start": 349.29,
+      "end": 384.79,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 14,
+      "start": 384.79,
+      "end": 417.68,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 15,
+      "start": 417.68,
+      "end": 441.53,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 16,
+      "start": 441.53,
+      "end": 456.73,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 17,
+      "start": 456.73,
+      "end": 479.26,
+      "manually_verified": true
+    },
+    {
+      "ayah_number": 18,
+      "start": 479.26,
+      "end": 491.02,
+      "manually_verified": true
+    }
+  ],
+  "updated_at": "2026-11-26T05:47:28.351Z"
+}
